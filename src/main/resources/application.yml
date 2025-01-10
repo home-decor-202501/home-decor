@@ -31,3 +31,8 @@ logging:
 file:
   upload:
     location: ${user.home}/home-decor/uploads/
+
+jwt:
+  secret-key: # 토근 발급시와 토근 위조 검사시 사용할 서명
+  access-token-validity-time: 3600000  # 1시간
+  refresh-token-validity-time: 604800000 # 7일
