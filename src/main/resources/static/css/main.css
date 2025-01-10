@@ -1,0 +1,160 @@
+/* src/main/resources/static/css/main.css */
+/* 기본 폰트 설정 */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Header 스타일 */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 80px; /* 상하 15px, 좌우 80px */
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #ddd;
+    height: 60px; /* 일정한 높이로 설정 */
+}
+.header .logo img {
+    height: 40px; /* 로고 높이 */
+}
+.header .nav {
+    display: flex;
+    gap: 15px;
+}
+.header .nav a {
+    text-decoration: none;
+    color: #555;
+    font-size: 16px;
+    transition: color 0.3s ease;
+}
+.header .nav a:hover {
+    color: #35C5F0; /* 마우스 오버 시 색상 */
+}
+.header .nav #write-button {
+    background-color: #35C5F0; /* 파란색 배경 */
+    color: #fff; /* 흰색 글씨 */
+    padding: 8px 16px; /* 버튼 내부 여백 */
+    border-radius: 10px; /* 살짝 둥근 모서리 */
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    text-align: center;
+}
+.header .nav #write-button:hover {
+    background-color: #1d9cc0; /* 호버 시 색상 */
+}
+
+/* 정렬 옵션 섹션 */
+.filter-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 80px; /* 상하 20px, 좌우 80px */
+    background-color: #f1f1f1;
+    border-bottom: 1px solid #ddd;
+}
+.filter-container .title-container {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* 항목 간격 */
+}
+.filter-container .title-container span {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+.filter-container .title-container span:hover {
+    color: #35C5F0; /* 마우스 오버 시 색상 */
+}
+.filter-container .sort-options {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.filter-container label {
+    font-size: 16px;
+    color: #555;
+}
+.filter-container select {
+    padding: 5px 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+/* 게시물 스타일 */
+.feed-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* 카드 간격 */
+    padding: 20px 80px; /* 상하 20px, 좌우 80px */
+    justify-content: space-between;
+}
+.feed-item {
+    width: 23%; /* 한 줄에 4개 */
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #fff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.feed-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+.feed-item img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+.feed-item .feed-profile {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    border-bottom: 1px solid #eee;
+}
+.feed-item .feed-profile img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+}
+.feed-item .feed-profile .profile-info {
+    flex-grow: 1;
+}
+.feed-item .feed-profile .profile-info .profile-name {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+.feed-item .feed-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+.feed-item .feed-title .like-section {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+    color: #333;
+}
+.feed-item .feed-title .like-section .like-icon {
+    color: #ff4d4f; /* 빨간색 하트 */
+    cursor: pointer;
+}
+.feed-item .feed-details {
+    padding: 0 15px 15px;
+    color: #555;
+    font-size: 14px;
+}
