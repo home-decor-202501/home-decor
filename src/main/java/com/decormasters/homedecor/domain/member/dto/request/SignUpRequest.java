@@ -44,7 +44,7 @@ public class SignUpRequest {
 
     // 닉네임 검증 : not null, 한글/영문/숫자만 포함(특수문자 안 됨)
     @NotBlank(message = "닉네임을 입력해주세요")
-    @Pattern(regexp = "^[가-힣a-zA-Z0-9-_]*$", message = "닉네임은 한글, 영문자, 숫자 및 언더스코어와 하이픈만 포함해야 합니다")
+    @Pattern(regexp = "^[가-힣a-zA-Z0-9-_]*$", message = "닉네임은 한글, 영문자, 숫자 및 '_'와 '-'만 포함해야 합니다")
     @Pattern(regexp = "^.{2,10}$", message = "닉네임은 2자에서 10자 이내여야 합니다")
     private String nickname;
 

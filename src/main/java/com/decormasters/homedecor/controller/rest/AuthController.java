@@ -11,10 +11,5 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class AuthController {
 
-    // 로그인 페이지 jsp 테스트용
-    @GetMapping("/login")
-    public String index() {
-        return "auth/login";
-    }
 
 }

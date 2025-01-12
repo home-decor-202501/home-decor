@@ -1,87 +1,185 @@
-@import url('https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap');
+@import url('../../reset.css');
+/* noto sans kr*/
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap');
 
-* {
-    box-sizing: border-box;
-}
 
+/* 전역 변수 */
 :root {
     --success-color: #2ecc71;
+    --small-font-size: 14px;
     --error-color: #e74c3c;
     --checkmark-color: #43b324;
+
+    --form-title-font-size: 16px;
+    --form-title-line-height: 16px;
+    --form-title-font-color: #333;
+    --form-title-font-weight: 700;
+
+    --form-description-font-size: 13px;
+    --form-description-line-height: 18px;
+    --form-description-font-color: rgb(117, 117, 117);
+    --form-description-font-weight: 400;
 }
 
+
+/* 바디 */
 body {
-    background-color: #f9f8fb;
-    font-family: 'Poppins',
-    sans-serif;
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    margin: 0;
-    padding: 120px;
+    /*min-height: 100vh;*/
+    font-family: "Noto Sans KR", serif;
 }
 
+/* 로고 컨테이너 */
+.logo-container {
+    display: flex;
+    justify-content: flex-start;
+    padding: 15px; /* 화면 왼쪽 최상단에서 여백 띄우기 */
+}
+.logo-container .link-to-main-page img {
+    width: 100px;
+}
+
+/* 폼 컨테이너 */
 .container {
     background-color: #fff;
     border-radius: 20px;
+    margin: 0 auto; /* 가운데 정렬 */
     box-shadow: 0 15px 16.83px 0.17px rgba(0, 0, 0, .05);
-    -webkit-box-shadow: 0 15px 16.83px 0.17px rgba(0, 0, 0, .05);
-    width: 900px;
-    max-width: 1200px;
-    padding: 30px;
+    width: 700px;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
-
-.logo-container .link-to-main-page img {
-    width: 150px;
-}
-
-h2 {
-    font-size: 36px;
+.container h2 {
+    font-size: 30px;
+    /*text-align : center;*/
     font-weight: 700;
     color: #222;
-    margin: 0 0 30px;
+    margin: 10px 0 10px 0;
 }
 
-.logo-container {
+/* 폼 컨테이너 -> 프로필 사진 */
+.profile-pic-wrapper {
+    position: relative;
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+.profile-pic-wrapper p.text-info {
+    text-align: center;
+    font-size: var(--form-description-font-size);
+    line-height: var(--form-description-line-height);
+    color: var(--form-description-font-color);
+    margin-top: 10px;
 }
 
-.form-container
-, .logo-container {
+
+.pic-holder {
+    background: green;
+    text-align: center;
+    position: relative;
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
+
+.pic-holder .pic {
+    width: 100%;
+    height: 100%;
+    fit: contain;
+}
+
+.pic-holder .upload-file-block,
+.pic-holder .upload-loader {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(90, 92, 105, 0.7);
+    color: #f8f9fc;
+    font-size: 12px;
+    font-weight: 600;
+    /*opacity: 0;*/
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.pic-holder .upload-file-block {
+    cursor: pointer;
+}
+.uploadProfileInput {
+    width: 0px;
+    height: 0px;
+    position: absolute;
+}
+.pic-holder:hover .upload-file-block,
+.uploadProfileInput:focus ~ .upload-file-block {
+    opacity: 1;
+}
+
+.pic-holder.uploadInProgress .upload-file-block {
+    /*display: none;*/
+}
+
+.pic-holder.uploadInProgress .upload-loader {
+    opacity: 1;
+}
+
+
+
+
+
+.form-container {
     width: 500px;
-    border: 2px solid blue;
 }
 
 
 .form {
-    padding: 30px 50px;
+    padding: 10px 40px;
 }
 
 .form-control {
     margin-bottom: 10px;
-    padding-bottom: 25px;
+    padding-bottom: 20px;
     position: relative;
 }
 
 .form-control label {
-    color: #333;
     display: block;
-    margin-bottom: 5px;
+    font-size: var(--form-title-font-size);
+    color: var(--form-title-font-color);
+    line-height: var(--form-title-line-height);
+    font-weight: var(--form-title-font-weight);
+}
+
+/* form 설명란 */
+.form-control .text-info {
+    font-size: var(--form-description-font-size);
+    color: var(--form-description-font-color);
+    line-height: var(--form-description-line-height);
+    font-weight: var(--form-description-font-weight);
+    margin-top: 5px;
 }
 
 .form-control input {
-    font-family: 'Poppins',
-    sans-serif;
     border: 1px solid #e6e6e6;
     border-radius: 4px;
     display: block;
     width: 100%;
     padding: 10px;
+    margin-top: 7px;
+    margin-bottom: 3px;
     font-size: 14px;
 }
 
@@ -116,17 +214,24 @@ h2 {
     transform: translateY(-50%);
 }
 
-/* error 붙어야 보임 */
+/* 에러 메시지 (small 태그. form-control 클래스에 'error' 클래스 붙는 여부에 따라 보임 여부 설정됨 */
 .form-control small {
     color: var(--error-color);
-    /*     position: absolute; */
-    bottom: 0;
-    left: 0;
-    /*     visibility: hidden; */
+    font-size: var(--small-font-size);
+    /*visibility: hidden;*/
+    margin-right: 7px; /* 로그인 페이지 이동과 여백 */
 }
-
-.form-control.error small {
-    visibility: visible;
+.form-control a.link-to-login-page {
+    font-size: var(--form-description-font-size);
+    line-height: var(--form-description-line-height);
+    font-weight: var(--form-description-font-weight);
+}
+.form-control .password-field-desc {
+    font-size: var(--form-description-font-size);
+    line-height: var(--form-description-line-height);
+    color: var(--form-description-font-color);
+    font-weight: var(--form-description-font-weight);
+    /*visibility:hidden;*/
 }
 
 /* password 조건 스타일 추가 */
@@ -134,6 +239,11 @@ h2 {
     list-style: none; /* 목록 스타일 제거 */
     padding: 0; /* 기본 패딩 제거 */
 }
+
+.form-control.error small {
+    visibility: visible;
+}
+
 
 /*    로그인 버튼 */
 .sign-up-btn {
@@ -170,108 +280,26 @@ button:hover {
     }
 }
 
-@media screen and (max-width: 600px) {
-
-    body {
-        padding: 10px;
-    }
-
-    h2 {
-        font-size: 25px;
-    }
-
-    .form-control input {
-        font-size: 12px;
-        padding: 5px;
-    }
-
-    button {
-        padding: 10px 25px;
-        font-size: 14px;
-    }
-
-    .form {
-        padding: 30px 20px;
-    }
-
-    .form-control {
-        margin-bottom: 5px;
-        padding-bottom: 15px;
-    }
-}
-
-
-/* 프로필 사진 시작============== */
-.h1 {
-    text-align: center;
-    font-size: 1.5rem;
-    margin-bottom: 2rem;
-}
-.profile-pic-wrapper {
-    border: 2px solid red;
-    position: relative;
+/* 로그인 페이지오 이동 */
+.form div.link-to-login-page {
     display: flex;
-    flex-direction: column;
     justify-content: center;
-    align-items: center;
+    margin-top: 10px;
+}
+.form div.link-to-login-page span
+, .form div.link-to-login-page a {
+    font-size: var(--form-description-font-size);
+    line-height: var(--form-description-line-height);
+    color: var(--form-description-font-color);
+    font-weight: var(--form-description-font-weight);
+}
+.form div.link-to-login-page span {
+    margin-right: 5px;
+}
+.form div.link-to-login-page a {
+    color: black;
 }
 
-.pic-holder {
-    background: green;
-    text-align: center;
-    position: relative;
-    border-radius: 50%;
-    width: 150px;
-    height: 150px;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-}
-
-.pic-holder .pic {
-    width: 100%;
-    height: 100%;
-    fit: contain;
-}
-
-.pic-holder .upload-file-block,
-.pic-holder .upload-loader {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    background-color: rgba(90, 92, 105, 0.7);
-    color: #f8f9fc;
-    font-size: 12px;
-    font-weight: 600;
-    opacity: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s;
-}
-
-.pic-holder .upload-file-block {
-    cursor: pointer;
-}
-.uploadProfileInput {
-    width: 0px;
-    height: 0px;
-    position: absolute;
-}
-.pic-holder:hover .upload-file-block,
-.uploadProfileInput:focus ~ .upload-file-block {
-    opacity: 1;
-}
-
-.pic-holder.uploadInProgress .upload-file-block {
-    display: none;
-}
-
-.pic-holder.uploadInProgress .upload-loader {
-    opacity: 1;
-}
 
 /* Snackbar css */
 .snackbar {
