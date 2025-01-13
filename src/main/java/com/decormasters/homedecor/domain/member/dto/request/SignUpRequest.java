@@ -5,10 +5,13 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
-@Setter @Getter @ToString
+@Setter @Getter
 @Builder @AllArgsConstructor @NoArgsConstructor
 @EqualsAndHashCode
 public class SignUpRequest {
@@ -38,8 +41,9 @@ public class SignUpRequest {
     @Pattern(regexp = ".*[a-zA-Z].*", message = "비밀번호는 영문자를 포함해야 합니다")
     @Pattern(regexp = "^[a-zA-Z0-9!@#]*$", message = "비밀번호는 영문자, 숫자 및 !, @, #만 포함해야 합니다")
     @Pattern(regexp = ".*\\d.*", message = "비밀번호는 숫자를 포함해야 합니다")
-    @Size(min=8, message = "비밀번호는 8자 이상이어야 합니다")
+    @Size(min = 8, message = "비밀번호는 8자 이상이어야 합니다")
     public String password;
+
 
 
     // 닉네임 검증 : not null, 한글/영문/숫자만 포함(특수문자 안 됨)
@@ -50,7 +54,7 @@ public class SignUpRequest {
 
 
     // null 가능
-    private String imageUrl;
+    private List<MultipartFile> profileImage;
 
     public Member toEntity() {
 
@@ -58,30 +62,19 @@ public class SignUpRequest {
                 .email(email)
                 .password(password)
                 .nickname(nickname)
-                .imageUrl(imageUrl)
                 .build();
     }
-//    // 클라이언트가 전송한 입력값들을 엔터티로 변환
-//    public Member toEntity() {
-//
-//        // 이메일과 휴대전화번호를 구분해서 처리
-//        String email = null;
-//        String phone = null;
-//
-//        if (this.emailOrPhone.contains("@")) {
-//            email = this.emailOrPhone;
-//        } else {
-//            // 010-1234-7890 => 전화번호에있는 특수기호를 모두제거
-//            phone = this.emailOrPhone.replaceAll("[^0-9]", "");
-//        }
-//
-//        return Member.builder()
-//                .email(email)
-//                .phone(phone)
-//                .username(this.username)
-//                .name(this.name)
-//                .password(this.password)
-//                .build();
-//    }
+
+
+    @Override
+    public String toString() {
+        return "Signup Request" +
+                "email='" + email + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", password=" + password + '\'' +
+                ", profile-image=" + (profileImage != null ? profileImage.stream().map(MultipartFile::getOriginalFilename).collect(Collectors.toList()) : "null") + '\'' +
+                '}';
+    }
+
 
 }
