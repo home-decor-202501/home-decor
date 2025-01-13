@@ -37,7 +37,7 @@ body {
     color: #fff; /* 흰색 글씨 */
     padding: 8px 16px; /* 버튼 내부 여백 */
     border-radius: 10px; /* 살짝 둥근 모서리 */
-    font-size: 14px;
+    font-size: 16px;
     font-weight: bold;
     text-decoration: none;
     transition: background-color 0.3s ease;
@@ -158,3 +158,4 @@ body {
     color: #555;
     font-size: 14px;
 }
+

@@ -12,10 +12,12 @@
 
   <!-- Modular CSS -->
   <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/modal.css">
+
 
 
   <!-- Modular JS -->
-  <script src="/js/components/main.js" type="module" defer></script>
+  <script src="/js/index.js" type="module" defer></script>
 </head>
 <body>
 <div class="container">
