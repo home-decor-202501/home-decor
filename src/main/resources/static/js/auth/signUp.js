@@ -1,77 +1,3 @@
-// const form = document.getElementById("form");
-// const username = document.getElementById("username");
-// const email = document.getElementById("email");
-// const password = document.getElementById("password");
-// const password2 = document.getElementById("password2");
-//
-// function showError(input, message) {
-//     const formControl = input.parentElement;
-//     formControl.className = "form-control error";
-//     let small = formControl.querySelector("small");
-//     small.innerText = message;
-// }
-//
-// function showSuccess(input) {
-//     const formControl = input.parentElement;
-//     formControl.className = "form-control success";
-// }
-//
-// function checkEmail(input) {
-//     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-//     if (re.test(input.value)) {
-//         showSuccess(input);
-//     } else {
-//         showError(input, "Email is not valid");
-//     }
-// }
-//
-// function checkRequired(inputArr) {
-//     inputArr.forEach(function(input) {
-//         if (input.value === "") {
-//             showError(input, `${getFieldName(input)} is required`);
-//         } else {
-//             showSuccess(input);
-//         }
-//     });
-// }
-//
-// function checkPasswordsMatch(password1, password2) {
-//     if (password1.value !== password2.value) {
-//         showError(password2, "Password do not match");
-//     }
-// }
-//
-// function checkLength(input, min, max) {
-//     if (input.value.length <= min) {
-//         showError(
-//             input,
-//             `${getFieldName(input)} must be more than ${min} characters`
-//         );
-//     } else if (input.value.length >= max) {
-//         showError(
-//             input,
-//             `${getFieldName(input)} must be less than ${max} characters`
-//         );
-//     } else {
-//         showSuccess(input);
-//     }
-// }
-//
-// function getFieldName(input) {
-//     return input.id.charAt(0).toUpperCase() + input.id.slice(1);
-// }
-//
-// form.addEventListener("submit", function(e) {
-//     e.preventDefault();
-//
-//     checkRequired([username, email, password, password2]);
-//     checkLength(username, 3, 15);
-//     checkLength(password, 6, 25);
-//     checkEmail(email);
-//     if (password2.value !== "") {
-//         checkPasswordsMatch(password, password2);
-//     }
-// });
 
 // ================ 전역 변수 ================== //
 // # DOM 요소 기타
@@ -217,18 +143,25 @@ function handleProfileImageUpload(e) {
 }
 
 
+function initValidation() {
+    const {$emailInput, $nicknameInput, $passwordInput} = $inputs;
+    $emailInput.addEventListener('input', e => console.log(e.target.value));
+    $nicknameInput.addEventListener('input', e => console.log(e.target.value));
+    $passwordInput.addEventListener('input  ', e => console.log(e.target.value));
+}
+
 // # 화면 초기 진입 시 진행할 이벤트 핸들러
 function initSignup(e) {
     // profile 사진 설정(=input[type="file"]의 change  이벤트 발생) 하면 사진 파일을 가지고 있고 + 사진을 preview로 띄우는 이벤트
     $inputs.$profileImageInput.addEventListener('change', handleProfileImageUpload);
     // 회원가입 form 제출 이벤트
     $form.addEventListener('submit', handleSubmit);
+    // 이메일 input에 autofocus 되도록 하는 이벤트
+    $inputs.$emailInput.focus();
+    // 이메일, 닉네임, 패스워드 validation 함수
+    initValidation();
 }
 
 // =================== 초기 화면 진입 시 실행 =================== //
 document.addEventListener('DOMContentLoaded', initSignup);
-document.addEventListener('click', function (e) {
-    console.log(e.target);
-});
-
 

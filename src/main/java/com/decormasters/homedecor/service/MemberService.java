@@ -1,11 +1,13 @@
 package com.decormasters.homedecor.service;
 
 import com.decormasters.homedecor.Util.FileUploadUtil;
+import com.decormasters.homedecor.config.auth.PasswordEncoderConfig;
 import com.decormasters.homedecor.domain.member.dto.request.SignUpRequest;
 import com.decormasters.homedecor.domain.member.entitiy.Member;
 import com.decormasters.homedecor.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,6 +23,7 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final FileUploadUtil fileUploadUtil;
+    private final PasswordEncoder passwordEncoder;
 
     // 회원 정보 생성
     public void saveUser(SignUpRequest signUpRequest) {
@@ -28,8 +31,12 @@ public class MemberService {
         // 프로필 이미지 URL 초기화(image 없을 떄도 sql 명령어 만들어야 하므로)
          String uploadedImageUrl = null;
 
-        // entity로 변환
+         // 비밀번호 암호화
+        String encodedPassword = passwordEncoder.encode(signUpRequest.getPassword());
+
+        // entity로 변환 (하면서 비밀번호는 암호화된 코드로 바꿔주기)
         Member newUser = signUpRequest.toEntity();
+        newUser.setPassword(encodedPassword);
 
         // 이미지 관련 : 이미지 저장 + db에 저장할 경로 가져오기
         //  - 이미지 프로필 하나만 쓸꺼지만, 차후를 대비하여 List로 받아옴
