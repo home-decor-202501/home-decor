@@ -28,6 +28,7 @@
 
     <%@ include file="components/create-post-modal.jsp" %> <!-- 모달 섹션 -->
 
+
   </main>
 
 </div>
