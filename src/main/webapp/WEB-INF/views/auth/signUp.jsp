@@ -10,6 +10,9 @@
     <%-- font-awesome--%>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/auth/pages/signup.css">
+
+    <%--yup--%>
+<%--    <script src="https://cdn.jsdelivr.net/npm/yup@1.6.1/index.min.js"></script>--%>
     <script type="module" src="/js/auth/signup.js" defer></script>
     <title>회원가입</title>
 
@@ -105,6 +108,8 @@
         <p>3초 후 로그인 페이지로 이동합니다.</p>
     </div>
 </div>
+
+
 
 </body>
 

@@ -88,7 +88,7 @@ body {
     overflow: hidden;
     display: flex;
     align-items: center;
-    object-fit: contain;
+    object-fit: cover;
 }
 
 .pic-preview {
