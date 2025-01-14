@@ -82,15 +82,10 @@
   <span>Loading...</span>
 </div>
 
-<!-- External JS 파일 링크 -->
-<script src="/js/components/main.js" type="module"></script>
+
 </body>
 </html>
 
-  </div>
-</div>
 
-<div id="loading-indicator" style="text-align: center; padding: 20px; display: none;">
-  <span>Loading...</span>
-</div>
+
 

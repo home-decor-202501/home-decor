@@ -1,20 +1,57 @@
-// 피드 생성 몯랑르 전역관리
-// let $modal = null;
+// 피드 생성 모달을 전역관리
+let $modal = document.getElementById('createPostModal'); // 모달 컨테이너
+
+// 모달 관련 DOM들을 저장할 객체
+let elements = {
+    $closeBtn: $modal.querySelector('.modal-close-button'),
+    $backdrop: $modal.querySelector('.modal-backdrop'),
+
+
+};
+
+// 피드 생성 모달 관련 이벤트 함수
+function setUpModalEvents() {
+    const {$closeBtn, $backdrop} = elements;
+    // DOM  요소 가져오기
+    const $writeButton = document.getElementById('write-button'); // 글쓰기
+
+
+    //모달 열기 함수
+    const openModal = e => {
+        e.preventDefault();
+        // 모달 열기
+        $modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden'; // 배경 바디 스크롤 방지
+    };
+    //모달 닫기
+    const closeModal = e =>{
+        e.preventDefault();
+        $modal.style.display = 'none';
+        document.body.style.overflow = 'auto'; // 배경 바디 스크롤 방지 해제
+    }
+
+    // 피드 생성 모달 열기 이벤트
+    $writeButton.addEventListener('click', openModal);
+
+    // X버튼 눌렀을 때
+    $closeBtn.addEventListener('click', closeModal);
+
+    // 백드롭 눌렀을 때
+    $backdrop.addEventListener('click', closeModal);
+
+}
+
+// 이벤트 바인딩 관련 함수
+function bindEvents() {
+    setUpModalEvents();
+
+}
+
 
 // 모달 관련 JS 함수 - 외부에 노출
 function initCreateFeedModal() {
-    console.log('모달 초기화 시작 !!');
-
-    // DOM  요소 가져오기
-    const writeButton = document.getElementById('write-button');
-    const modalContainer = document.getElementById('createPostModal'); // 모달 컨테이너
-
-    writeButton.addEventListener('click', e=>{
-        e.preventDefault();
-        modalContainer.style.display = 'flex';
-
-    });
-
+    bindEvents();
 }
+
 
 export default initCreateFeedModal;
