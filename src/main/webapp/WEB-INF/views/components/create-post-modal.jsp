@@ -16,7 +16,7 @@
       <button class="back-button" style="visibility: hidden;">
         <i class="fa-solid fa-arrow-left"></i>
       </button>
-      <h2 class="modal-title">새 게시물 만들기</h2>
+      <h2 class="modal-title"> 집들이 사진 올리기</h2>
       <button class="next-button">다음</button>
 
       <div class="loading-spinner" style="display: none;">
@@ -31,7 +31,7 @@
       <div class="step upload-container active">
         <div class="upload-area">
           <i class="fa-regular fa-images"></i>
-          <p>사진과 동영상을 여기에 끌어다 놓으세요</p>
+          <p>사진을 여기에 끌어다 놓으세요<br> 5장까지 올릴 수 있어요</p>
           <input
                   type="file"
                   id="fileInput"
@@ -39,7 +39,7 @@
                   accept="image/*"
                   style="display: none;"
           >
-          <button class="upload-button">컴퓨터에서 선택</button>
+          <button class="upload-button"> PC에서 불러오기</button>
         </div>
       </div>
 
