@@ -1,12 +1,12 @@
-// yup library 사용 방법 1)  의존성 추가
-import * as yup from 'https://cdn.jsdelivr.net/npm/yup@0.32.11/+esm'
-
+// 검증 로직
+import Validator from './validator.js';
 
 // ================ 전역 변수 ================== //
 // # DOM 요소 기타
 const $elements = {
     // 회원가입 성공 모달 외 다른 부분 전체
     $main: document.querySelector('.main'),
+    $togglePasswordIcon: document.querySelector('.toggle-password'),
 }
 const $profileImage = {
     // 사진 미리보기
@@ -32,7 +32,7 @@ const $inputs = {
     $profileImageInput: $form.querySelector('input[type="file"][name="profile-image"]'),
     $emailInput: $form.querySelector('input[type="text"][name="email"]'),
     $nicknameInput: $form.querySelector('input[type="text"][name="nickname"]'),
-    $passwordInput: $form.querySelector('input[type="password"][name="password"]')
+    $passwordInput: $form.querySelector('input[name="password"]')
 }
 
 // ========== 일반 함수 =========== //
@@ -52,6 +52,54 @@ function showSuccessModalAndRedirect() {
         clearTimeout(redirectTimeout); // 타이머 지우기
         window.location.href = '/login'; // 즉시 리디렉션
     });
+}
+
+// #
+//  1) 눈 모양 아이콘 클릭/hover에 따른 아이콘 변경 및 비밀번호 표시 여부 변경
+function togglePasswordDisplay() {
+
+    //  1) 눈 모양 아이콘 클릭/hover에 따른 아이콘 변경 및 비밀번호 표시 여부 변경
+    let { $passwordInput } = $inputs;
+    const { $togglePasswordIcon } = $elements;
+
+    $elements.$togglePasswordIcon.addEventListener('click', function () {
+
+        // 현재 input type이 password인 경우 : input type을 text로(비밀번호 보이게), 아이콘을
+        if ($passwordInput.type === 'password') {
+            $passwordInput.type = 'text';
+            $togglePasswordIcon.classList.remove('fa-lock');
+            $togglePasswordIcon.classList.add('fa-lock-open');
+        } else {
+            $passwordInput.type = 'password';
+            $togglePasswordIcon.classList.remove('fa-lock-open');
+            $togglePasswordIcon.classList.add('fa-lock');
+        }
+    });
+
+
+    // 현재 input type이 password인 경우 : 아이콘을 fa-lock-open으로
+    $elements.$togglePasswordIcon.addEventListener('mouseover', function () {
+        if ($passwordInput.type === 'password') {
+            $togglePasswordIcon.classList.remove('fa-lock');
+            $togglePasswordIcon.classList.add('fa-lock-open');
+        } else {
+            $togglePasswordIcon.classList.remove('fa-lock-open');
+            $togglePasswordIcon.classList.add('fa-lock');
+        }
+    });
+
+
+    // 현재 input type이 password인 경우 : 아이콘을 fa-lock-으로
+    $elements.$togglePasswordIcon.addEventListener('mouseleave', function () {
+        if ($passwordInput.type === 'password') {
+            $togglePasswordIcon.classList.add('fa-lock');
+            $togglePasswordIcon.classList.remove('fa-lock-open');
+        } else {
+            $togglePasswordIcon.classList.add('fa-lock-open');
+            $togglePasswordIcon.classList.remove('fa-lock');
+        }
+    });
+
 }
 
 
@@ -84,7 +132,7 @@ function createPayload(e) {
 
 // # 화면 초기 진입시 INITsIGNUP 함수 호출 -> INITSIGNUP은 handleSubmit 호출 -> handleSubmit는 createPayload() 호출 -> createpayload()에서 전달값 받아서 서버에 회원등록 위한 fetch
 async function fetchToSignUp(formData) {
-    const response = await fetch("api/auth/sign-up", {
+    const response = await fetch("/api/auth/sign-up", {
         method: 'POST',
         body: formData
     });
@@ -145,124 +193,139 @@ function handleProfileImageUpload(e) {
     });
 }
 
+/**
+ * yup library로 유효성 검증을 하고, 검증 결과에 따라 관련 UI를 변경하는 함수
+ * @param eventTarget 클릭된 $input
+ * @param valid validator.js를 통해 yup 라이브러리로 유효성 검증한 값. 검증 성공 valid는 true, 실패 시 false
+ * @param errors yup 검증 실패 시 전달되는 에러 메시지
+ */
+function updateValidationUI(eventTarget, valid, errors) {
+    if (!valid) {
 
-function handleUserDataValidation(e) {
-    console.log(e.target);
-    console.log(e.target.value);
+        // 이메일이 있는 이메일이면 로그인 링크 열리게
+        if (eventTarget === $inputs.$emailInput) {
+            errors.forEach(error => {
+                if (error === "이미 존재하는 이메일입니다.") {
+                    document.querySelector('.form-control a.link-to-login-page').style.display = 'inline';
+                } else {
+                    document.querySelector('.form-control a.link-to-login-page').style.display = 'none';
+                }
+            });
+        }
 
-    /* yup library 사용 방법 2) 필요 시 검증 조건 customize
-   - yup.addMethod() : yup에 customized 유효성 검증 메소드를 추가하는 함수
-   - @Param yup.string : 커스텀 메소드를 추가할 스키마 유형(문자열 타입 스키마)
-   - @Param customEmail : 추가할 커스텀 메소드 이름
-   - @Param 3번째 인자 : 커스텀 메소드가 구현할 내용을 정리
-   - this.matches()는 yup의 내부 함수로, 문자열이 정규식과 일치하는지 확인함
-    */
-    //이메일 형식 검증
-    const customEmailRegex = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
-    yup.addMethod(yup.string, 'customEmail', function (errorMessage) {
-        return this.matches(customEmailRegex, {
-            message: errorMessage || '유효한 이메일 형식이 아닙니다.', // 검증 실패 시 출력할 오류 메시지
-            name: 'customEmail', // 검증 메소드의 이름
-            excludeEmptyString: true // 빈 문자열을 제외
-        })
-    });
 
-// "닉네임은 한글, 영문자, 숫자 및 '_'와 '-'만 포함해야 합니다
-    const customNickNameRegex = "^[가-힣a-zA-Z0-9-_]*$";
-    yup.addMethod(yup.string, 'customNickname', function (errorMessage) {
-        return this.matches(customNickNameRegex, {
-            message: errorMessage || '닉네임은 한글, 영문자, 숫자 및 \'_\'와 \'-\'만 포함해야 합니다.', // 검증 실패 시 출력할 오류 메시지
-            name: 'customNickname', // 검증 메소드의 이름
-            excludeEmptyString: true // 빈 문자열을 제외
-        })
-    });
+        // 해당 input 태그가 email이나 nickname일 경우 (small 태그의 디자인을 조절)
+        if (eventTarget === $inputs.$emailInput || eventTarget === $inputs.$nicknameInput) {
+            // 에러 메시지 표기
+            eventTarget.closest('.form-control').querySelector('small').classList.add('error'); // display를 none에서 inline으로
+            eventTarget.closest('.form-control').querySelector('small').textContent = errors;
+        }
 
-//  "비밀번호는 영문자를 포함해야 합니다"
-    const customPasswordIncludeAlphaBetRegex = ".*[a-zA-Z].*";
-    yup.addMethod(yup.string, 'customPasswordIncludeAlphaBet', function (errorMessage) {
-        return this.matches(customPasswordIncludeAlphaBetRegex, {
-            message: errorMessage || '비밀번호는 영문자를 포함해야 합니다.', // 검증 실패 시 출력할 오류 메시지
-            name: 'customPasswordIncludeAlphaBet', // 검증 메소드의 이름
-            excludeEmptyString: true // 빈 문자열을 제외
-        })
-    });
+        // 해당 input 태그가 email이나 nickname일 경우 (span과 i 태그 조절)
+        if (eventTarget === $inputs.$passwordInput) {
+            // 에러 메시지와 tetContent가 같은 태그를 찾아, 1) 문구 및 아이콘 색상 빨간색으로 2) 아이콘 x 로 바꾸기
 
-//  "비밀번호는 숫자를 포함해야 합니다"
-    const customPasswordIncludeNumberRegex = ".*\\d.*";
-    yup.addMethod(yup.string, 'customPasswordIncludeNumber', function (errorMessage) {
-        return this.matches(customPasswordIncludeNumberRegex, {
-            message: errorMessage || '비밀번호는 숫자를 포함해야 합니다.', // 검증 실패 시 출력할 오류 메시지
-            name: 'customPasswordIncludeNumber', // 검증 메소드의 이름
-            excludeEmptyString: true // 빈 문자열을 제외
-        })
-    });
+            const $passwordValidationSpan = [...document.querySelectorAll('.password-field-desc span')];
 
-// "비밀번호는 영문자, 숫자 및 !, @, #만 포함해야 합니다"
-    const customPasswordExcludeSpecialLetterRegex = "^[a-zA-Z0-9!@#]*$";
-    yup.addMethod(yup.string, 'customPasswordExcludeSpecialLetter', function (errorMessage) {
-        return this.matches(customPasswordExcludeSpecialLetterRegex, {
-            message: errorMessage || '비밀번호는 영문자, 숫자 및 !, @, #만 포함해야 합니다.', // 검증 실패 시 출력할 오류 메시지
-            name: 'customPasswordExcludeSpecialLetter', // 검증 메소드의 이름
-            excludeEmptyString: true // 빈 문자열을 제외
-        })
-    });
 
-//  yup library 사용 방법 3) 스키마 검증 대상 정의
+            errors.forEach(error => {
+                // 모든 span 및 i 태그를 초록색으로 설정
+                $passwordValidationSpan.forEach($span => {
+                    const correspondingIcon = $span.previousElementSibling;
+                    $span.classList.remove('error');
+                    $span.classList.add('success');
+                    if (correspondingIcon) {
+                        correspondingIcon.classList.remove('fa-circle-xmark', 'error');
+                        correspondingIcon.classList.add('fa-circle-check', 'success');
+                    }
+                });
+            });
+
+            const inputValue = eventTarget.value;
+            console.log(inputValue);
+            if (inputValue === '') {
+                // 모든 span 및 i 태그를 빨간색으로 설정
+                $passwordValidationSpan.forEach($span => {
+                    const correspondingIcon = $span.previousElementSibling;
+                    $span.classList.add('error');
+                    $span.classList.remove('success');
+                    if (correspondingIcon) {
+                        correspondingIcon.classList.add('fa-circle-xmark', 'error');
+                        correspondingIcon.classList.remove('fa-circle-check', 'success');
+                    }
+                });
+            }
+
+
+
+            errors.forEach(error => {
+                $passwordValidationSpan.forEach($span => {
+                    if ($span.textContent === error) {
+                        $span.classList.add('error');
+                        $span.classList.remove('success');
+                        $span.previousElementSibling.classList.remove('fa-circle-check', 'success'); // 인접 i 태그(아이콘)
+                        $span.previousElementSibling.classList.add('fa-circle-xmark', 'error');
+                    }
+                });
+            });
+        }
+
+        // 어던 input 이던 공통사항 : input 박스 테두리를 빨갛게
+        eventTarget.closest('.form-control').querySelector('input').classList.add('error');
+        eventTarget.closest('.form-control').querySelector('input').classList.remove('success');
+
+    } else if (valid) {
+
+        // 해당 input 태그가 email이나 nickname일 경우 (small 태그의 디자인을 조절)
+        if (eventTarget === $inputs.$emailInput || eventTarget === $inputs.$nicknameInput) {
+            // 에러 메시지 표기
+            eventTarget.closest('.form-control').querySelector('small').classList.remove('error'); // display를 none에서 inline으로
+            eventTarget.closest('.form-control').querySelector('small').textContent = '';
+        }
+
+        // 해당 input 태그가 email이나 nickname일 경우 (span과 i 태그 조절)
+        if (eventTarget === $inputs.$passwordInput) {
+            // 모든 span 과 i의 ui를 초록색으로 변경
+            const $passwordValidationI = [...document.querySelectorAll('.password-field-desc i')];
+            const $passwordValidationSpan = [...document.querySelectorAll('.password-field-desc span')];
+            $passwordValidationSpan.forEach($span => {
+                    $span.classList.remove('error');
+                    $span.classList.add('success');
+                    $span.previousElementSibling.classList.add('fa-regular', 'fa-circle-check', 'success'); // 인접 i 태그(아이콘)
+                    $span.previousElementSibling.classList.remove('fa-solid', 'fa-exclamation', 'error');
+            });
+        }
+
+        // 어던 input 이던 공통사항 : input 박스 테두리를 빨갛게
+        eventTarget.closest('.form-control').querySelector('input').classList.remove('error');
+        eventTarget.closest('.form-control').querySelector('input').classList.add('success');
+    }
+}
+
+async function handleUserDataValidation(event) {
+
+    //  yup library 사용 방법 3) 스키마 검증 대상 정의
     const formData = {
         email: $inputs.$emailInput.value,
         nickname: $inputs.$nicknameInput.value,
         password: $inputs.$passwordInput.value
     };
 
-    /*
-     yup library 사용 방법 4) 검증 조건 정의
-         - yup.object() : 객체 정의
-         - shape() : 조건 정의
-     */
-    const schema = yup.object().shape({
-
-        // 이메일 검증 조건 : 앞뒤 공백 금지, 공란 금지, 정규식 유효성 검사
-        email: yup.string().trim('공백을 포함할 수 없습니다').required("이메일을 입력해주세요").customEmail(),
-
-        // 닉네임 검증 조건 :  앞뒤 공백 금지, 공란 금지,
-        nickname: yup.string()
-            .trim('공백을 포함할 수 없습니다').required('닉네임을 입력해주세요').min(2, '닉네임은 2자 이상이여야 합니다.').max(10, '닉네임은 10자 이하여야 합니다.')
-            .customNickname(),
-
-        password: yup.string()
-            .trim('공백을 포함할 수 없습니다').required("비밀번호를 입력해주세요").min(8, "비밀번호는 최소 8글자 이상이어야 합니다")
-            .customPasswordIncludeAlphaBet().customPasswordIncludeNumber().customPasswordExcludeSpecialLetter()
-    })
-
-    /*
-        yup library 사용 방법 5. 검증실행
-         schema
-             .validate(formData, { abortEarly: false })
-             .then(valid => {
-                 console.log("성공", valid)
-             })
-             .catch(err => {
-                  console.log("실패입니다:", err.errors);
-              });
-
-     */
-    schema
-        .validate(formData, {abortEarly: false})
-        .then(valid => {
-            console.log("성공", valid)
-        })
-        .catch(err => {
-            console.log("실패입니다:", err.errors);
-        });
-
-
+    /**
+     *yup 라이브러리로 검증
+     @Param e 이 함수는 input 태그체 input 이벤트가 발생하면 호출됨
+     @Param formData 어떤 필드에 대해서 검색할 것인지 알려주기
+      */
+    const {valid, errors, result} = await Validator.validateUserData(event, formData);
+    // dvalid 여부에 따라 UI 업데이트
+    updateValidationUI(event.target, valid, errors);
 }
-
 
 // # 각 input에 input 이벤트 걸기 (자세한 이벤트 구현내용은 handlerUserDataValidation 함수에서 구현)
 function initValidation() {
     Object.values($inputs).forEach($input => $input.addEventListener('input', (e) => handleUserDataValidation(e)));
 }
+
 
 // # 화면 초기 진입 시 진행할 이벤트 핸들러
 function initSignup(e) {
@@ -274,6 +337,8 @@ function initSignup(e) {
     $inputs.$emailInput.focus();
     // 이메일, 닉네임, 패스워드 validation 함수
     initValidation();
+    // 비밀번호 표시/숨기기 관련 함수
+    togglePasswordDisplay();
 }
 
 // =================== 초기 화면 진입 시 실행 =================== //

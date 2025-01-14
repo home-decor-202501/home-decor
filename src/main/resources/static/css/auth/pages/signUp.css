@@ -185,44 +185,30 @@ body {
     margin-bottom: 3px;
     font-size: 14px;
 }
-
-.form-control:after {
-    content: '\2713';
-    font-size: 1.5rem;
-    opacity: 0;
-    color: var(--checkmark-color);
-    position: absolute;
-    top: 50%;
-    right: 10px;
-    transform: translateY(-30%);
-    transition: all ease .4s;
-}
-
+/* input에 focus만 했을 때 (유효성 검사는 전) */
 .form-control input:focus {
     outline: none;
     border-color: #777;
 }
-
-.form-control.success input {
-    border-color: var(--success-color);
+/* input 유호성 검사 실패했을 때*/
+.form-control input.error {
+    border: 1px solid var(--error-color)
+}
+/*input 유효성 검사 성공했을 때*/
+.form-control input.success {
+    border: 1px solid  var(--success-color);
 }
 
-.form-control.error input {
-    border-color: var(--error-color);
-}
-
-/*  유효성 검증 통과하면 체크표시됨 */
-.form-control.success:after {
-    opacity: 1;
-    transform: translateY(-50%);
-}
 
 /* 에러 메시지 (small 태그. form-control 클래스에 'error' 클래스 붙는 여부에 따라 보임 여부 설정됨 */
 .form-control small {
     color: var(--error-color);
     font-size: var(--small-font-size);
-    /*visibility: hidden;*/
     margin-right: 7px; /* 로그인 페이지 이동과 여백 */
+    display: none;
+}
+.form-control small.error {
+    display: inline;
 }
 .form-control a.link-to-login-page {
     font-size: var(--form-description-font-size);
@@ -237,10 +223,47 @@ body {
     /*visibility:hidden;*/
 }
 
+/* 이메일란 로그인 링크 */
+.form-control a.link-to-login-page {
+    display: none;
+}
+
+/* 패스워드 눈 모양 관련 */
+.password-wrapper {
+    position: relative;
+}
+
+.password-wrapper input {
+    width: 100%;
+    padding-right: 20px; /* 아이콘 위치를 위해 패딩 추가 */
+}
+
+.password-wrapper i {
+    position: absolute;
+    right: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #777;
+}
+.password-wrapper i:hover {
+    color: #35c5f0
+}
+
+
 /* password 조건 스타일 추가 */
 .password-field-desc ul {
     list-style: none; /* 목록 스타일 제거 */
     padding: 0; /* 기본 패딩 제거 */
+}
+
+.password-field-desc span.error
+, .password-field-desc i.error{
+    color: var(--error-color)
+}
+.password-field-desc span.success
+, .password-field-desc i.success{
+    color: var(--success-color)
 }
 
 .form-control.error small {

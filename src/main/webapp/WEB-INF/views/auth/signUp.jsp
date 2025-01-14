@@ -62,16 +62,20 @@
                 </div>
                 <%--  form: 닉네임 --%>
                 <div class="form-control">
-                    <label for='nickname'>닉네임</label>
+                    <label for="nickname">닉네임</label>
                     <p class="text-info">2~10자(영문자, 한글, 언더바(_) 및 하이픈(-) 사용 가능)</p>
                     <input type="text" id="nickname" placeholder="닉네임" name="nickname">
                     <small>Error message</small>
                 </div>
                 <%-- form: 비밀번호 --%>
                 <div class="form-control">
-                    <label for='password2'>비밀번호</label>
+                    <label for="password">비밀번호</label>
                     <p class="text-info">8글자 이상(영문 및 숫자 포함 필수, 특수문자는 !, @, #만 사용 가능)</p>
-                    <input type="password" id="password2" placeholder="비밀번호" name="password">
+                    <div class="password-wrapper">
+                        <input type="password" id="password" placeholder="비밀번호" name="password">
+                        <i class="fa-solid fa-lock toggle-password"></i>
+                    </div>
+
                     <ul class="password-field-desc">
                         <li>
                             <i class="fa-regular fa-circle-check password-length"></i>
@@ -87,7 +91,7 @@
                         </li>
                         <li>
                             <i class="fa-regular fa-circle-check password-not-include"></i>
-                            <span class="password-not-include">영문, 숫자, !, @, # 외 문자 금지</span>
+                            <span class="password-not-include">영문, 숫자, !, @, # 만 허용(공백 및 이외 특수문자 불가)</span>
                         </li>
                     </ul>
                     </small>

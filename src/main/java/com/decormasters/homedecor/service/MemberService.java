@@ -1,9 +1,10 @@
 package com.decormasters.homedecor.service;
 
 import com.decormasters.homedecor.Util.FileUploadUtil;
-import com.decormasters.homedecor.config.auth.PasswordEncoderConfig;
 import com.decormasters.homedecor.domain.member.dto.request.SignUpRequest;
 import com.decormasters.homedecor.domain.member.entitiy.Member;
+import com.decormasters.homedecor.exception.authorization.SignUpErrorCode;
+import com.decormasters.homedecor.exception.authorization.SignUpException;
 import com.decormasters.homedecor.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +27,17 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
 
     // 회원 정보 생성
-    public void saveUser(SignUpRequest signUpRequest) {
+    public void saveUser(SignUpRequest signUpRequest) throws Exception {
+
+        // 일단 있는 회원정보인지 먼저 검증
+        boolean nicknameFlag = checkNicknameExists(signUpRequest.getNickname());
+        if (nicknameFlag) {
+            throw new SignUpException(SignUpErrorCode.USER_DATA_EXISTS, "존재하는 닉네임입니다.");
+        }
+        boolean emailFlag = checkEmailExists(signUpRequest.getEmail());
+        if (emailFlag) {
+            throw new SignUpException(SignUpErrorCode.USER_DATA_EXISTS, "존재하는 이메일입니다.");
+        }
 
         // 프로필 이미지 URL 초기화(image 없을 떄도 sql 명령어 만들어야 하므로)
          String uploadedImageUrl = null;
@@ -74,6 +85,16 @@ public class MemberService {
     }
 
 
+    // 닉네임이 있는지 확인하는 함수
+    public boolean checkNicknameExists(String nickname) {
+        log.info("check if the nickname exists: {}", memberRepository.checkNicknameExists(nickname));
+        return memberRepository.checkNicknameExists(nickname);
+    }
+
+    public boolean checkEmailExists(String email) {
+        log.info("check if the email exists: {}", memberRepository.checkNicknameExists(email));
+        return memberRepository.checkEmailExists(email);
+    }
 }
 
 
