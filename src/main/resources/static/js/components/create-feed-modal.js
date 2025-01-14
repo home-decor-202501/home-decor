@@ -10,8 +10,26 @@ let elements = {
 
 };
 
+// 모달 바디 스텝을 이동하는 함수
+function goToStep(step) {
+    // 기존 스텝 컨테이너의 active를 제거하고 해당 step컨테이너에 active를 부여
+    [...$modal.querySelectorAll('.step')].forEach(($stepContainer,index) => {
+        $stepContainer.classList.toggle('active',step === index+1);
+
+
+    // }
+    //
+    //     if ($stepContainer.classList.contains('active')) {
+    //         $stepContainer.classList.remove('active');
+    //     }
+    //     if (step === index + 1) {
+    //         $stepContainer.classList.add('active');
+    //     }
+    });
+}
+
 //파일 업로드 관련 이벤트 함수
-function setUpFileUploadEvents(){
+function setUpFileUploadEvents() {
     const {$uploadBtn, $fileInput} = elements;
 
     // 파일을 검사하고 다음 단계로 이동하는 함수
@@ -24,30 +42,34 @@ function setUpFileUploadEvents(){
 
         //파일이 이미지인지 확인
         console.log(files);
-        const validFiles = files.filter(file=>{
-            if(!file.type.startsWith('image')) {
+        const validFiles = files.filter(file => {
+            if (!file.type.startsWith('image')) {
                 alert(`${file.name}은(는) 이미지가 아닙니다ㅣ.`);
                 return false;
             }
             return true;
-        }).filter(file=>{
-           if(file.size >  10*1024 * 1024) {
-               alert(`${file.name}은(는) 10MB를 초과합니다.`);
-               return false;
-           }
-           return true;
+        }).filter(file => {
+            if (file.size > 10 * 1024 * 1024) {
+                alert(`${file.name}은(는) 10MB를 초과합니다.`);
+                return false;
+            }
+            return true;
         });
 
-    console.log(validFiles);
+
+        // 모달 step2로 이동
+        goToStep(2);
+
+
     };
 
     // 업로드 버튼을 누르면 파일선택창이 대신 눌리도록 조작
-    $uploadBtn.addEventListener('click',e=>$fileInput.click());
+    $uploadBtn.addEventListener('click', e => $fileInput.click());
 
     //파일 선택이 끝날을 때 파일정보를 읽는 이벤트
-    $fileInput.addEventListener('change',e => {
-       const files = [...e.target.files];
-       if ( files.length > 0) handleFiles(files);
+    $fileInput.addEventListener('change', e => {
+        const files = [...e.target.files];
+        if (files.length > 0) handleFiles(files);
 
     });
 
@@ -68,7 +90,7 @@ function setUpModalEvents() {
         document.body.style.overflow = 'hidden'; // 배경 바디 스크롤 방지
     };
     //모달 닫기
-    const closeModal = e =>{
+    const closeModal = e => {
         e.preventDefault();
         $modal.style.display = 'none';
         document.body.style.overflow = 'auto'; // 배경 바디 스크롤 방지 해제
