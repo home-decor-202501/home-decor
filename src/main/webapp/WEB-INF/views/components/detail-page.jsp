@@ -3,7 +3,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
--- TODO : 공통 헤더영역 분리
+<%-- TODO : 공통 헤더영역 분리--%>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -16,7 +16,10 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
   <!-- External CSS 파일 링크 -->
-  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/detailPage.css">
+
+  <!-- Detail-page JS -->
+  <script src="/js/components/detail-page.js" defer></script>
 </head>
 <body>
 <!-- Header -->
@@ -49,34 +52,32 @@
     <span>캠핑핑</span>
     <span>이벤트</span>
   </div>
-  <div class="sort-options">
-    <label for="sort-option">정렬:</label>
-    <select id="sort-option" onchange="applySort()">
-      <option value="popularity">인기순</option>
-      <option value="latest">최신순</option>
-    </select>
-  </div>
 </div>
 
 <!-- Post detail -->
-<div class="feed-container" id="feed-container">
-  <div class="feed-item">
-    <div class="feed-profile">
-      <img src="" alt="프로필 이미지">
-      <div class="profile-info">
-        <div class="profile-name">bebeyul</div>
-      </div>
-      <a class="follow-button" href="#">팔로우</a>
-    </div>
+<div class="post-container" id="post-container">
+  <div class="post-item">
     <img src="/images/LivingRoom.jpeg" alt="거실 이미지">
-    <div class="feed-title">
-      <span>모던한 거실 인테리어</span>
-      <div class="like-section">
-        <i class="fa fa-heart like-icon"></i>
-        <span>26</span>
+    <div class="post-contents">내 방이야</div>
+    <div class="post-profile">
+      <img src="https://image.ohou.se/i/bucketplace-v2-development/uploads/default_images/avatar.png?w=72&h=72&c=c"
+           srcset="https://image.ohou.se/i/bucketplace-v2-development/uploads/default_images/avatar.png?w=72&h=72&c=c 1x,
+          https://image.ohou.se/i/bucketplace-v2-development/uploads/default_images/avatar.png?w=144&h=144&c=c 2x,
+          https://image.ohou.se/i/bucketplace-v2-development/uploads/default_images/avatar.png?w=216&h=216&c=c 3x" alt="프로필 이미지">
+      <div class="profile-info">
+        <div class="profile-name">테스터</div>
       </div>
     </div>
-    <div class="feed-details">심플하고 깔끔한 분위기의 거실</div>
+  </div>
+  <div class="sticky-section">
+    <button class="action-button like-button">
+      <i class="fa-regular fa-heart like-icon"></i>
+      <span class="like-count">26</span>
+    </button>
+    <button class="action-button comment-button">
+      <i class="fa-regular fa-comment"></i>
+      <span class="comment-count">2</span>
+    </button>
   </div>
 </div>
 
