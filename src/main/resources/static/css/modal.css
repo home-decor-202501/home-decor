@@ -213,7 +213,7 @@
     width: 32px;
     height: 32px;
     border-radius: 50%;
-    background-color: white;
+    background-color: rgba(0, 149, 246, 0.05);
     border: none;
     display: flex;
     align-items: center;

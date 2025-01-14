@@ -7,15 +7,19 @@ let elements = {
     $backdrop: $modal.querySelector('.modal-backdrop'),
     $uploadBtn: $modal.querySelector('.upload-button'),
     $fileInput: $modal.querySelector('#fileInput'),
-
+    $backStepBtn: $modal.querySelector('.back-button'),
+    $nextStepBtn: $modal.querySelector('.next-button'),
+    $modalTitle: $modal.querySelector('.modal-title'),
 };
 
 // 모달 바디 스텝을 이동하는 함수
 function goToStep(step) {
+    const {$backStepBtn, $nextStepBtn, $modalTitle} = elements;
+
     // 기존 스텝 컨테이너의 active를 제거하고 해당 step컨테이너에 active를 부여
     [...$modal.querySelectorAll('.step')].forEach(($stepContainer,index) => {
-        $stepContainer.classList.toggle('active',step === index+1);
-
+        $stepContainer.classList.toggle('active',step === index + 1);
+    });
 
     // }
     //
@@ -25,7 +29,25 @@ function goToStep(step) {
     //     if (step === index + 1) {
     //         $stepContainer.classList.add('active');
     //     }
-    });
+
+    //각 스텝별 버튼 활성화 비활성화 처리
+    if (step === 1) {
+
+        $nextStepBtn.style.display='none';
+        $backStepBtn.style.display='none';
+        $modalTitle.textContent = '새 게시물 만들기';
+    }   else if ( step === 2) {
+        $nextStepBtn.style.display='block';
+        $backStepBtn.style.display='block';
+        $modalTitle.textContent = '편집';
+        $nextStepBtn.textContent= '다음';
+    }  else if ( step === 3) {
+        $nextStepBtn.textContent='공유하기';
+        $modalTitle.textContent = '새 게시물 만들기';
+    }
+
+
+
 }
 
 //파일 업로드 관련 이벤트 함수

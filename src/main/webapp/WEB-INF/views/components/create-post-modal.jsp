@@ -13,7 +13,7 @@
   <div class="modal-content">
     <!-- 모달 헤더 -->
     <div class="modal-header">
-      <button class="back-button" style="visibility: hidden;">
+      <button class="back-button" style="display: none;">
         <i class="fa-solid fa-arrow-left"></i>
       </button>
       <h2 class="modal-title"> 집들이 사진 올리기</h2>
