@@ -1,3 +1,8 @@
+import CarouselManager from "../ui/CarouselManager.js";
+
+// step 모듈내에서 전역관리
+let currentStep = 1;
+
 // 피드 생성 모달을 전역관리
 let $modal = document.getElementById('createPostModal'); // 모달 컨테이너
 
@@ -14,11 +19,14 @@ let elements = {
 
 // 모달 바디 스텝을 이동하는 함수
 function goToStep(step) {
+    if (step < 1 || step > 3) return;
+
+    currentStep = step;
     const {$backStepBtn, $nextStepBtn, $modalTitle} = elements;
 
     // 기존 스텝 컨테이너의 active를 제거하고 해당 step컨테이너에 active를 부여
-    [...$modal.querySelectorAll('.step')].forEach(($stepContainer,index) => {
-        $stepContainer.classList.toggle('active',step === index + 1);
+    [...$modal.querySelectorAll('.step')].forEach(($stepContainer, index) => {
+        $stepContainer.classList.toggle('active', step === index + 1);
     });
 
     // }
@@ -32,22 +40,19 @@ function goToStep(step) {
 
     //각 스텝별 버튼 활성화 비활성화 처리
     if (step === 1) {
-
-        $nextStepBtn.style.display='none';
-        $backStepBtn.style.display='none';
+        $nextStepBtn.style.display = 'block';
+        $backStepBtn.style.display = 'none';
         $modalTitle.textContent = '새 게시물 만들기';
-    }   else if ( step === 2) {
-        $nextStepBtn.style.display='block';
-        $backStepBtn.style.display='block';
+    } else if (step === 2) {
+        $nextStepBtn.style.display = 'block';
+        $backStepBtn.style.display = 'block';
         $modalTitle.textContent = '편집';
-        $nextStepBtn.textContent= '다음';
-    }  else if ( step === 3) {
-        $nextStepBtn.textContent='공유하기';
+        $nextStepBtn.textContent = '다음';
+    } else if (step === 3) {
+        $nextStepBtn.style.display = 'block';
+        $nextStepBtn.textContent = '공유하기';
         $modalTitle.textContent = '새 게시물 만들기';
     }
-
-
-
 }
 
 //파일 업로드 관련 이벤트 함수
@@ -79,9 +84,13 @@ function setUpFileUploadEvents() {
         });
 
 
+        // 이미지 슬라이드 생성
+        const step2Carousel = new CarouselManager($modal.querySelector('.preview-container'));
+        step2Carousel.init(validFiles);
+
+
         // 모달 step2로 이동
         goToStep(2);
-
 
     };
 
@@ -99,7 +108,7 @@ function setUpFileUploadEvents() {
 
 // 피드 생성 모달 관련 이벤트 함수
 function setUpModalEvents() {
-    const {$closeBtn, $backdrop} = elements;
+    const {$closeBtn, $backdrop, $backStepBtn, $nextStepBtn} = elements;
     // DOM  요소 가져오기
     const $writeButton = document.getElementById('write-button'); // 글쓰기
 
@@ -127,7 +136,19 @@ function setUpModalEvents() {
     // 백드롭 눌렀을 때
     $backdrop.addEventListener('click', closeModal);
 
+    // 모달 이전, 다음 스텝 클릭 이벤트
+    $backStepBtn.addEventListener('click', () => goToStep(currentStep - 1));
+    $nextStepBtn.addEventListener('click', () => {
+        if (currentStep < 3) {
+            goToStep(currentStep + 1);
+
+        } else {
+            alert('서버로 게시물을 공유합니다.');
+            //차후에 서버 AJAX 통신 구현 ...
+        }
+    });
 }
+
 
 // 이벤트 바인딩 관련 함수
 function bindEvents() {

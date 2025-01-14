@@ -1,6 +1,10 @@
 /* src/main/resources/static/css/modal.css */
 
 /* 모달 기본 스타일 */
+/* 기본 리셋 */
+* {
+    box-sizing: border-box;
+}
 
 /* 모달 기본 레이아웃 */
 .modal-container {
@@ -52,7 +56,7 @@
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    font-size: 26px;
+    font-size: 19px;
     font-weight: 600;
 }
 
