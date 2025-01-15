@@ -39,7 +39,15 @@ class CarouselManager{
 
             this.track.append($slideDiv);
 
+            // // 인디케이터 생성
+            // this.makeIndicator(index);
+
         });
+        // makeIndicator(){
+        //     const $indicator = document.createElement('span');
+        //     $indicator.classList.add('indicator');
+        //
+        // }
     }
 }
 
