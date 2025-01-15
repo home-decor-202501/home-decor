@@ -12,7 +12,9 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 
   <!-- Modular CSS -->
-  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/nevigation.css">
+  <link rel="stylesheet" href="/css/categoryList.css">
+  <link rel="stylesheet" href="/css/feed.css">
   <link rel="stylesheet" href="/css/modal.css">
 
 
