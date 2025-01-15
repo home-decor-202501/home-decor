@@ -11,11 +11,10 @@
   <title>오늘의집 메인 페이지</title>
 
   <!-- Font Awesome 아이콘 라이브러리 -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 
-  <!-- External CSS 파일 링크 -->
-  <link rel="stylesheet" href="/css/main.css">
 </head>
+
 <body>
 <!-- Header -->
 <header class="header">
