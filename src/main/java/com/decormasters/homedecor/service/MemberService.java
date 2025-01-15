@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Slf4j
@@ -32,11 +33,11 @@ public class MemberService {
         // 일단 있는 회원정보인지 먼저 검증
         boolean nicknameFlag = checkNicknameExists(signUpRequest.getNickname());
         if (nicknameFlag) {
-            throw new SignUpException(SignUpErrorCode.USER_DATA_EXISTS, "존재하는 닉네임입니다.");
+            throw new SignUpException(SignUpErrorCode.USER_DATA_EXISTS, "존재하는 닉네임입니다.", Arrays.asList("nickname"));
         }
         boolean emailFlag = checkEmailExists(signUpRequest.getEmail());
         if (emailFlag) {
-            throw new SignUpException(SignUpErrorCode.USER_DATA_EXISTS, "존재하는 이메일입니다.");
+            throw new SignUpException(SignUpErrorCode.USER_DATA_EXISTS, "존재하는 이메일입니다.", Arrays.asList("email"));
         }
 
         // 프로필 이미지 URL 초기화(image 없을 떄도 sql 명령어 만들어야 하므로)

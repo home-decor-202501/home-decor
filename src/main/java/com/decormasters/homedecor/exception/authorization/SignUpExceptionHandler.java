@@ -10,8 +10,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @ControllerAdvice
 @Slf4j
@@ -21,12 +20,15 @@ public class SignUpExceptionHandler extends RuntimeException{
     // HttpServletRequest 인자로 받는 이유 request.getReqeusturl() 사용 목적
     public ResponseEntity<ErrorResponse> notValidDataException(MethodArgumentNotValidException exception, HttpServletRequest request) {
 
-        //  BindingResult에서 맵으로 정리
+        // 회원 가입 누를 시 에러 뜨는 input 태그 찾는 용으로, errorField 받아옴
         Map<String, String> errors = new HashMap<>();
+        //  BindingResult에서 맵으로 정리
+        List<String> errorField = new ArrayList<>();
         exception.getBindingResult().getFieldErrors().forEach(error -> {
             String field = error.getField();
             String message = error.getDefaultMessage();
             errors.put(field, message);
+            errorField.add(field);
         });
 
 
@@ -34,6 +36,7 @@ public class SignUpExceptionHandler extends RuntimeException{
         ErrorResponse errorResponse = ErrorResponse.builder()
                 .path(request.getRequestURI()) // path는 클라이언트가 호출 시 자돵 생성되는 HttlRequestServlet에서 가져옴
                 .message(errors.toString())
+                .errorField(errorField)
                 .timestamp(LocalDateTime.now())
                 .status(HttpStatus.BAD_REQUEST.value())
                 .error(HttpStatus.BAD_REQUEST.toString())
@@ -42,7 +45,9 @@ public class SignUpExceptionHandler extends RuntimeException{
         // 로그
         log.error("input value exception occurred. caused by: {}", errorResponse.getMessage());
 
-        return ResponseEntity.badRequest().body(errorResponse);
+        return ResponseEntity
+                .badRequest()
+                .body(errorResponse);
     }
 
     // 닉네임이나 이메일이 이미 존재할 때
@@ -52,17 +57,18 @@ public class SignUpExceptionHandler extends RuntimeException{
 
         log.error("Sign up Exception Occurred: {}", exception.getMessage());
 
-        ErrorResponse response = ErrorResponse.builder()
+        ErrorResponse errorResponse = ErrorResponse.builder()
                 .timestamp(LocalDateTime.now())
                 .status(exception.getErrorCode().getStatus().value())
                 .error(exception.getErrorCode().name())
+                .errorField(exception.getErrorField())
                 .message(exception.getMessage())
                 .path(request.getRequestURI())
                 .build();
 
         return ResponseEntity
-                .status(exception.getErrorCode().getStatus())
-                .body(response);
+                .badRequest()
+                .body(errorResponse);
 
     }
 

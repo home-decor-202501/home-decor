@@ -102,6 +102,20 @@ function togglePasswordDisplay() {
 
 }
 
+// 에러가 난 input(=클래스에 error 있는 input 태그)를 shake 해주는 함수
+function shakeErrorInput() {
+
+    Object.values($inputs).forEach($input => {
+        $input.classList.remove('shake');
+        if ($input.classList.contains('error')) {
+            setTimeout(() => {
+                $input.classList.add('shake');
+                console.log($input); }, 10);
+        } // 10 밀리초 지연
+    })
+
+}
+
 
 // ================ 이벤트 핸들러 함수 ================ //
 // # 회원가입 시 필요한 FormData 형식의 payload 만드는 이벤트 핸들러
@@ -143,9 +157,11 @@ async function fetchToSignUp(formData) {
         // 회원가입 성공 모달 표시하고, 로그인 페이지로 리디렉션
         showSuccessModalAndRedirect();
     } else {
-        console.log("실패");
+        // 에러가 난 input을 골라서 shake 효과는 주는 이벤트
+        shakeErrorInput();
     }
 }
+
 
 // # 회원가입 버튼 누를 시 진행할 이벤트 핸들러(payload 만들고, 서버에 전달)
 //  - 초기 화면 진입 시 DOMContentloaded 이벤트로 initSignup 함수 호출됨 -> initSignup 함수가 handleSubmit 함수 호출
@@ -153,6 +169,9 @@ async function handleSubmit(e) {
 
     // submit input의 기본 기능인 새로고침 방지
     e.preventDefault();
+
+    // 먼저 front에서 유효성 검사 후, 결과에 따라 ui 변경
+    handleAllUserDataValidation(e);
 
     // 서버에 보낼 데이터를 객체 형태로 반환
     const payload = createPayload();
@@ -202,27 +221,25 @@ function handleProfileImageUpload(e) {
 function updateValidationUI(eventTarget, valid, errors) {
     if (!valid) {
 
+        const { $emailInput, $passwordInput, $nicknameInput } = $inputs;
+
         // 이메일이 있는 이메일이면 로그인 링크 열리게
-        if (eventTarget === $inputs.$emailInput) {
+        if (eventTarget === $emailInput) {
             errors.forEach(error => {
-                if (error === "이미 존재하는 이메일입니다.") {
-                    document.querySelector('.form-control a.link-to-login-page').style.display = 'inline';
-                } else {
-                    document.querySelector('.form-control a.link-to-login-page').style.display = 'none';
-                }
+                const $loginPageLink = document.querySelector('.form-control a.link-to-login-page');
+                $loginPageLink.style.display = error === "이미 존재하는 이메일입니다." ? 'inline' : 'none';
             });
         }
 
-
         // 해당 input 태그가 email이나 nickname일 경우 (small 태그의 디자인을 조절)
-        if (eventTarget === $inputs.$emailInput || eventTarget === $inputs.$nicknameInput) {
+        if (eventTarget === $emailInput || eventTarget === $nicknameInput) {
             // 에러 메시지 표기
             eventTarget.closest('.form-control').querySelector('small').classList.add('error'); // display를 none에서 inline으로
             eventTarget.closest('.form-control').querySelector('small').textContent = errors;
         }
 
         // 해당 input 태그가 email이나 nickname일 경우 (span과 i 태그 조절)
-        if (eventTarget === $inputs.$passwordInput) {
+        if (eventTarget === $passwordInput) {
             // 에러 메시지와 tetContent가 같은 태그를 찾아, 1) 문구 및 아이콘 색상 빨간색으로 2) 아이콘 x 로 바꾸기
 
             const $passwordValidationSpan = [...document.querySelectorAll('.password-field-desc span')];
@@ -255,8 +272,6 @@ function updateValidationUI(eventTarget, valid, errors) {
                     }
                 });
             }
-
-
 
             errors.forEach(error => {
                 $passwordValidationSpan.forEach($span => {
@@ -302,6 +317,53 @@ function updateValidationUI(eventTarget, valid, errors) {
     }
 }
 
+async function handleAllUserDataValidation(event) {
+
+    //  yup library 사용 방법 3) 스키마 검증 대상 정의
+    const formData = {
+        email: $inputs.$emailInput.value,
+        nickname: $inputs.$nicknameInput.value,
+        password: $inputs.$passwordInput.value
+    };
+
+    /**
+     *yup 라이브러리로 검증
+     @Param event 이 함수는 $form 태그의 submit 이벤트가 발생하면 호출됨
+     @Param formData 어떤 필드에 대해서 검색할 것인지 알려주기
+     */
+    const response = await Validator.validateAllUserData(event, formData);
+    console.log(response);
+
+    // yup 라이브러리에서 아래 형식으롣 답변 전달하면, 맞춰서 ui 바꿔주기
+    /* {
+        email : {valid: false, errors {[이메일을 입력해주세요]}}
+        nickname : {valid: false, errors {[에러메시지]}}
+        password : {valid: false, errors {[에러메시지]}}
+    }
+     */
+    // email, nickname, password의 yup 유효성 검증에 실패했으면
+    if(!response.email.valid) {
+        updateValidationUI($inputs.$emailInput, false, response.email.errors);
+    }
+    if(!response.nickname.valid) {
+        updateValidationUI($inputs.$nicknameInput, false, response.nickname.errors);
+    }
+    if(!response.password.valid) {
+        updateValidationUI($inputs.$passwordInput, false, response.password.errors);
+    }
+
+    // 커서 위치를 error가 있는 가장 처음 input으로 이동
+    const $errorInputs = [...document.querySelectorAll('input.error')];
+    console.log($errorInputs);
+    if ($errorInputs.length > 0) {
+        const $firstErrorInput = $errorInputs[0]
+        $firstErrorInput.focus();
+        const valueLength = $firstErrorInput.value.length;
+        $firstErrorInput.setSelectionRange(0, valueLength);
+    }
+
+}
+
 async function handleUserDataValidation(event) {
 
     //  yup library 사용 방법 3) 스키마 검증 대상 정의
@@ -323,7 +385,10 @@ async function handleUserDataValidation(event) {
 
 // # 각 input에 input 이벤트 걸기 (자세한 이벤트 구현내용은 handlerUserDataValidation 함수에서 구현)
 function initValidation() {
+    // input 이벤트 발생했을 때
     Object.values($inputs).forEach($input => $input.addEventListener('input', (e) => handleUserDataValidation(e)));
+    // form이 submit 되었을 떄
+    $form.addEventListener('submit', handleSubmit);
 }
 
 
@@ -331,8 +396,6 @@ function initValidation() {
 function initSignup(e) {
     // profile 사진 설정(=input[type="file"]의 change  이벤트 발생) 하면 사진 파일을 가지고 있고 + 사진을 preview로 띄우는 이벤트
     $inputs.$profileImageInput.addEventListener('change', handleProfileImageUpload);
-    // 회원가입 form 제출 이벤트
-    $form.addEventListener('submit', handleSubmit);
     // 이메일 input에 autofocus 되도록 하는 이벤트
     $inputs.$emailInput.focus();
     // 이메일, 닉네임, 패스워드 validation 함수

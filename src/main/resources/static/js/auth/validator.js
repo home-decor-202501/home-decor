@@ -147,7 +147,44 @@ class Validator {
         }
     }
 
+    async validateAllUserData(event, formData) {
+
+        const $emailInput = document.querySelector('input[type="text"][name="email"]');
+        const $nicknameInput = document.querySelector('input[type="text"][name="nickname"]');
+        const $passwordInput= document.querySelector('input[name="password"]');
+
+        // 검솨 결과를 담을 객체
+        const validationResult = {
+            email: { valid: false, errors: [] }
+            , nickname: { valid: false, errors: [] }
+            , password: { valid: false, errors: [] }
+        };
+
+        // 필드별로 검사 실행
+        try {
+            await this.schema.validateAt('email', {email: $emailInput.value}, {abortEarly: true});
+            validationResult.email.valid = true;
+        } catch (error) {
+            validationResult.email.errors = [error.errors];
+        }
+
+        try {
+            await this.schema.validateAt('nickname', { nickname: $nicknameInput.value }, { abortEarly: true });
+            validationResult.nickname.valid = true;
+        } catch (error) {
+            validationResult.nickname.errors = [error.errors];
+        }
+
+        try {
+            await this.schema.validateAt('password', { password: $passwordInput.value }, { abortEarly: false });
+            validationResult.password.valid = true;
+        } catch (error) {
+            validationResult.password.errors = [error.errors];
+        }
+        return validationResult;
+    }
 }
+
 
 export default new Validator();
 

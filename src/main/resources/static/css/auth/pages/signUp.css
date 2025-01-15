@@ -198,6 +198,22 @@ body {
 .form-control input.success {
     border: 1px solid  var(--success-color);
 }
+/* input 태그 회원가입 fetch 했는데 해당 input 태그의 유효성 검증에 실패해서 .shake 클래슬르 붙였을 때*/
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+    100% { transform: translateX(0); }
+}
+
+.form-control input.shake {
+    animation: shake 0.2s;
+    animation-iteration-count: 3; /* 0.2초 애니메이션이 3회 반복 */
+}
+
+
+
 
 
 /* 에러 메시지 (small 태그. form-control 클래스에 'error' 클래스 붙는 여부에 따라 보임 여부 설정됨 */
