@@ -52,7 +52,6 @@ public class SignUpRequest {
     @Pattern(regexp = "^.{2,10}$", message = "닉네임은 2자에서 10자 이내여야 합니다")
     private String nickname;
 
-
     // null 가능
     private List<MultipartFile> profileImage;
 
