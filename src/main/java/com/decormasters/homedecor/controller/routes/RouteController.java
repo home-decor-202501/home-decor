@@ -21,5 +21,5 @@ public class RouteController {
     public String postDetailPage(){
         return "components/detail-page";
 }
-
+}
 
