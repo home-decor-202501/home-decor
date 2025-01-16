@@ -170,6 +170,8 @@ async function handleSubmit(e) {
     // submit input의 기본 기능인 새로고침 방지
     e.preventDefault();
 
+    // 먼저 이전 유효성 검사에서 로그인 링크 보이게 했던 것 무효화
+    document.querySelector('.form-control a.link-to-login-page').style.display = 'none';
     // 먼저 front에서 유효성 검사 후, 결과에 따라 ui 변경
     handleAllUserDataValidation(e);
 
@@ -219,8 +221,11 @@ function handleProfileImageUpload(e) {
  * @param errors yup 검증 실패 시 전달되는 에러 메시지
  */
 function updateValidationUI(eventTarget, valid, errors) {
-    if (!valid) {
 
+    // 먼저 이전 유효성 검사에서 로그인 링크 보이게 했던 것 무효화
+    document.querySelector('.form-control a.link-to-login-page').style.display = 'none';
+
+    if (!valid) {
         const { $emailInput, $passwordInput, $nicknameInput } = $inputs;
 
         // 이메일이 있는 이메일이면 로그인 링크 열리게
@@ -238,12 +243,11 @@ function updateValidationUI(eventTarget, valid, errors) {
             eventTarget.closest('.form-control').querySelector('small').textContent = errors;
         }
 
-        // 해당 input 태그가 email이나 nickname일 경우 (span과 i 태그 조절)
+        // 해당 input 태그가 password일 경우, span과 i로  ui 조절
         if (eventTarget === $passwordInput) {
-            // 에러 메시지와 tetContent가 같은 태그를 찾아, 1) 문구 및 아이콘 색상 빨간색으로 2) 아이콘 x 로 바꾸기
+            // 에러 메시지와 textContent가 같은 태그를 찾아, 1) 문구 및 아이콘 색상 빨간색으로 2) 아이콘 x 로 바꾸기
 
             const $passwordValidationSpan = [...document.querySelectorAll('.password-field-desc span')];
-
 
             errors.forEach(error => {
                 // 모든 span 및 i 태그를 초록색으로 설정
@@ -258,10 +262,9 @@ function updateValidationUI(eventTarget, valid, errors) {
                 });
             });
 
+            // 공란이라면, input 태그 빨간 테두리 적용 등
             const inputValue = eventTarget.value;
-            console.log(inputValue);
             if (inputValue === '') {
-                // 모든 span 및 i 태그를 빨간색으로 설정
                 $passwordValidationSpan.forEach($span => {
                     const correspondingIcon = $span.previousElementSibling;
                     $span.classList.add('error');
@@ -283,9 +286,11 @@ function updateValidationUI(eventTarget, valid, errors) {
                     }
                 });
             });
+
+
         }
 
-        // 어던 input 이던 공통사항 : input 박스 테두리를 빨갛게
+        // 어떤 input 이던 공통사항 : input 박스 테두리를 빨갛게
         eventTarget.closest('.form-control').querySelector('input').classList.add('error');
         eventTarget.closest('.form-control').querySelector('input').classList.remove('success');
 
@@ -307,7 +312,7 @@ function updateValidationUI(eventTarget, valid, errors) {
                     $span.classList.remove('error');
                     $span.classList.add('success');
                     $span.previousElementSibling.classList.add('fa-regular', 'fa-circle-check', 'success'); // 인접 i 태그(아이콘)
-                    $span.previousElementSibling.classList.remove('fa-solid', 'fa-exclamation', 'error');
+                    $span.previousElementSibling.classList.remove('fa-solid', 'fa-circle-xmark', 'error');
             });
         }
 
