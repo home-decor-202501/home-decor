@@ -29,6 +29,7 @@
   <main class="feed">
     <!-- Posts Section -->
     <%@ include file="components/feed.jsp" %> <!-- 게시물 피드 섹션 -->
+
   </main>
 
   <%@ include file="components/create-post-modal.jsp" %> <!-- 모달 섹션 -->
