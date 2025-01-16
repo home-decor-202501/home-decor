@@ -1,5 +1,5 @@
 // 검증 로직
-import Validator from './validator.js';
+import Validator from './util/validator.js';
 
 // ================ 전역 변수 ================== //
 // # DOM 요소 기타
@@ -336,8 +336,7 @@ async function handleAllUserDataValidation(event) {
      @Param event 이 함수는 $form 태그의 submit 이벤트가 발생하면 호출됨
      @Param formData 어떤 필드에 대해서 검색할 것인지 알려주기
      */
-    const response = await Validator.validateAllUserData(event, formData);
-    console.log(response);
+    const response = await signupValidator.validateAllUserData(event, formData, 'signup');
 
     // yup 라이브러리에서 아래 형식으롣 답변 전달하면, 맞춰서 ui 바꿔주기
     /* {
@@ -383,7 +382,7 @@ async function handleUserDataValidation(event) {
      @Param e 이 함수는 input 태그체 input 이벤트가 발생하면 호출됨
      @Param formData 어떤 필드에 대해서 검색할 것인지 알려주기
       */
-    const {valid, errors, result} = await Validator.validateUserData(event, formData);
+    const {valid, errors, result} = await signupValidator.validateUserData(event, formData);
     // dvalid 여부에 따라 UI 업데이트
     updateValidationUI(event.target, valid, errors);
 }

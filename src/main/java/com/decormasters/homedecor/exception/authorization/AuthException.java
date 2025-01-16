@@ -7,19 +7,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-public class SignUpException extends RuntimeException {
+public class AuthException extends RuntimeException {
 
-    private final SignUpErrorCode errorCode;
+    private final AuthErrorCode errorCode;
     private final HttpStatus httpStatus;
     private final List<String> errorField;
 
-    public SignUpException(SignUpErrorCode errorCode, List<String> errorField) {
+    public AuthException(AuthErrorCode errorCode, List<String> errorField) {
         this.errorCode = errorCode;
         this.httpStatus = HttpStatus.BAD_REQUEST;
         this.errorField = new ArrayList<>(errorField);
     }
 
-    public SignUpException(SignUpErrorCode errorCode, String message, List<String> errorField) {
+    public AuthException(AuthErrorCode errorCode, String message, List<String> errorField) {
         super(message);
         this.errorCode = errorCode;
         this.httpStatus = HttpStatus.BAD_REQUEST;
