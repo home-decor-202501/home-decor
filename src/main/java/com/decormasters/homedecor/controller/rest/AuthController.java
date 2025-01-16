@@ -21,7 +21,6 @@ public class AuthController {
 
     private final MemberService memberService;
 
-
     @PostMapping("/sign-up")
     public ResponseEntity<?> SignUp(
             // front에서 email, nickname, password는 key name을 newUserInfo로, 사진은 profileImage로 보냄

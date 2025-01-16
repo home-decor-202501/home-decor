@@ -16,10 +16,11 @@ public class RouteController {
     public String login() {
         return "auth/login";
     }
-  
-      @GetMapping("/{id}")
-    public String postDetailPage(){
+
+    @GetMapping("/{id}")
+    public String postDetailPage() {
         return "components/detail-page";
+    }
 }
 
 
