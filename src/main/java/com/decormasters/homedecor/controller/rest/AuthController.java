@@ -95,8 +95,13 @@ public class AuthController {
     }
 
     // # 로그인 검증 함수
-//    @PostMapping("/login")
-//    public ResponseEntity<?> login(
-//            @RequestBody LoginRequest loginRequest)
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody @Valid LoginRequest loginRequest) {
+        log.info("request for authentication user : {}", loginRequest.getEmail());
+
+        Map<String, Object> responseMap = memberService.authenticate(loginRequest);
+
+        return ResponseEntity.ok().body(responseMap);
+    }
 
 }

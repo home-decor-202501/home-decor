@@ -19,6 +19,8 @@
     --form-description-line-height: 18px;
     --form-description-font-color: rgb(117, 117, 117);
     --form-description-font-weight: 400;
+
+    --tooltip-opacity: 0;
 }
 
 
@@ -213,9 +215,6 @@ body {
 }
 
 
-
-
-
 /* 에러 메시지 (small 태그. form-control 클래스에 'error' 클래스 붙는 여부에 따라 보임 여부 설정됨 */
 .form-control small {
     color: var(--error-color);
@@ -244,17 +243,58 @@ body {
     display: none;
 }
 
+/* ============== Caps Lock On 툴팁 ========== */
+/* 텍스트 박스 부분 */
+.input-and-tooltip-wrapper::before {
+    content: "Caps Lock이 켜져 있습니다.";
+    font-size: var(--form-description-font-size);
+    color: var(--form-description-font-color);
+    font-weight: var(--form-description-font-weight);
+    line-height: var(--form-description-line-height);
+    background-color: #f5f5f5;
+    box-shadow: 0 0 3px #ddd;
+    padding: 10px;
+    white-space: nowrap;
+    position: absolute;
+    z-index: 10;
+    display: var(--tooltip-opacity);
+    top: 50%;
+    left: calc(100% + 10px);  /* 텍스트 박스를 화살표 너비만큼 이동 */
+    transform: translate(0, -50%);
+    opacity: var(--tooltip-opacity);
+}
+
+/* tooltip 화살표 부분 */
+.input-and-tooltip-wrapper::after {
+    content: "";
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent; /* 고정된 10px로 설정 */
+    border-bottom: 10px solid transparent; /* 고정된 10px로 설정 */
+    border-right: 10px solid #f5f5f5; /* 삼각형의 너비 10px */
+    position: absolute;
+    z-index: 10;
+    left: calc(100%); /* 화살표가 부모 요소의 오른쪽 끝에 위치 */
+    top: 50%;
+    transform: translate(0, -50%);
+    opacity: var(--tooltip-opacity);
+}
+
+
+
+/*=======================*/
+
 /* 패스워드 눈 모양 관련 */
-.password-wrapper {
+.password.input-and-tooltip-wrapper {
     position: relative;
 }
 
-.password-wrapper input {
+.password.input-and-tooltip-wrapper input {
     width: 100%;
     padding-right: 20px; /* 아이콘 위치를 위해 패딩 추가 */
 }
 
-.password-wrapper i {
+.password.input-and-tooltip-wrapper i {
     position: absolute;
     right: 30px;
     top: 50%;
@@ -262,7 +302,7 @@ body {
     cursor: pointer;
     color: #777;
 }
-.password-wrapper i:hover {
+.password.input-and-tooltip-wrapper i:hover {
     color: #35c5f0
 }
 

@@ -57,21 +57,27 @@
                 <%--  form: 이메일 --%>
                 <div class="form-control">
                     <label for='email'>이메일</label>
-                    <input type="text" id="email" placeholder="이메일" name="email">
+                    <div class="nickname input-and-tooltip-wrapper">
+                        <input type="text" id="email" placeholder="이메일" name="email">
+                    </div>
                     <small>Error message</small><a href="/login" class="link-to-login-page">로그인</a>
                 </div>
                 <%--  form: 닉네임 --%>
                 <div class="form-control">
                     <label for="nickname">닉네임</label>
                     <p class="text-info">2~10자(영문자, 한글, 언더바(_) 및 하이픈(-) 사용 가능)</p>
-                    <input type="text" id="nickname" placeholder="닉네임" name="nickname">
+                    <div class="nickname input-and-tooltip-wrapper">
+                        <input type="text" id="nickname" placeholder="닉네임" name="nickname">
+                    </div>
                     <small>Error message</small>
                 </div>
+
+
                 <%-- form: 비밀번호 --%>
                 <div class="form-control">
                     <label for="password">비밀번호</label>
                     <p class="text-info">8글자 이상(영문 및 숫자 포함 필수, 특수문자는 !, @, #만 사용 가능)</p>
-                    <div class="password-wrapper">
+                    <div class="password input-and-tooltip-wrapper">
                         <input type="password" id="password" placeholder="비밀번호" name="password">
                         <i class="fa-solid fa-lock toggle-password"></i>
                     </div>

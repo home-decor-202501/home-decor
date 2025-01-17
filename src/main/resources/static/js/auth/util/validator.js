@@ -181,19 +181,11 @@ class Validator {
             , nickname: { valid: false, errors: [] }
             , password: { valid: false, errors: [] }
         };
+
         if (page === 'login') {
             // 객체 deconstructuring을 통한 nickname 키 객체에서 제거하기
             const { nickname: removed, ...rest } = validationResult;
             validationResult = rest;
-        }
-
-
-        // 필드별로 검사 실행
-        try {
-            await this.schema.validateAt('email', {email: $emailInput.value}, {abortEarly: true});
-            validationResult.email.valid = true;
-        } catch (error) {
-            validationResult.email.errors = [error.errors];
         }
 
         // 회원가입 페이지 일때만 검사하는 항목 : 닉네임
@@ -205,6 +197,16 @@ class Validator {
                 validationResult.nickname.errors = [error.errors];
             }
         }
+
+
+        // 필드별로 검사 실행
+        try {
+            await this.schema.validateAt('email', {email: $emailInput.value}, {abortEarly: true});
+            validationResult.email.valid = true;
+        } catch (error) {
+            validationResult.email.errors = [error.errors];
+        }
+
 
         try {
             await this.schema.validateAt('password', { password: $passwordInput.value }, { abortEarly: false });

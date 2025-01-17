@@ -30,17 +30,21 @@
                 <%--  form: 이메일 --%>
                 <div class="form-control">
                     <label for='email'>이메일</label>
-                    <input type="text" id="email" placeholder="이메일" name="email">
-                    <small style="display: inline;">없는 아이디입니다.</small><a href="/login" class="link-to-signup-page" style="display: inline;">간편 회원가입</a>
+                    <div class="nickname input-and-tooltip-wrapper">
+                        <input type="text" id="email" placeholder="이메일" name="email">
+                    </div>
+                    <small>없는 아이디입니다.</small><a href="/login" class="link-to-signup-page" style="display: inline;">간편 회원가입</a>
                 </div>
                 <%-- form: 비밀번호 --%>
                 <div class="form-control">
                     <label for="password">비밀번호</label>
                     <div class="password-wrapper">
-                        <input type="password" id="password" placeholder="비밀번호" name="password">
+                        <div class="nickname input-and-tooltip-wrapper">
+                            <input type="password" id="password" placeholder="비밀번호" name="password">
+                        </div>
                         <i class="fa-solid fa-lock toggle-password"></i>
                     </div>
-                    <small style="display: inline;">틀린 비밀번호입니다. (비밀번호 : 영문, 숫자를 포함한 8자리 글자) </small>
+                    <small>틀린 비밀번호입니다. (비밀번호 : 영문, 숫자를 포함한 8자리 글자) </small>
                 </div>
 
                 <button class='login-btn'>로그인</button>

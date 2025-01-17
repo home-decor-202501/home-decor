@@ -4,7 +4,6 @@ import Validator from './util/validator.js';
 // ================ 전역 변수 ================== //
 // # DOM 요소 기타
 const $elements = {
-    // 회원가입 성공 모달 외 다른 부분 전체
     $main: document.querySelector('.main'),
     $togglePasswordIcon: document.querySelector('.toggle-password'),
 }
@@ -54,13 +53,13 @@ function showSuccessModalAndRedirect() {
     });
 }
 
-// #
-//  1) 눈 모양 아이콘 클릭/hover에 따른 아이콘 변경 및 비밀번호 표시 여부 변경
+
+//  눈 모양 아이콘 클릭/hover에 따른 아이콘 변경 및 비밀번호 표시 여부 변경
 function togglePasswordDisplay() {
 
     //  1) 눈 모양 아이콘 클릭/hover에 따른 아이콘 변경 및 비밀번호 표시 여부 변경
-    let { $passwordInput } = $inputs;
-    const { $togglePasswordIcon } = $elements;
+    let {$passwordInput} = $inputs;
+    const {$togglePasswordIcon} = $elements;
 
     $elements.$togglePasswordIcon.addEventListener('click', function () {
 
@@ -110,7 +109,8 @@ function shakeErrorInput() {
         if ($input.classList.contains('error')) {
             setTimeout(() => {
                 $input.classList.add('shake');
-                console.log($input); }, 10);
+                console.log($input);
+            }, 10);
         } // 10 밀리초 지연
     })
 
@@ -226,7 +226,7 @@ function updateValidationUI(eventTarget, valid, errors) {
     document.querySelector('.form-control a.link-to-login-page').style.display = 'none';
 
     if (!valid) {
-        const { $emailInput, $passwordInput, $nicknameInput } = $inputs;
+        const {$emailInput, $passwordInput, $nicknameInput} = $inputs;
 
         // 이메일이 있는 이메일이면 로그인 링크 열리게
         if (eventTarget === $emailInput) {
@@ -309,10 +309,10 @@ function updateValidationUI(eventTarget, valid, errors) {
             const $passwordValidationI = [...document.querySelectorAll('.password-field-desc i')];
             const $passwordValidationSpan = [...document.querySelectorAll('.password-field-desc span')];
             $passwordValidationSpan.forEach($span => {
-                    $span.classList.remove('error');
-                    $span.classList.add('success');
-                    $span.previousElementSibling.classList.add('fa-regular', 'fa-circle-check', 'success'); // 인접 i 태그(아이콘)
-                    $span.previousElementSibling.classList.remove('fa-solid', 'fa-circle-xmark', 'error');
+                $span.classList.remove('error');
+                $span.classList.add('success');
+                $span.previousElementSibling.classList.add('fa-regular', 'fa-circle-check', 'success'); // 인접 i 태그(아이콘)
+                $span.previousElementSibling.classList.remove('fa-solid', 'fa-circle-xmark', 'error');
             });
         }
 
@@ -336,6 +336,7 @@ async function handleAllUserDataValidation(event) {
      @Param event 이 함수는 $form 태그의 submit 이벤트가 발생하면 호출됨
      @Param formData 어떤 필드에 대해서 검색할 것인지 알려주기
      */
+    const signupValidator = new Validator('signup');
     const response = await signupValidator.validateAllUserData(event, formData, 'signup');
 
     // yup 라이브러리에서 아래 형식으롣 답변 전달하면, 맞춰서 ui 바꿔주기
@@ -346,13 +347,13 @@ async function handleAllUserDataValidation(event) {
     }
      */
     // email, nickname, password의 yup 유효성 검증에 실패했으면
-    if(!response.email.valid) {
+    if (!response.email.valid) {
         updateValidationUI($inputs.$emailInput, false, response.email.errors);
     }
-    if(!response.nickname.valid) {
+    if (!response.nickname.valid) {
         updateValidationUI($inputs.$nicknameInput, false, response.nickname.errors);
     }
-    if(!response.password.valid) {
+    if (!response.password.valid) {
         updateValidationUI($inputs.$passwordInput, false, response.password.errors);
     }
 
@@ -381,7 +382,8 @@ async function handleUserDataValidation(event) {
      *yup 라이브러리로 검증
      @Param e 이 함수는 input 태그체 input 이벤트가 발생하면 호출됨
      @Param formData 어떤 필드에 대해서 검색할 것인지 알려주기
-      */
+     */
+    const signupValidator = new Validator('signup');
     const {valid, errors, result} = await signupValidator.validateUserData(event, formData);
     // dvalid 여부에 따라 UI 업데이트
     updateValidationUI(event.target, valid, errors);
@@ -395,17 +397,65 @@ function initValidation() {
     $form.addEventListener('submit', handleSubmit);
 }
 
+// # caps lock 키 누를 떄
+function handlePressCapsLock(e) {
+
+    const {  $passwordInput } = $inputs;
+    if (e.key === 'CapsLock') {
+        const isCapsLockOn = e.getModifierState('CapsLock');
+        console.log(isCapsLockOn);
+        if (isCapsLockOn) {
+            console.log(e.target);
+            e.target.closest('.input-and-tooltip-wrapper').style.setProperty('--tooltip-opacity', '1');
+        } else {
+            e.target.closest('.input-and-tooltip-wrapper').style.setProperty('--tooltip-opacity', '0');
+        }
+    }
+}
+// # caps lock on 여부 확인
+function handleCapsLockOn(e) {
+
+    const {  $passwordInput } = $inputs;
+    if (e.target !== $passwordInput) return;
+
+    const isCapsLockOn = e.getModifierState('CapsLock');
+
+    if (isCapsLockOn) {
+        e.target.closest('.input-and-tooltip-wrapper').style.setProperty('--tooltip-opacity', '1');
+    } else {
+        $passwordInput.style.setProperty('--tooltip-opacity', '0');
+    }
+}
+
+// input 태그에 input  이벤트 발생하면 Caps lock 활성화 상태 확인하는 함수를 쓰고 싶은데,
+// caps losk 활성화 상태 확인 함수는 key press  이벤트가 발생했을 때만 확인 가능
+// # -> 임의로 keypress 이벤트를 생성하는 함수
+function triggerKeyPressHandler(e) {
+    e.target.dispatchEvent(
+        new Event("keydown", { bubbles: true, cancelable: true})
+    );
+}
 
 // # 화면 초기 진입 시 진행할 이벤트 핸들러
 function initSignup(e) {
+
+    const { $nicknameInput, $passwordInput, $emailInput, $profileImageInput } = $inputs;
+
     // profile 사진 설정(=input[type="file"]의 change  이벤트 발생) 하면 사진 파일을 가지고 있고 + 사진을 preview로 띄우는 이벤트
-    $inputs.$profileImageInput.addEventListener('change', handleProfileImageUpload);
+    $profileImageInput.addEventListener('change', handleProfileImageUpload);
     // 이메일 input에 autofocus 되도록 하는 이벤트
-    $inputs.$emailInput.focus();
+    $emailInput.focus();
     // 이메일, 닉네임, 패스워드 validation 함수
     initValidation();
     // 비밀번호 표시/숨기기 관련 함수
     togglePasswordDisplay();
+    // input 태그에 input이나 focus 이벤트 발생하면 Caps lock 활성화 상태 확인하는 함수를 쓰고 싶은데,
+    // caps losk 활성화 상태 확인 함수는 key press  이벤트가 발생했을 때만 확인 가능
+    //  -> 임의로 keypress 이벤트를 생성하는 함수
+    $passwordInput.addEventListener('input', triggerKeyPressHandler);
+    $passwordInput.addEventListener('keydown', handleCapsLockOn);
+    $passwordInput.addEventListener('keydown', handlePressCapsLock);
+
 }
 
 // =================== 초기 화면 진입 시 실행 =================== //

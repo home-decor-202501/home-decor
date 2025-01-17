@@ -1,11 +1,13 @@
 package com.decormasters.homedecor.service;
 
 import com.decormasters.homedecor.Util.FileUploadUtil;
+import com.decormasters.homedecor.controller.rest.LoginRequest;
 import com.decormasters.homedecor.domain.member.dto.request.SignUpRequest;
 import com.decormasters.homedecor.domain.member.entitiy.Member;
 import com.decormasters.homedecor.exception.authorization.AuthErrorCode;
 import com.decormasters.homedecor.exception.authorization.AuthException;
 import com.decormasters.homedecor.repository.MemberRepository;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Transactional
@@ -95,6 +98,17 @@ public class MemberService {
     public boolean checkEmailExists(String email) {
         log.info("check if the email exists: {}", memberRepository.checkNicknameExists(email));
         return memberRepository.checkEmailExists(email);
+    }
+
+    // # 로그인 요청
+    @Transactional(readOnly = true)
+    public Map<String, Object> authenticate(LoginRequest loginRequest) {
+
+        // 1. 있는 아이디 인지 확인
+        String userEmail = loginRequest.getEmail();
+        Member foundMember = memberRepository.findUserByEmail(userEmail);
+
+        String password = loginRequest.getPassword();
     }
 }
 

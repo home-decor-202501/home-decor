@@ -20,8 +20,9 @@ public class AuthExceptionHandler extends RuntimeException{
     // HttpServletRequest 인자로 받는 이유 request.getReqeusturl() 사용 목적
     public ResponseEntity<ErrorResponse> notValidDataException(MethodArgumentNotValidException exception, HttpServletRequest request) {
 
-        // 회원 가입 누를 시 에러 뜨는 input 태그 찾는 용으로, errorField 받아옴
+        // 에러 뜨는 input 태그 찾는 용으로, errorField 받아옴
         Map<String, String> errors = new HashMap<>();
+
         //  BindingResult에서 맵으로 정리
         List<String> errorField = new ArrayList<>();
         exception.getBindingResult().getFieldErrors().forEach(error -> {
