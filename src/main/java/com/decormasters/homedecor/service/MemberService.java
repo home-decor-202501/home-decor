@@ -6,8 +6,8 @@ import com.decormasters.homedecor.domain.member.dto.request.SignUpRequest;
 import com.decormasters.homedecor.domain.member.entitiy.Member;
 import com.decormasters.homedecor.exception.authorization.AuthErrorCode;
 import com.decormasters.homedecor.exception.authorization.AuthException;
+import com.decormasters.homedecor.jwt.JwtProvider;
 import com.decormasters.homedecor.repository.MemberRepository;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,10 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Slf4j
 @Transactional
@@ -29,6 +26,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final FileUploadUtil fileUploadUtil;
     private final PasswordEncoder passwordEncoder;
+    private final JwtProvider jwtProvider;
 
     // 회원 정보 생성
     public void saveUser(SignUpRequest signUpRequest) throws Exception {
@@ -102,14 +100,31 @@ public class MemberService {
 
     // # 로그인 요청
     @Transactional(readOnly = true)
-    public Map<String, Object> authenticate(LoginRequest loginRequest) {
+    public Map<String, String> authenticate(LoginRequest loginRequest) {
 
-        // 1. 있는 아이디 인지 확인
+
+        // 1. 있는 아이디 인지 확인하고, 없으면 오류 반환
         String userEmail = loginRequest.getEmail();
-        Member foundMember = memberRepository.findUserByEmail(userEmail);
+        Member foundMember = memberRepository.findUserByEmail(userEmail)
+                .orElseThrow(() -> new AuthException(AuthErrorCode.USER_DOES_NOT_EXIST, Arrays.asList("email")));
 
-        String password = loginRequest.getPassword();
+        // 2. 아이디가 있으면 비밀번호 검사 후, 있으면 accessToken 포함한 resultMap 반환, 없으면 에러 반환
+        String userPassword = foundMember.getPassword();
+        String inputPassword = loginRequest.getPassword();
+        if (passwordEncoder.matches(inputPassword, userPassword)) {
+            Map<String, String> result = new HashMap<>();
+            result.put("message", "로그인에 성공하였습니다.");
+            result.put("email", foundMember.getEmail());
+            // access 토큰 전달!
+            result.put("accessToken", jwtProvider.generateAccessToken(foundMember.getEmail()));
+            return result;
+        } else {
+            throw new AuthException(AuthErrorCode.INCORRECT_PASSWORD, List.of("password"));
+        }
     }
+
+
+
 }
 
 

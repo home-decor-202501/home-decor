@@ -54,9 +54,9 @@ public class AuthExceptionHandler extends RuntimeException{
     // 닉네임이나 이메일이 이미 존재할 때
     // HttpServletRequest 인자로 받는 이유 request.getReqeusturl() 사용 목적
     @ExceptionHandler(AuthException.class)
-    public ResponseEntity<ErrorResponse> SignUpExceptionHandler(AuthException exception, HttpServletRequest request) {
+    public ResponseEntity<ErrorResponse> AuthExceptionHandler(AuthException exception, HttpServletRequest request) {
 
-        log.error("Sign up Exception Occurred: {}", exception.getMessage());
+        log.error("Signup/Login Exception Occurred: {}", exception.getMessage());
 
         ErrorResponse errorResponse = ErrorResponse.builder()
                 .timestamp(LocalDateTime.now())

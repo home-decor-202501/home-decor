@@ -26,14 +26,14 @@
     <div class="container">
     <%-- 회원가입 폼 컨테이너--%>
         <div class="form-container">
-            <form id="form" class="form">
+            <form id="form" class="form" method="POST">
                 <%--  form: 이메일 --%>
                 <div class="form-control">
                     <label for='email'>이메일</label>
                     <div class="nickname input-and-tooltip-wrapper">
                         <input type="text" id="email" placeholder="이메일" name="email">
                     </div>
-                    <small>없는 아이디입니다.</small><a href="/login" class="link-to-signup-page" style="display: inline;">간편 회원가입</a>
+                    <small>없는 아이디입니다.</small><a href="/sign-up" class="link-to-signup-page" style="display: none;">간편 회원가입</a>
                 </div>
                 <%-- form: 비밀번호 --%>
                 <div class="form-control">
@@ -42,7 +42,7 @@
                         <div class="nickname input-and-tooltip-wrapper">
                             <input type="password" id="password" placeholder="비밀번호" name="password">
                         </div>
-                        <i class="fa-solid fa-lock toggle-password"></i>
+                        <i class="fa-regular fa-eye toggle-password"></i>
                     </div>
                     <small>틀린 비밀번호입니다. (비밀번호 : 영문, 숫자를 포함한 8자리 글자) </small>
                 </div>

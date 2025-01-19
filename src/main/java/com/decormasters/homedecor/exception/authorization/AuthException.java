@@ -14,6 +14,7 @@ public class AuthException extends RuntimeException {
     private final List<String> errorField;
 
     public AuthException(AuthErrorCode errorCode, List<String> errorField) {
+        super(errorCode.getMessage());
         this.errorCode = errorCode;
         this.httpStatus = HttpStatus.BAD_REQUEST;
         this.errorField = new ArrayList<>(errorField);

@@ -35,6 +35,14 @@
         ;
     </select>
 
+    <select id="findUserByEmail" resultType="Member">
+        SELECT
+            *
+        FROM `user`
+        WHERE email = #{email}
+    </select>
+
+
 
 
 </mapper>

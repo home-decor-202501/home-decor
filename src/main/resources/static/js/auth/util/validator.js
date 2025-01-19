@@ -39,7 +39,7 @@ class Validator {
         const customPasswordIncludeAlphaBetRegex = ".*[a-zA-Z].*";
         yup.addMethod(yup.string, 'customPasswordIncludeAlphaBet', function (errorMessage) {
             return this.matches(customPasswordIncludeAlphaBetRegex, {
-                message: errorMessage || '영문자 포함', // 검증 실패 시 출력할 오류 메시지
+                message: errorMessage || '비밀번호는 영문자를 포함해야 합니다.', // 검증 실패 시 출력할 오류 메시지
                 name: 'customPasswordIncludeAlphaBet', // 검증 메소드의 이름
             })
         });
@@ -48,7 +48,7 @@ class Validator {
         const customPasswordIncludeNumberRegex = ".*\\d.*";
         yup.addMethod(yup.string, 'customPasswordIncludeNumber', function (errorMessage) {
             return this.matches(customPasswordIncludeNumberRegex, {
-                message: errorMessage || '숫자 포함', // 검증 실패 시 출력할 오류 메시지
+                message: errorMessage || '비밀번호는 숫자를 포함해야 합니다.', // 검증 실패 시 출력할 오류 메시지
                 name: 'customPasswordIncludeNumber', // 검증 메소드의 이름
             })
         });
@@ -57,7 +57,7 @@ class Validator {
         const customPasswordExcludeSpecialLetterRegex = "^[a-zA-Z0-9!@#]*$";
         yup.addMethod(yup.string, 'customPasswordExcludeSpecialLetter', function (errorMessage) {
             return this.matches(customPasswordExcludeSpecialLetterRegex, {
-                message: errorMessage || '영문, 숫자, !, @, # 만 허용(공백 및 이외 특수문자 불가)', // 검증 실패 시 출력할 오류 메시지
+                message: errorMessage || '영문, 숫자, !, @, # 만 사용 가능합니다.(공백 및 이외 특수문자 불가)', // 검증 실패 시 출력할 오류 메시지
                 name: 'customPasswordExcludeSpecialLetter', // 검증 메소드의 이름
             })
         });
@@ -108,9 +108,12 @@ class Validator {
                         }
                 ),
             password: yup.string()
-                .required("8글자 이상").min(8, "8글자 이상")
-                .customPasswordIncludeAlphaBet().customPasswordIncludeNumber().customPasswordExcludeSpecialLetter()
                 .test( 'no-spaces', '영문, 숫자, !, @, # 만 허용(공백 및 이외 특수문자 불가)', value => !/\s/.test(value) )
+                .customPasswordIncludeAlphaBet()
+                .customPasswordIncludeNumber()
+                .customPasswordExcludeSpecialLetter()
+                .required("비밀번호는 8글자 이상이여야 합니다.").min(8, "비밀번호는 8글자 이상이여야 합니다.")
+
         })
     } // end of createSchema()
 

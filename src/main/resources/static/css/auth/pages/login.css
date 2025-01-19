@@ -97,14 +97,15 @@ body {
 .form-control input:focus {
     outline: none;
     border-color: #777;
+    border-width: 2px;
 }
 /* input 유호성 검사 실패했을 때*/
 .form-control input.error {
-    border: 1px solid var(--error-color)
+    /*border-color: var(--error-color)*/
 }
 /*input 유효성 검사 성공했을 때*/
 .form-control input.success {
-    border: 1px solid var(--success-color);
+    /*border-color: var(--success-color);*/
 }
 /* input 태그 회원가입 fetch 했는데 해당 input 태그의 유효성 검증에 실패해서 .shake 클래슬르 붙였을 때*/
 @keyframes shake {
@@ -126,10 +127,10 @@ body {
     color: var(--error-color);
     font-size: var(--small-font-size);
     margin-right: 7px; /* 로그인 페이지 이동과 여백 */
-    display: none;
+    visibility: hidden;
 }
 .form-control small.error {
-    display: inline;
+    visibility: visible;
 }
 .form-control a {
     font-size: var(--small-font-size);
@@ -195,6 +196,19 @@ body {
 .password-wrapper i:hover {
     color: #35c5f0
 }
+
+/* 패스워드 text 타입으로 바뀔 때 보일 문구 */
+#last-char {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: black;
+    padding: 10px;
+    font-size: 14px;
+}
+
 
 /* 로그인 submit 버튼*/
 button.login-btn {
