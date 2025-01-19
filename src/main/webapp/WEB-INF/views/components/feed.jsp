@@ -8,7 +8,7 @@
   <div class="feed-item">
 
     <div class="feed-profile">
-      <img src="https://via.placeholder.com/40" alt="프로필 이미지">
+      <img src="#" alt="프로필 이미지">
       <div class="profile-info">
         <a href="#" class="profile-name">bebeyul</a>
       </div>
