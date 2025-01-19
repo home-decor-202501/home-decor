@@ -212,7 +212,7 @@ class Validator {
 
 
         try {
-            await this.schema.validateAt('password', { password: $passwordInput.value }, { abortEarly: false });
+            await this.schema.validateAt('password', { password: $passwordInput.value }, { abortEarly: true });
             validationResult.password.valid = true;
         } catch (error) {
             validationResult.password.errors = [error.errors];
