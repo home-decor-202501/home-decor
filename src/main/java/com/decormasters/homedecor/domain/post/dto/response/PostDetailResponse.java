@@ -1,43 +1,45 @@
 package com.decormasters.homedecor.domain.post.dto.response;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.decormasters.homedecor.domain.like.dto.LikeStatusResponse;
+import com.decormasters.homedecor.domain.member.dto.response.MeResponse;
+import com.decormasters.homedecor.domain.post.entity.Post;
 import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Getter
-@ToString
+@Getter @Setter @ToString
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class PostDetailResponse {
 
-    @JsonProperty("post_id")
-    private Long id;
-    private String content;
-    private String writer;
-    // private List<PostImageResponse> images;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-    private int likes;
-    // private List<Comment> comments;
+    private Long postId;  // 피드 ID
+    private String content; // 피드 내용
+    private LocalDateTime createdAt; // 피드 작성 시간
 
+    // 회원 사용자이름, 프사
+    private MeResponse user;
 
-//    public static PostResponse from(Post feed) {
-//        return PostResponse.builder()
-//                .id(feed.getId())
-//                .content(feed.getContent())
-//                .images(
-//                        feed.getImages()
-//                                .stream()
-//                                .map(PostImageResponse::from)
-//                                .collect(Collectors.toList())
-//                )
-//                .createdAt(feed.getCreatedAt())
-//                .updatedAt(feed.getUpdatedAt())
-//                .build();
-//    }
+    // 피드 이미지 목록
+    private List<PostImageResponse> images;
+
+    // 좋아요 상태
+    private LikeStatusResponse likeStatus;
+
+    public static PostDetailResponse of(Post post, LikeStatusResponse likeStatus) {
+
+        return PostDetailResponse.builder()
+                .postId(post.getId())
+                .content(post.getContent())
+                .createdAt(post.getCreatedAt())
+                .user(MeResponse.from(post.getMember()))
+                .images(post.getImages().stream()
+                        .map(PostImageResponse::from)
+                        .collect(Collectors.toList()))
+                .likeStatus(likeStatus)
+                .build();
+    }
 }
