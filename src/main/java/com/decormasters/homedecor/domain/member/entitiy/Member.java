@@ -19,5 +19,4 @@ public class Member {
     private String nickname;
     private LocalDateTime createdAt;
     private String imageUrl;
-
 }

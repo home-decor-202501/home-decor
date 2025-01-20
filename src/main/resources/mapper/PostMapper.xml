@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.decormasters.homedecor.repository.PostRepository">
+
+    <!-- 게시물 저장 -->
+    <insert id="savePost" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO post
+            (content, user_id, created_at, updated_at)
+        VALUES
+            (#{content}, #{userId}, #{createdAt}, #{updatedAt});
+    </insert>
+
+    <!-- 게시물 이미지 저장 -->
+    <insert id="savePostImage" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO post_image
+            (post_id, image_url, created_at)
+        VALUES
+            (#{postId}, #{imageUrl}, #{createdAt});
+    </insert>
+
+    <!-- 특정 게시물에 첨부된 이미지 목록 조회 -->
+    <select id="findImagesByPostId" resultType="PostImage">
+        SELECT *
+        FROM post_images
+        WHERE post_id = #{postId};
+    </select>
+
+    <!-- 전체 피드 게시물 목록 조회 -->
+    <select id="findAll"  resultMap="PostResultMap">
+        SELECT *
+        FROM post
+        ORDER BY created_at DESC;
+    </select>
+
+    <!-- 특정 사용자의 피드 개수를 조회 -->
+    <select id="countByMemberId" resultType="long">
+        SELECT COUNT(*)
+        FROM post
+        WHERE user_id = #{userId};
+    </select>
+
+    <!-- 단일 게시물 상세조회 -->
+    <select id="findPostDetailById"  resultMap="PostResultMap">
+        SELECT *
+        FROM post
+        WHERE post_id = #{postId};
+    </select>
+
+    <resultMap id="PostResultMap" type="Post">
+        <id property="id" column="post_id"/>
+        <result property="content" column="content"/>
+        <result property="userId" column="user_id"/>
+        <result property="viewCount" column="view_count"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+        <!--    내부 단일 객체 매핑 설정    -->
+        <association property="member" javaType="Member">
+            <id property="id" column="id"/>
+            <result property="nickname" column="nickname"/>
+            <result property="imageUrl" column="image_url"/>
+        </association>
+
+        <!--   내부 리스트 객체 매핑 설정   -->
+        <collection property="images" ofType="PostImage">
+            <id property="id" column="id" />
+            <result property="imageUrl" column="image_url" />
+            <result property="imageOrder" column="image_order" />
+        </collection>
+
+    </resultMap>
+
+</mapper>

@@ -11,10 +11,10 @@ import java.util.Optional;
 public interface PostRepository {
 
     // 게시물 저장
-    void saveFeed(Post post);
+    void savePost(Post post);
 
     // 게시물 이미지 저장
-    void saveFeedImage(PostImage postImage);
+    void savePostImage(PostImage postImage);
 
     // 특정 게시물에 첨부된 이미지 목록 조회
     List<PostImage> findImagesByPostId(Long postId);

@@ -42,9 +42,6 @@
         WHERE email = #{email}
     </select>
 
-
-
-
 </mapper>
 
 
