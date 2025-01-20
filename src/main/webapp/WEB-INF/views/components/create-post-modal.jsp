@@ -89,9 +89,9 @@
             </div>
             <div class="content-input">
                 <textarea
-                        maxlength="2200"
-                        rows="10"></textarea>
-              <div class="char-counter">0/2,200</div>
+                        maxlength="2999"
+                        rows="20"></textarea>
+              <div class="char-counter">0/3,000</div>
             </div>
             <div class="additional-options">
               <div class="option-item">

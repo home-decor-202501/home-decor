@@ -22,6 +22,9 @@ let elements = {
     $modalTitle: $modal.querySelector('.modal-title'),
     // 드래그
     $uploadArea: $modal.querySelector('.upload-area'),
+    // 텍스트
+    $contentTextarea: $modal.querySelector('.content-input textarea'),
+    $charCounter: $modal.querySelector('.char-counter'),
 };
 
 // 모달 바디 스텝을 이동하는 함수
@@ -203,9 +206,27 @@ function setUpModalEvents() {
 
 // 이벤트 바인딩 관련 함수
 function bindEvents() {
-    setUpModalEvents();
-    setUpFileUploadEvents();
+    setUpModalEvents(); //모달 관련 이벤트
+    setUpFileUploadEvents(); // 파일업로드 관련 이벤트
+    setupTextareaEvents(); // 텍스트 입력 관련 이벤트
 
+}
+
+// 피드 내용 입력 이벤트
+function setupTextareaEvents() {
+    const { $contentTextarea, $charCounter } = elements;
+
+    $contentTextarea.addEventListener('keydown', () => {
+        const length = $contentTextarea.value.length;
+        $charCounter.textContent = `${length.toString()} / 3,000`;
+
+        if (length > 3000) {
+            $charCounter.classList.add('exceed');
+            $contentTextarea.value = $contentTextarea.value.slice(0, 3000);
+        } else {
+            $charCounter.classList.remove('exceed');
+        }
+    });
 }
 
 
