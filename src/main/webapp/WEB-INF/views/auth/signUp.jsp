@@ -57,44 +57,51 @@
                 <%--  form: 이메일 --%>
                 <div class="form-control">
                     <label for='email'>이메일</label>
-                    <input type="text" id="email" placeholder="이메일" name="email">
+                    <div class="nickname input-and-tooltip-wrapper">
+                        <input type="text" id="email" placeholder="이메일" name="email">
+                    </div>
                     <small>Error message</small><a href="/login" class="link-to-login-page">로그인</a>
                 </div>
                 <%--  form: 닉네임 --%>
                 <div class="form-control">
                     <label for="nickname">닉네임</label>
                     <p class="text-info">2~10자(영문자, 한글, 언더바(_) 및 하이픈(-) 사용 가능)</p>
-                    <input type="text" id="nickname" placeholder="닉네임" name="nickname">
+                    <div class="nickname input-and-tooltip-wrapper">
+                        <input type="text" id="nickname" placeholder="닉네임" name="nickname">
+                    </div>
                     <small>Error message</small>
                 </div>
+
+
                 <%-- form: 비밀번호 --%>
                 <div class="form-control">
                     <label for="password">비밀번호</label>
                     <p class="text-info">8글자 이상(영문 및 숫자 포함 필수, 특수문자는 !, @, #만 사용 가능)</p>
-                    <div class="password-wrapper">
+                    <div class="password input-and-tooltip-wrapper">
                         <input type="password" id="password" placeholder="비밀번호" name="password">
-                        <i class="fa-solid fa-lock toggle-password"></i>
+                        <i class="fa-regular fa-eye toggle-password"></i>
                     </div>
+                    <small>Error message</small>
 
-                    <ul class="password-field-desc">
-                        <li>
-                            <i class="fa-regular fa-circle-check password-length"></i>
-                            <span class="password-length">8글자 이상</span>
-                        </li>
-                        <li>
-                            <i class="fa-regular fa-circle-check password-include-number"></i>
-                            <span class="password-include-number">숫자 포함</span>
-                        </li>
-                        <li>
-                            <i class="fa-regular fa-circle-check password-include-alphabet"></i>
-                            <span class="password-include-alphabet">영문자 포함</span>
-                        </li>
-                        <li>
-                            <i class="fa-regular fa-circle-check password-not-include"></i>
-                            <span class="password-not-include">영문, 숫자, !, @, # 만 허용(공백 및 이외 특수문자 불가)</span>
-                        </li>
-                    </ul>
-                    </small>
+<%--                        버그 발생 --%>
+<%--                    <ul class="password-field-desc">--%>
+<%--                        <li>--%>
+<%--                            <i class="fa-regular fa-circle-check password-length"></i>--%>
+<%--                            <span class="password-length">8글자 이상</span>--%>
+<%--                        </li>--%>
+<%--                        <li>--%>
+<%--                            <i class="fa-regular fa-circle-check password-include-number"></i>--%>
+<%--                            <span class="password-include-number">숫자 포함</span>--%>
+<%--                        </li>--%>
+<%--                        <li>--%>
+<%--                            <i class="fa-regular fa-circle-check password-include-alphabet"></i>--%>
+<%--                            <span class="password-include-alphabet">영문자 포함</span>--%>
+<%--                        </li>--%>
+<%--                        <li>--%>
+<%--                            <i class="fa-regular fa-circle-check password-not-include"></i>--%>
+<%--                            <span class="password-not-include">영문, 숫자, !, @, # 만 허용(공백 및 이외 특수문자 불가)</span>--%>
+<%--                        </li>--%>
+<%--                    </ul>--%>
                 </div>
                 <button class='sign-up-btn'>회원가입</button>
                 <div class="link-to-login-page">
@@ -109,7 +116,7 @@
     <div class="modal-content">
         <span id="close-modal" class="close">&times;</span>
         <p>회원가입에 성공하였습니다!</p>
-        <p>3초 후 로그인 페이지로 이동합니다.</p>
+        <p>3초 후 이전 페이지로 이동합니다.</p>
     </div>
 </div>
 

@@ -2,7 +2,6 @@
 /* noto sans kr*/
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap');
 
-
 /* 전역 변수 */
 :root {
     --success-color: #2ecc71;
@@ -10,8 +9,8 @@
     --error-color: #e74c3c;
     --checkmark-color: #43b324;
 
-    --form-title-font-size: 16px;
-    --form-title-line-height: 16px;
+    --form-title-font-size: 15px;
+    --form-title-line-height: 13px;
     --form-title-font-color: #333;
     --form-title-font-weight: 700;
 
@@ -19,6 +18,8 @@
     --form-description-line-height: 18px;
     --form-description-font-color: rgb(117, 117, 117);
     --form-description-font-weight: 400;
+
+    --tooltip-opacity: 0;
 }
 
 
@@ -27,14 +28,12 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    /*min-height: 100vh;*/
     font-family: "Noto Sans KR", serif;
 }
 
 .main {
-    margin: 50px auto 50px auto;
+    margin: 50px auto;
     box-shadow: 0px 0px 16.83px 0.17px rgba(0, 0, 0, .05);
-    /*background: red;*/
     width: 600px;
     background-color: #fff;
     border-radius: 20px;
@@ -44,109 +43,25 @@ body {
 .logo-container {
     display: flex;
     justify-content: center;
-    margin: 30px 0 20px 0;
-}
-.logo-container a.link-to-main-page img {
-    width: 150px;
+    align-items: center; /* 로고와 이미지 세로 수평 맞추기 */
+    margin: 30px 0 40px 0;
 }
 
-/* 폼 컨테이너 */
+.logo-container a.link-to-main-page img {
+    height: 70px;
+    border-radius: 10px;
+}
+
+/* 폼 컨테이너의 컨테이너 */
 .container {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
-.container h2 {
-    font-size: 30px;
-    /*text-align : center;*/
-    font-weight: 700;
-    color: #222;
-    margin: 10px 0 10px 0;
-}
-
-/* 폼 컨테이너 -> 프로필 사진 */
-.profile-pic-wrapper {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding-top: 30px;
-    padding-bottom: 30px;
-}
-.profile-pic-wrapper p.text-info {
-    text-align: center;
-    font-size: var(--form-description-font-size);
-    line-height: var(--form-description-line-height);
-    color: var(--form-description-font-color);
-    margin-top: 10px;
-}
-
-
-.pic-holder, .pic-preview {
-    text-align: center;
-    position: relative;
-    border-radius: 50%;
-    width: 120px;
-    height: 120px;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    object-fit: cover;
-}
-
-.pic-preview {
-    position: absolute;
-}
-
-.pic-holder {
-    background: #30b5dc;
-}
-
-
-.pic-holder .upload-file-block,
-.pic-holder .upload-loader {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    color: #f8f9fc;
-    font-size: 12px;
-    font-weight: 600;
-    /*opacity: 0;*/
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s;
-}
-
-.pic-holder .upload-file-block {
-    cursor: pointer;
-}
-.uploadProfileInput {
-    width: 0px;
-    height: 0px;
-    position: absolute;
-}
-.pic-holder:hover .upload-file-block,
-.uploadProfileInput:focus ~ .upload-file-block {
-    opacity: 1;
-}
-
-.pic-holder.uploadInProgress .upload-file-block {
-    /*display: none;*/
-}
-
-.pic-holder.uploadInProgress .upload-loader {
-    opacity: 1;
-}
-
 
 .form-container {
     width: 500px;
 }
-
 
 .form {
     padding: 10px 40px;
@@ -166,18 +81,7 @@ body {
     font-weight: var(--form-title-font-weight);
 }
 
-.hide {
-    display: none;
-}
 
-/* form 설명란 */
-.form-control .text-info {
-    font-size: var(--form-description-font-size);
-    color: var(--form-description-font-color);
-    line-height: var(--form-description-line-height);
-    font-weight: var(--form-description-font-weight);
-    margin-top: 5px;
-}
 
 .form-control input {
     border: 1px solid #e6e6e6;
@@ -193,14 +97,15 @@ body {
 .form-control input:focus {
     outline: none;
     border-color: #777;
+    border-width: 2px;
 }
 /* input 유호성 검사 실패했을 때*/
 .form-control input.error {
-    border: 1px solid var(--error-color)
+    /*border-color: var(--error-color)*/
 }
 /*input 유효성 검사 성공했을 때*/
 .form-control input.success {
-    border: 1px solid  var(--success-color);
+    /*border-color: var(--success-color);*/
 }
 /* input 태그 회원가입 fetch 했는데 해당 input 태그의 유효성 검증에 실패해서 .shake 클래슬르 붙였을 때*/
 @keyframes shake {
@@ -217,36 +122,58 @@ body {
 }
 
 
-
-
-
 /* 에러 메시지 (small 태그. form-control 클래스에 'error' 클래스 붙는 여부에 따라 보임 여부 설정됨 */
 .form-control small {
     color: var(--error-color);
     font-size: var(--small-font-size);
     margin-right: 7px; /* 로그인 페이지 이동과 여백 */
-    display: none;
+    visibility: hidden;
 }
 .form-control small.error {
-    display: inline;
+    visibility: visible;
 }
-.form-control a.link-to-login-page {
-    font-size: var(--form-description-font-size);
-    line-height: var(--form-description-line-height);
-    font-weight: var(--form-description-font-weight);
-}
-.form-control .password-field-desc {
-    font-size: var(--form-description-font-size);
-    line-height: var(--form-description-line-height);
-    color: var(--form-description-font-color);
-    font-weight: var(--form-description-font-weight);
-    /*visibility:hidden;*/
+.form-control a {
+    font-size: var(--small-font-size);
 }
 
-/* 이메일란 로그인 링크 */
-.form-control a.link-to-login-page {
-    display: none;
+/* ============== Caps Lock On 툴팁 ========== */
+/* 텍스트 박스 부분 */
+.input-and-tooltip-wrapper::before {
+    content: "Caps Lock이 켜져 있습니다.";
+    font-size: var(--form-description-font-size);
+    color: var(--form-description-font-color);
+    font-weight: var(--form-description-font-weight);
+    line-height: var(--form-description-line-height);
+    background-color: #f5f5f5;
+    box-shadow: 0 0 3px #ddd;
+    padding: 10px;
+    white-space: nowrap;
+    position: absolute;
+    z-index: 10;
+    display: var(--tooltip-opacity);
+    top: 50%;
+    left: calc(100% + 10px);  /* 텍스트 박스를 화살표 너비만큼 이동 */
+    transform: translate(0, -50%);
+    opacity: var(--tooltip-opacity);
 }
+
+/* tooltip 화살표 부분 */
+.input-and-tooltip-wrapper::after {
+    content: "";
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent; /* 고정된 10px로 설정 */
+    border-bottom: 10px solid transparent; /* 고정된 10px로 설정 */
+    border-right: 10px solid #f5f5f5; /* 삼각형의 너비 10px */
+    position: absolute;
+    z-index: 10;
+    left: calc(100%); /* 화살표가 부모 요소의 오른쪽 끝에 위치 */
+    top: 50%;
+    transform: translate(0, -50%);
+    opacity: var(--tooltip-opacity);
+}
+
+
 
 /* 패스워드 눈 모양 관련 */
 .password-wrapper {
@@ -270,38 +197,28 @@ body {
     color: #35c5f0
 }
 
-
-/* password 조건 스타일 추가 */
-.password-field-desc ul {
-    list-style: none; /* 목록 스타일 제거 */
-    padding: 0; /* 기본 패딩 제거 */
-}
-
-.password-field-desc span.error
-, .password-field-desc i.error{
-    color: var(--error-color)
-}
-.password-field-desc span.success
-, .password-field-desc i.success{
-    color: var(--success-color)
-}
-
-.form-control.error small {
-    visibility: visible;
+/* 패스워드 text 타입으로 바뀔 때 보일 문구 */
+#last-char {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: black;
+    padding: 10px;
+    font-size: 14px;
 }
 
 
-
-/*    로그인 버튼 */
-.sign-up-btn {
+/* 로그인 submit 버튼*/
+button.login-btn {
     cursor: pointer;
     background: #35c5f0;
-    box-shadow: 0 4px 14px 0 rgba(15,157,200,.26);
+    box-shadow: 0 4px 14px 0 rgba(15, 157, 200, .26);
     border-radius: 5px;
     border: none;
     color: #fff;
-    line-height: -0.4px;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 600;
     display: block;
     padding: 13px 39px;
@@ -310,143 +227,27 @@ body {
     margin: 0 auto;
 }
 
-button:hover {
+button.login-btn:hover {
     background: #09addb;
 }
 
-@media screen and (max-width: 960px) {
-
-    body {
-        padding: 80px;
-    }
-
-    .container {
-        flex-direction: column;
-    }
-
-    .column1,
-    .column2 {
-        width: auto;
-    }
-}
-
-/* 로그인 페이지오 이동 */
-.form div.link-to-login-page {
+/* 회원가입 페이지로 이동 */
+.form div.link-to-signup-page {
     display: flex;
     justify-content: center;
     margin-top: 10px;
 }
-.form div.link-to-login-page span
-, .form div.link-to-login-page a {
+.form div.link-to-signup-page span,
+.form div.link-to-signup-page a {
     font-size: var(--form-description-font-size);
     line-height: var(--form-description-line-height);
     color: var(--form-description-font-color);
     font-weight: var(--form-description-font-weight);
 }
-.form div.link-to-login-page span {
+.form div.link-to-signup-page span {
     margin-right: 5px;
 }
-.form div.link-to-login-page a {
+
+.form div.link-to-signup-page a {
     color: black;
-}
-
-
-/* Snackbar css */
-.snackbar {
-    visibility: hidden;
-    min-width: 250px;
-    background-color: #333;
-    color: #fff;
-    text-align: center;
-    border-radius: 2px;
-    padding: 16px;
-    position: fixed;
-    z-index: 1;
-    left: 50%;
-    bottom: 30px;
-    font-size: 14px;
-    transform: translateX(-50%);
-}
-
-.snackbar.show {
-    visibility: visible;
-    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
-    animation: fadein 0.5s, fadeout 0.5s 2.5s;
-}
-
-
-@keyframes fadein {
-    from {
-        bottom: 0;
-        opacity: 0;
-    }
-    to {
-        bottom: 30px;
-        opacity: 1;
-    }
-}
-
-
-@keyframes fadeout {
-    from {
-        bottom: 30px;
-        opacity: 1;
-    }
-    to {
-        bottom: 0;
-        opacity: 0;
-    }
-}
-
-/* ==================== 회원가입 성공 모달 ================ */
-/* 모달 스타일 */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.7); /* 배경을 더 어둡게 변경 */
-    backdrop-filter: blur(5px); /* 배경을 흐리게 처리 */
-    align-items: center; /* 중앙 정렬 */
-    justify-content: center; /* 중앙 정렬 */
-    display: flex; /* 플렉스 박스를 사용하여 중앙 정렬 */
-}
-
-/* 모달 콘텐츠 */
-.modal-content {
-    background-color: #ffffff; /* 배경색을 더 밝게 변경 */
-    margin: auto;
-    padding: 30px;
-    border-radius: 10px; /* 둥근 모서리 추가 */
-    border: 1px solid #ccc;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* 그림자 추가 */
-    width: 50%; /* 너비를 줄임 */
-    max-width: 500px; /* 최대 너비 설정 */
-    text-align: center; /* 중앙 정렬 */
-    animation: fadeIn 0.5s ease-in-out; /* 페이드인 애니메이션 추가 */
-}
-
-/* 닫기 버튼 */
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 20px;
-    font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-    color: #000;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-/* 페이드인 애니메이션 */
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
 }

@@ -1,10 +1,9 @@
 // 검증 로직
-import Validator from './validator.js';
+import Validator from './util/validator.js';
 
 // ================ 전역 변수 ================== //
 // # DOM 요소 기타
 const $elements = {
-    // 회원가입 성공 모달 외 다른 부분 전체
     $main: document.querySelector('.main'),
     $togglePasswordIcon: document.querySelector('.toggle-password'),
 }
@@ -36,43 +35,101 @@ const $inputs = {
 }
 
 // ========== 일반 함수 =========== //
-// # 회원가입 성공 시, 성공했다고 알림을 띄어주고 메인 페이지로 이동
-function showSuccessModalAndRedirect() {
-    // 회원가입 성공 알림 모달 띄우고, 메인 내용 div 숨기기
-    $signUpSuccessModal.$successModal.style.display = 'block';
-    $elements.$main.style.display = 'none';
+//  # 회원가입 성공 후, 서버에 자동 로그인 요청
+async function fetchToLogin() {
 
-    // 3초 후 로그인 페이지로 리디렉션
-    const redirectTimeout = setTimeout(function () {
-        window.location.href = '/login';
-    }, 3000);
+    // 로그인 페이지로 redirect 하기 전에, 서버에 자동 로그인 요청
+    const payload = {
+        email: $inputs.$emailInput.value,
+        password: $inputs.$passwordInput.value
+    }
 
-    // 모달 닫기 버튼 클릭 시 즉시 리디렉션
-    $signUpSuccessModal.$signUpModalCloseBtn.addEventListener('click', function () {
-        clearTimeout(redirectTimeout); // 타이머 지우기
-        window.location.href = '/login'; // 즉시 리디렉션
+    return await fetch('api/auth/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
     });
 }
 
-// #
-//  1) 눈 모양 아이콘 클릭/hover에 따른 아이콘 변경 및 비밀번호 표시 여부 변경
+// 이전 페이지로 redirect
+function redirectToPreviousPage() {
+    // 3초 후 로그인 페이지로 리디렉션
+    const redirectTimeout = setTimeout(function () {
+        const previousPageUrl = localStorage.getItem('previousPage');
+        if (previousPageUrl) {
+            window.location.href = previousPageUrl;
+        } else {
+            window.location.href = '/';
+        }
+    }, 3000);
+
+    // 즉시 리디렉션 함수
+    function redirectNow() {
+        clearTimeout(redirectTimeout); // 타이머 지우기
+        // 즉시 redirect
+        const previousPageUrl = localStorage.getItem('previousPage');
+        if (previousPageUrl) {
+            window.location.href = previousPageUrl;
+        } else {
+            window.location.href = '/';
+        }
+    }
+
+    // 모달 닫기 버튼 클릭 시 즉시 리디렉션
+    $signUpSuccessModal.$signUpModalCloseBtn.addEventListener('click', redirectNow);
+
+    // 키보드 이벤트로 엔터나 ESC 키를 눌렀을 때 즉시 리디렉션
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === 'Escape') {
+            redirectNow();
+        }
+    });
+}
+
+// # 회원가입 성공 시, 자동 로그인 후, 회원가입 성공 모달 표시하고, 로그인 페이지로 리디렉션
+async function showSuccessModalAndRedirect() {
+
+    const response = await fetchToLogin();
+    const data = await response.json();
+
+    // 로그인 성공해서 토큰 발급되면,
+    if (response.ok) {
+        // 회원가입 성공 알림 모달 띄우고, 메인 내용 div 숨기기
+        $signUpSuccessModal.$successModal.style.display = 'block';
+        $elements.$main.style.display = 'none';
+
+        // 다른 페이지에서도 access token 정보를 가지고 있을 수 있도록 token 을 local storage에 저장
+        localStorage.setItem('accessToken', data.accessToken);
+        // local Storage에 email 값 저장 (다시 페이지 방문 시 전에 로그인 했던 아이디 바로 보이도록)
+        localStorage.setItem('savedEmail', data.email);
+
+        // 이전 페이지로 redirect
+        redirectToPreviousPage();
+
+    }
+}
+
+
+//  눈 모양 아이콘 클릭/hover에 따른 아이콘 변경 및 비밀번호 표시 여부 변경
 function togglePasswordDisplay() {
 
     //  1) 눈 모양 아이콘 클릭/hover에 따른 아이콘 변경 및 비밀번호 표시 여부 변경
-    let { $passwordInput } = $inputs;
-    const { $togglePasswordIcon } = $elements;
+    let {$passwordInput} = $inputs;
+    const {$togglePasswordIcon} = $elements;
 
     $elements.$togglePasswordIcon.addEventListener('click', function () {
 
         // 현재 input type이 password인 경우 : input type을 text로(비밀번호 보이게), 아이콘을
         if ($passwordInput.type === 'password') {
             $passwordInput.type = 'text';
-            $togglePasswordIcon.classList.remove('fa-lock');
-            $togglePasswordIcon.classList.add('fa-lock-open');
+            $togglePasswordIcon.classList.remove('fa-eye');
+            $togglePasswordIcon.classList.add('fa-eye-slash');
         } else {
             $passwordInput.type = 'password';
-            $togglePasswordIcon.classList.remove('fa-lock-open');
-            $togglePasswordIcon.classList.add('fa-lock');
+            $togglePasswordIcon.classList.remove('fa-eye-slash');
+            $togglePasswordIcon.classList.add('fa-eye');
         }
     });
 
@@ -80,11 +137,11 @@ function togglePasswordDisplay() {
     // 현재 input type이 password인 경우 : 아이콘을 fa-lock-open으로
     $elements.$togglePasswordIcon.addEventListener('mouseover', function () {
         if ($passwordInput.type === 'password') {
-            $togglePasswordIcon.classList.remove('fa-lock');
-            $togglePasswordIcon.classList.add('fa-lock-open');
+            $togglePasswordIcon.classList.remove('fa-eye');
+            $togglePasswordIcon.classList.add('fa-eye-slash');
         } else {
-            $togglePasswordIcon.classList.remove('fa-lock-open');
-            $togglePasswordIcon.classList.add('fa-lock');
+            $togglePasswordIcon.classList.remove('fa-eye-slash');
+            $togglePasswordIcon.classList.add('fa-eye');
         }
     });
 
@@ -92,11 +149,11 @@ function togglePasswordDisplay() {
     // 현재 input type이 password인 경우 : 아이콘을 fa-lock-으로
     $elements.$togglePasswordIcon.addEventListener('mouseleave', function () {
         if ($passwordInput.type === 'password') {
-            $togglePasswordIcon.classList.add('fa-lock');
-            $togglePasswordIcon.classList.remove('fa-lock-open');
+            $togglePasswordIcon.classList.add('fa-eye');
+            $togglePasswordIcon.classList.remove('fa-eye-slash');
         } else {
-            $togglePasswordIcon.classList.add('fa-lock-open');
-            $togglePasswordIcon.classList.remove('fa-lock');
+            $togglePasswordIcon.classList.add('fa-eye-slash');
+            $togglePasswordIcon.classList.remove('fa-eye');
         }
     });
 
@@ -110,7 +167,8 @@ function shakeErrorInput() {
         if ($input.classList.contains('error')) {
             setTimeout(() => {
                 $input.classList.add('shake');
-                console.log($input); }, 10);
+                console.log($input);
+            }, 10);
         } // 10 밀리초 지연
     })
 
@@ -154,7 +212,7 @@ async function fetchToSignUp(formData) {
 
     // 제대로 아이디가 만들어 졌으면,
     if (response.ok) {
-        // 회원가입 성공 모달 표시하고, 로그인 페이지로 리디렉션
+        // 자동 로그인 후, 회원가입 성공 모달 표시하고, 로그인 페이지로 리디렉션
         showSuccessModalAndRedirect();
     } else {
         // 에러가 난 input을 골라서 shake 효과는 주는 이벤트
@@ -226,7 +284,7 @@ function updateValidationUI(eventTarget, valid, errors) {
     document.querySelector('.form-control a.link-to-login-page').style.display = 'none';
 
     if (!valid) {
-        const { $emailInput, $passwordInput, $nicknameInput } = $inputs;
+        const {$emailInput, $passwordInput, $nicknameInput} = $inputs;
 
         // 이메일이 있는 이메일이면 로그인 링크 열리게
         if (eventTarget === $emailInput) {
@@ -243,52 +301,61 @@ function updateValidationUI(eventTarget, valid, errors) {
             eventTarget.closest('.form-control').querySelector('small').textContent = errors;
         }
 
-        // 해당 input 태그가 password일 경우, span과 i로  ui 조절
+        // 해당 input 태그가 password일 경우 (small 태그의 디자인을 조절) emialinput 로 버그 때문에 임시로 이렇게 처리
         if (eventTarget === $passwordInput) {
-            // 에러 메시지와 textContent가 같은 태그를 찾아, 1) 문구 및 아이콘 색상 빨간색으로 2) 아이콘 x 로 바꾸기
-
-            const $passwordValidationSpan = [...document.querySelectorAll('.password-field-desc span')];
-
-            errors.forEach(error => {
-                // 모든 span 및 i 태그를 초록색으로 설정
-                $passwordValidationSpan.forEach($span => {
-                    const correspondingIcon = $span.previousElementSibling;
-                    $span.classList.remove('error');
-                    $span.classList.add('success');
-                    if (correspondingIcon) {
-                        correspondingIcon.classList.remove('fa-circle-xmark', 'error');
-                        correspondingIcon.classList.add('fa-circle-check', 'success');
-                    }
-                });
-            });
-
-            // 공란이라면, input 태그 빨간 테두리 적용 등
-            const inputValue = eventTarget.value;
-            if (inputValue === '') {
-                $passwordValidationSpan.forEach($span => {
-                    const correspondingIcon = $span.previousElementSibling;
-                    $span.classList.add('error');
-                    $span.classList.remove('success');
-                    if (correspondingIcon) {
-                        correspondingIcon.classList.add('fa-circle-xmark', 'error');
-                        correspondingIcon.classList.remove('fa-circle-check', 'success');
-                    }
-                });
-            }
-
-            errors.forEach(error => {
-                $passwordValidationSpan.forEach($span => {
-                    if ($span.textContent === error) {
-                        $span.classList.add('error');
-                        $span.classList.remove('success');
-                        $span.previousElementSibling.classList.remove('fa-circle-check', 'success'); // 인접 i 태그(아이콘)
-                        $span.previousElementSibling.classList.add('fa-circle-xmark', 'error');
-                    }
-                });
-            });
-
-
+            console.log(errors);
+            // 에러 메시지 표기
+            console.log()
+            eventTarget.closest('.form-control').querySelector('small').classList.add('error'); // display를 none에서 inline으로
+            eventTarget.closest('.form-control').querySelector('small').textContent = errors[0];
         }
+
+        // 버그 발생
+        // // 해당 input 태그가 password일 경우, span과 i로  ui 조절
+        // if (eventTarget === $passwordInput) {
+        //     // 에러 메시지와 textContent가 같은 태그를 찾아, 1) 문구 및 아이콘 색상 빨간색으로 2) 아이콘 x 로 바꾸기
+        //
+        //     const $passwordValidationSpan = [...document.querySelectorAll('.password-field-desc span')];
+        //
+        //     errors.forEach(error => {
+        //         //  #####모든 span 및 i 태그를 초록색으로 설정
+        //         $passwordValidationSpan.forEach($span => {
+        //             const correspondingIcon = $span.previousElementSibling;
+        //             $span.classList.remove('error');
+        //             $span.classList.add('success');
+        //             if (correspondingIcon) {
+        //                 correspondingIcon.classList.remove('fa-circle-xmark', 'error');
+        //                 correspondingIcon.classList.add('fa-circle-check', 'success');
+        //             }
+        //         });
+        //     });
+        //
+        //     // 공란이라면, input 태그 빨간 테두리 적용 등
+        //     const inputValue = eventTarget.value;
+        //     if (inputValue === '') {
+        //         $passwordValidationSpan.forEach($span => {
+        //             const correspondingIcon = $span.previousElementSibling;
+        //             $span.classList.add('error');
+        //             $span.classList.remove('success');
+        //             if (correspondingIcon) {
+        //                 correspondingIcon.classList.add('fa-circle-xmark', 'error');
+        //                 correspondingIcon.classList.remove('fa-circle-check', 'success');
+        //             }
+        //         });
+        //     }
+        //
+        //     errors.forEach(error => {
+        //         $passwordValidationSpan.forEach($span => {
+        //             if ($span.textContent === error) {
+        //                 $span.classList.add('error');
+        //                 $span.classList.remove('success');
+        //                 console.log($span);
+        //                 $span.previousElementSibling.classList.remove('fa-circle-check', 'success'); // 인접 i 태그(아이콘)
+        //                 $span.previousElementSibling.classList.add('fa-circle-xmark', 'error');
+        //             }
+        //         });
+        //     });
+        // }
 
         // 어떤 input 이던 공통사항 : input 박스 테두리를 빨갛게
         eventTarget.closest('.form-control').querySelector('input').classList.add('error');
@@ -296,25 +363,26 @@ function updateValidationUI(eventTarget, valid, errors) {
 
     } else if (valid) {
 
-        // 해당 input 태그가 email이나 nickname일 경우 (small 태그의 디자인을 조절)
-        if (eventTarget === $inputs.$emailInput || eventTarget === $inputs.$nicknameInput) {
+        // 해당 input 태그가 email이나 nickname일 경우 (small 태그의 디자인을 조절) + emailinput로 버그로 임시로 이렇게 처리
+        if (eventTarget === $inputs.$emailInput || eventTarget === $inputs.$nicknameInput || eventTarget === $inputs.$passwordInput) {
             // 에러 메시지 표기
             eventTarget.closest('.form-control').querySelector('small').classList.remove('error'); // display를 none에서 inline으로
             eventTarget.closest('.form-control').querySelector('small').textContent = '';
         }
 
-        // 해당 input 태그가 email이나 nickname일 경우 (span과 i 태그 조절)
-        if (eventTarget === $inputs.$passwordInput) {
-            // 모든 span 과 i의 ui를 초록색으로 변경
-            const $passwordValidationI = [...document.querySelectorAll('.password-field-desc i')];
-            const $passwordValidationSpan = [...document.querySelectorAll('.password-field-desc span')];
-            $passwordValidationSpan.forEach($span => {
-                    $span.classList.remove('error');
-                    $span.classList.add('success');
-                    $span.previousElementSibling.classList.add('fa-regular', 'fa-circle-check', 'success'); // 인접 i 태그(아이콘)
-                    $span.previousElementSibling.classList.remove('fa-solid', 'fa-circle-xmark', 'error');
-            });
-        }
+        // 버그 발생
+        // // 해당 input 태그가 email이나 nickname일 경우 (span과 i 태그 조절)
+        // if (eventTarget === $inputs.$passwordInput) {
+        //     // 모든 span 과 i의 ui를 초록색으로 변경
+        //     const $passwordValidationI = [...document.querySelectorAll('.password-field-desc i')];
+        //     const $passwordValidationSpan = [...document.querySelectorAll('.password-field-desc span')];
+        //     $passwordValidationSpan.forEach($span => {
+        //         $span.classList.remove('error');
+        //         $span.classList.add('success');
+        //         $span.previousElementSibling.classList.add('fa-regular', 'fa-circle-check', 'success'); // 인접 i 태그(아이콘)
+        //         $span.previousElementSibling.classList.remove('fa-solid', 'fa-circle-xmark', 'error');
+        //     });
+        // }
 
         // 어던 input 이던 공통사항 : input 박스 테두리를 빨갛게
         eventTarget.closest('.form-control').querySelector('input').classList.remove('error');
@@ -336,9 +404,9 @@ async function handleAllUserDataValidation(event) {
      @Param event 이 함수는 $form 태그의 submit 이벤트가 발생하면 호출됨
      @Param formData 어떤 필드에 대해서 검색할 것인지 알려주기
      */
-    const response = await Validator.validateAllUserData(event, formData);
+    const signupValidator = new Validator('signup');
+    const response = await signupValidator.validateAllUserData(event, formData, 'signup');
     console.log(response);
-
     // yup 라이브러리에서 아래 형식으롣 답변 전달하면, 맞춰서 ui 바꿔주기
     /* {
         email : {valid: false, errors {[이메일을 입력해주세요]}}
@@ -347,13 +415,13 @@ async function handleAllUserDataValidation(event) {
     }
      */
     // email, nickname, password의 yup 유효성 검증에 실패했으면
-    if(!response.email.valid) {
+    if (!response.email.valid) {
         updateValidationUI($inputs.$emailInput, false, response.email.errors);
     }
-    if(!response.nickname.valid) {
+    if (!response.nickname.valid) {
         updateValidationUI($inputs.$nicknameInput, false, response.nickname.errors);
     }
-    if(!response.password.valid) {
+    if (!response.password.valid) {
         updateValidationUI($inputs.$passwordInput, false, response.password.errors);
     }
 
@@ -382,33 +450,96 @@ async function handleUserDataValidation(event) {
      *yup 라이브러리로 검증
      @Param e 이 함수는 input 태그체 input 이벤트가 발생하면 호출됨
      @Param formData 어떤 필드에 대해서 검색할 것인지 알려주기
-      */
-    const {valid, errors, result} = await Validator.validateUserData(event, formData);
+     */
+    const signupValidator = new Validator('signup');
+    const {valid, errors, result} = await signupValidator.validateUserData(event, formData);
     // dvalid 여부에 따라 UI 업데이트
     updateValidationUI(event.target, valid, errors);
 }
 
+function debounce(func, wait) {
+    let timeout;
+    return function(...args) {
+        const context = this;
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(context, args), wait);
+    };
+}
+
 // # 각 input에 input 이벤트 걸기 (자세한 이벤트 구현내용은 handlerUserDataValidation 함수에서 구현)
 function initValidation() {
+    const debouncedValidation = debounce(handleUserDataValidation, 500); // 0.5초 대기
+
     // input 이벤트 발생했을 때
-    Object.values($inputs).forEach($input => $input.addEventListener('input', (e) => handleUserDataValidation(e)));
-    // form이 submit 되었을 떄
+    Object.values($inputs).forEach($input => $input.addEventListener('input', (e) => debouncedValidation(e)));
+
+    // form이 submit 되었을 때
     $form.addEventListener('submit', handleSubmit);
 }
 
+// # caps lock 키 누를 떄
+function handlePressCapsLock(e) {
+
+    const {$passwordInput} = $inputs;
+    if (e.key === 'CapsLock') {
+        const isCapsLockOn = e.getModifierState('CapsLock');
+        console.log(isCapsLockOn);
+        if (isCapsLockOn) {
+            console.log(e.target);
+            e.target.closest('.input-and-tooltip-wrapper').style.setProperty('--tooltip-opacity', '1');
+        } else {
+            e.target.closest('.input-and-tooltip-wrapper').style.setProperty('--tooltip-opacity', '0');
+        }
+    }
+}
+
+// # caps lock on 여부 확인
+function handleCapsLockOn(e) {
+
+    const {$passwordInput} = $inputs;
+    if (e.target !== $passwordInput) return;
+
+    const isCapsLockOn = e.getModifierState('CapsLock');
+
+    if (isCapsLockOn) {
+        e.target.closest('.input-and-tooltip-wrapper').style.setProperty('--tooltip-opacity', '1');
+    } else {
+        $passwordInput.style.setProperty('--tooltip-opacity', '0');
+    }
+}
+
+// input 태그에 input  이벤트 발생하면 Caps lock 활성화 상태 확인하는 함수를 쓰고 싶은데,
+// caps losk 활성화 상태 확인 함수는 key press  이벤트가 발생했을 때만 확인 가능
+// # -> 임의로 keypress 이벤트를 생성하는 함수
+function triggerKeyPressHandler(e) {
+    e.target.dispatchEvent(
+        new Event("keydown", {bubbles: true, cancelable: true})
+    );
+}
 
 // # 화면 초기 진입 시 진행할 이벤트 핸들러
 function initSignup(e) {
+
+    const {$nicknameInput, $passwordInput, $emailInput, $profileImageInput} = $inputs;
+
     // profile 사진 설정(=input[type="file"]의 change  이벤트 발생) 하면 사진 파일을 가지고 있고 + 사진을 preview로 띄우는 이벤트
-    $inputs.$profileImageInput.addEventListener('change', handleProfileImageUpload);
+    $profileImageInput.addEventListener('change', handleProfileImageUpload);
     // 이메일 input에 autofocus 되도록 하는 이벤트
-    $inputs.$emailInput.focus();
+    $emailInput.focus();
     // 이메일, 닉네임, 패스워드 validation 함수
     initValidation();
     // 비밀번호 표시/숨기기 관련 함수
     togglePasswordDisplay();
+    // input 태그에 input이나 focus 이벤트 발생하면 Caps lock 활성화 상태 확인하는 함수를 쓰고 싶은데,
+    // caps losk 활성화 상태 확인 함수는 key press  이벤트가 발생했을 때만 확인 가능
+    //  -> 임의로 keypress 이벤트를 생성하는 함수
+    $passwordInput.addEventListener('input', triggerKeyPressHandler);
+    $passwordInput.addEventListener('keydown', handleCapsLockOn);
+    $passwordInput.addEventListener('keydown', handlePressCapsLock);
+
 }
 
 // =================== 초기 화면 진입 시 실행 =================== //
 document.addEventListener('DOMContentLoaded', initSignup);
+
 
