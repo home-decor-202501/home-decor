@@ -25,6 +25,10 @@ let elements = {
     // 텍스트
     $contentTextarea: $modal.querySelector('.content-input textarea'),
     $charCounter: $modal.querySelector('.char-counter'),
+    //중첩 모달
+    $nestedModal: $modal.querySelector('.nested-modal'),
+    $deleteBtn: $modal.querySelector('.delete-button'),
+    $cancelBtn: $modal.querySelector('.cancel-button'),
 };
 
 // 모달 바디 스텝을 이동하는 함수
@@ -162,7 +166,7 @@ function setUpFileUploadEvents() {
 
 // 피드 생성 모달 관련 이벤트 함수
 function setUpModalEvents() {
-    const {$closeBtn, $backdrop, $backStepBtn, $nextStepBtn} = elements;
+    const {$closeBtn, $backdrop, $backStepBtn, $nextStepBtn, $nestedModal} = elements;
     // DOM  요소 가져오기
     const $writeButton = document.getElementById('write-button'); // 글쓰기
 
@@ -177,6 +181,14 @@ function setUpModalEvents() {
     //모달 닫기
     const closeModal = e => {
         e.preventDefault();
+
+        //step2부터는 모달을 닫으면 안됨. 대신 새로운 모달을 띄워야 함
+        if (currentStep >= 2 ) {
+            // 중첩모달을 띄우기
+            $nestedModal.style.display = 'flex';
+            return;
+        }
+
         $modal.style.display = 'none';
         document.body.style.overflow = 'auto'; // 배경 바디 스크롤 방지 해제
     }
@@ -203,6 +215,21 @@ function setUpModalEvents() {
     });
 }
 
+// 피드 모달 닫을 때 나가기 취소 관련
+function setupNestedModalEvents(){
+  const {$nestedModal, $deleteBtn, $cancelBtn} = elements;
+
+  //취소처리 - 중첩모달만 닫기
+    $cancelBtn.addEventListener('click', () => {
+        $nestedModal.style.display = 'none';
+    });
+
+    //삭제처리 - 모든 모달을 닫고 초기상태로 귀환
+    $deleteBtn.addEventListener('click',()=>{
+       //새로고침시 모든것이 초기로 돌아감
+       window.location.reload();
+    });
+}
 
 // 이벤트 바인딩 관련 함수
 function bindEvents() {
@@ -233,6 +260,7 @@ function setupTextareaEvents() {
 // 모달 관련 JS 함수 - 외부에 노출
 function initCreateFeedModal() {
     bindEvents();
+    setupNestedModalEvents();
 }
 
 

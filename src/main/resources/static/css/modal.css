@@ -383,7 +383,7 @@
 }
 
 .nested-modal-title h3 {
-    font-size: 30px;
+    font-size: 20px;
     font-weight: 600;
     margin-bottom: 8px;
 }
@@ -409,10 +409,10 @@
 
 .nested-modal-buttons button {
     width: 100%;
-    padding: 14px;
+    padding: 20px;
     border: none;
     border-radius: 8px;
-    font-size: 14px;
+    font-size: 18px;
     font-weight: 600;
     cursor: pointer;
     border-top: 1px solid #dbdbdb;

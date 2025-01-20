@@ -118,11 +118,11 @@
   <div class="nested-modal" style="display: none;">
     <div class="nested-modal-content">
       <div class="nested-modal-title">
-        <h3>게시물을 삭제하시겠어요?</h3>
-        <p>지금 나가면 수정 내용이 저장되지 않습니다.</p>
+        <h3> 사이트에서 나가시겟습니까?</h3>
+        <p>지금 나가면 변경사항이 저장되지 않습니다.</p>
       </div>
       <div class="nested-modal-buttons">
-        <button class="delete-button">삭제</button>
+        <button class="delete-button">나가기</button>
         <button class="cancel-button">취소</button>
       </div>
     </div>
