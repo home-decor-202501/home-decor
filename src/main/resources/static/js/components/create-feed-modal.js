@@ -1,5 +1,10 @@
 import CarouselManager from "../ui/CarouselManager.js";
 
+
+// 캐러셀 전역관리
+let step2Carousel = null;
+let step3Carousel = null;
+
 // step 모듈내에서 전역관리
 let currentStep = 1;
 
@@ -15,6 +20,8 @@ let elements = {
     $backStepBtn: $modal.querySelector('.back-button'),
     $nextStepBtn: $modal.querySelector('.next-button'),
     $modalTitle: $modal.querySelector('.modal-title'),
+    // 드래그
+    $uploadArea: $modal.querySelector('.upload-area'),
 };
 
 // 모달 바디 스텝을 이동하는 함수
@@ -57,7 +64,28 @@ function goToStep(step) {
 
 //파일 업로드 관련 이벤트 함수
 function setUpFileUploadEvents() {
-    const {$uploadBtn, $fileInput} = elements;
+    const {$uploadBtn, $fileInput, $uploadArea} = elements;
+
+
+    // 파일을 검사하는 함수
+    const validateFiles = files => {
+        return files
+            .filter(file => {
+                if (!file.type.startsWith('image')) {
+                    alert(`${file.name}은(는) 이미지가 아닙니다ㅣ.`);
+                    return false;
+                }
+                return true;
+            })
+            .filter(file => {
+                if (file.size > 10 * 1024 * 1024) {
+                    alert(`${file.name}은(는) 10MB를 초과합니다.`);
+                    return false;
+
+                }
+                return true;
+            });
+    };
 
     // 파일을 검사하고 다음 단계로 이동하는 함수
     const handleFiles = (files) => {
@@ -67,30 +95,27 @@ function setUpFileUploadEvents() {
             return;
         }
 
+
         //파일이 이미지인지 확인
-        console.log(files);
-        const validFiles = files.filter(file => {
-            if (!file.type.startsWith('image')) {
-                alert(`${file.name}은(는) 이미지가 아닙니다ㅣ.`);
-                return false;
-            }
-            return true;
-        }).filter(file => {
-            if (file.size > 10 * 1024 * 1024) {
-                alert(`${file.name}은(는) 10MB를 초과합니다.`);
-                return false;
-            }
-            return true;
-        });
+        const validFiles = validateFiles(files);
 
+        // 이미 생성되어 있다면, 그냥 init()만 다시 호출해서 '슬라이드 모록'만 업데이트
+        if(step2Carousel && step3Carousel) {
+            step2Carousel.init(validFiles);
+            step3Carousel.init(validFiles);
+        }
+        // 최초 생성이라면 새로 만든다.
+        else {
+            step2Carousel = new CarouselManager(
+                $modal.querySelector('.preview-container')
+            );
+            step3Carousel = new CarouselManager(
+                $modal.querySelector('.write-container')
+            );
 
-        // 이미지 슬라이드 생성
-        const step2Carousel = new CarouselManager($modal.querySelector('.preview-container'));
-        step2Carousel.init(validFiles);
-
-        // 이미지 슬라이드 생성
-        const step3Carousel = new CarouselManager($modal.querySelector('.write-container'));
-        step3Carousel.init(validFiles);
+            step2Carousel.init(validFiles);
+            step3Carousel.init(validFiles);
+        }
 
         // 모달 step2로 이동
         goToStep(2);
@@ -107,7 +132,30 @@ function setUpFileUploadEvents() {
 
     });
 
+    // 파일 드래그 & 드롭 이벤트
+    //드래그 영역 진입했을 때
+    $uploadArea.addEventListener('dragover', e => {
+        e.preventDefault();
+        $uploadArea.classList.add('dragover');
+    });
+
+    //드래그 영역에서 나갔을 때
+    $uploadArea.addEventListener('dragleave', e => {
+        e.preventDefault();
+        $uploadArea.classList.remove('dragover');
+    });
+
+    // 드래그 영역에서 떨궜을 때
+    $uploadArea.addEventListener('drop', e => {
+        e.preventDefault(); // 드롭했을 때 이미지 새탭이 열리거나 파일이 다운로드 되는 것을 막아줌
+
+        // 파일 정보 얻어괴
+        const files = [...e.dataTransfer.files];
+        // 파일 검증
+        if (files.length > 0) handleFiles(files);
+    });
 }
+
 
 // 피드 생성 모달 관련 이벤트 함수
 function setUpModalEvents() {
