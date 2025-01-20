@@ -17,6 +17,25 @@
             user;
     </select>
 
+    <select id="checkNicknameExists" resultType="boolean">
+        SELECT
+            COUNT(*) > 0
+        FROM
+        `user`
+        WHERE nickname = #{nickname}
+        ;
+    </select>
+
+
+    <select id="checkEmailExists" resultType="boolean">
+        SELECT
+            COUNT(*) > 0
+        FROM
+            `user`
+        WHERE email = #{email}
+        ;
+    </select>
+
 </mapper>
 
 

@@ -1,6 +1,7 @@
 package com.decormasters.homedecor.controller.rest;
 
 import com.decormasters.homedecor.domain.member.dto.request.SignUpRequest;
+import com.decormasters.homedecor.repository.MemberRepository;
 import com.decormasters.homedecor.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -20,12 +21,13 @@ public class AuthController {
 
     private final MemberService memberService;
 
+
     @PostMapping("/sign-up")
     public ResponseEntity<?> SignUp(
             // front에서 email, nickname, password는 key name을 newUserInfo로, 사진은 profileImage로 보냄
             @RequestPart(value="profileImage", required=false) List<MultipartFile> profileImage,
             @RequestPart("newUserData") @Valid SignUpRequest signUpRequest
-    ) {
+    ) throws Exception {
         // 파일. json 제대로 받았는지 log로 확인
         log.info("received new user data: {}", signUpRequest);
 
@@ -54,6 +56,42 @@ public class AuthController {
                     "user-email", signUpRequest.getEmail()
                     )
                 );
+    }
 
+    // 닉네임이 있는지 확인하는 함수
+    @GetMapping("/check-nickname")
+    public ResponseEntity<?> checkNicknameExists(@RequestParam("nickname") String nickname) {
+        boolean flag = memberService.checkNicknameExists(nickname);
+        if (flag) {
+            return ResponseEntity.ok().body(Map.of(
+                    "user-nickname", nickname,
+                    "message", "Nickname already exists",
+                    "flag", true
+            ));
+        } else {
+            return ResponseEntity.ok().body(Map.of(
+                    "user-nickname", nickname,
+                    "message", "Nickname doesn't exist",
+                    "flag", false
+            ));
+        }
+    }
+
+    @GetMapping("/check-email")
+    public ResponseEntity<?> checkEmailExists(@RequestParam("email") String email) {
+        boolean flag = memberService.checkEmailExists(email);
+        if (flag) {
+            return ResponseEntity.ok().body(Map.of(
+                    "user-email", email,
+                    "message", "Email already exists",
+                    "flag", true
+                    ));
+        } else {
+            return ResponseEntity.ok().body(Map.of(
+                    "user-email", email,
+                    "message", "Email doesn't exist",
+                    "flag", false
+            ));
+        }
     }
 }

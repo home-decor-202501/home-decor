@@ -31,23 +31,27 @@ body {
     font-family: "Noto Sans KR", serif;
 }
 
+.main {
+    margin: 50px auto 50px auto;
+    box-shadow: 0px 0px 16.83px 0.17px rgba(0, 0, 0, .05);
+    /*background: red;*/
+    width: 600px;
+    background-color: #fff;
+    border-radius: 20px;
+}
+
 /* 로고 컨테이너 */
 .logo-container {
     display: flex;
-    justify-content: flex-start;
-    padding: 15px; /* 화면 왼쪽 최상단에서 여백 띄우기 */
+    justify-content: center;
+    margin: 30px 0 20px 0;
 }
-.logo-container .link-to-main-page img {
-    width: 100px;
+.logo-container a.link-to-main-page img {
+    width: 150px;
 }
 
 /* 폼 컨테이너 */
 .container {
-    background-color: #fff;
-    border-radius: 20px;
-    margin: 0 auto; /* 가운데 정렬 */
-    box-shadow: 0 15px 16.83px 0.17px rgba(0, 0, 0, .05);
-    width: 700px;
     display: flex;
     flex-direction: column;
     align-items: center;
