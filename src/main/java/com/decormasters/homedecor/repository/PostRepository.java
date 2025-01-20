@@ -19,16 +19,15 @@ public interface PostRepository {
     // 특정 게시물에 첨부된 이미지 목록 조회
     List<PostImage> findImagesByPostId(Long postId);
 
-    // 전체 피드 게시물 목록 조회
-    List<Post> findAll();
-
-    // 특정 사용자의 피드 개수를 조회
-    long countByMemberId(Long memberId);
-
-    // 특정 사용자의 프로필 페이지 전용 피드 목록 조회
-    // List<ProfilePostResponse> findProfilePosts(Long memberId);
+    // 모든 회원의 게시물 조회
+    List<Post> findAllPosts();
 
     // 단일 게시물 상세조회
     Optional<Post> findPostDetailById(Long postId);
 
+    // 특정 유저 게시물 목록 조회
+    // List<Post> findPostsByMember();
+
+    // 특정 사용자의 게시물 개수를 조회
+    // long countByMemberId(Long memberId);
 }

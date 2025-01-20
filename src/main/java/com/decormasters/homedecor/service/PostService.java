@@ -34,30 +34,14 @@ public class PostService {
 
     private final FileUploadUtil fileUploadUtil; // 로컬서버에 이미지 저장
 
-    // 피드 목록조회 중간처리
-    @Transactional(readOnly = true)
-    public List<PostResponse> findAllPosts(String email) {
-
-        // TODO : Runtime에러 -> 예외처리
-        Member foundMember = memberRepository.findUserByEmail(email)
-                .orElseThrow(() -> new RuntimeException("Member not found"));
-
-        // 전체 피드 조회
-        return postRepository.findAll()
-                .stream()
-                .map(post -> {
-                    LikeStatusResponse likeStatus = LikeStatusResponse.of(
-                            postLikeRepository.findByPostIdAndMemberId(post.getId(), foundMember.getId()).isPresent()
-                            , postLikeRepository.countByPostId(post.getId())
-                    );
-                    return PostResponse.of(post, likeStatus);
-                })
-                .collect(Collectors.toList());
+    // 전체 유저의 게시물 조회
+    public List<Post> getAllPosts() {
+        return postRepository.findAllPosts();
     }
 
     // 게시물 생성 DB에 가기 전 후 중간처리
     @Transactional
-    public Long createPosts(PostCreate postCreate, String email) {
+    public Long createPost(PostCreate postCreate, String email) {
     // public Long createPost(PostCreate postCreate, String username) {
         // 유저의 이름을 통해 해당 유저의 ID를 구함
         Member foundMember = memberRepository.findUserByEmail(email)
@@ -125,4 +109,25 @@ public class PostService {
                 , postLikeRepository.countByPostId(postId)
         ));
     }
+
+    // 유저 게시물 목록조회 중간처리
+//    @Transactional(readOnly = true)
+//    public List<PostResponse> findPostsByMember(String email) {
+//
+//        // TODO : Runtime에러 -> 예외처리
+//        Member foundMember = memberRepository.findUserByEmail(email)
+//                .orElseThrow(() -> new RuntimeException("Member not found"));
+//
+//        // 전체 피드 조회
+//        return postRepository.findPostsByMember()
+//                .stream()
+//                .map(post -> {
+//                    LikeStatusResponse likeStatus = LikeStatusResponse.of(
+//                            postLikeRepository.findByPostIdAndMemberId(post.getId(), foundMember.getId()).isPresent()
+//                            , postLikeRepository.countByPostId(post.getId())
+//                    );
+//                    return PostResponse.of(post, likeStatus);
+//                })
+//                .collect(Collectors.toList());
+//    }
 }

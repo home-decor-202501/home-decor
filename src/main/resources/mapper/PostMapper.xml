@@ -26,25 +26,18 @@
         WHERE post_id = #{postId};
     </select>
 
-    <!-- 전체 피드 게시물 목록 조회 -->
-    <select id="findAll"  resultMap="PostResultMap">
-        SELECT *
-        FROM post
-        ORDER BY created_at DESC;
-    </select>
-
-    <!-- 특정 사용자의 피드 개수를 조회 -->
-    <select id="countByMemberId" resultType="long">
-        SELECT COUNT(*)
-        FROM post
-        WHERE user_id = #{userId};
-    </select>
-
     <!-- 단일 게시물 상세조회 -->
     <select id="findPostDetailById"  resultMap="PostResultMap">
         SELECT *
         FROM post
         WHERE post_id = #{postId};
+    </select>
+
+    <!-- 모든 회원의 게시물 조회 -->
+    <select id="findAllPosts" resultMap="PostResultMap">
+        SELECT *
+        FROM post
+        ORDER BY created_at DESC;
     </select>
 
     <resultMap id="PostResultMap" type="Post">
@@ -70,4 +63,17 @@
 
     </resultMap>
 
+    <!-- 특정 사용자의 게시물 목록 조회 -->
+<!--    <select id="findAll"  resultMap="PostResultMap">-->
+<!--        SELECT *-->
+<!--        FROM post-->
+<!--        ORDER BY created_at DESC;-->
+<!--    </select>-->
+
+    <!-- 특정 사용자의 피드 개수를 조회 -->
+<!--    <select id="countByMemberId" resultType="long">-->
+<!--        SELECT COUNT(*)-->
+<!--        FROM post-->
+<!--        WHERE user_id = #{userId};-->
+<!--    </select>-->
 </mapper>
