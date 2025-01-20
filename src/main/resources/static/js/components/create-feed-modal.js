@@ -170,14 +170,22 @@ function setUpModalEvents() {
     // DOM  요소 가져오기
     const $writeButton = document.getElementById('write-button'); // 글쓰기
 
-
     //모달 열기 함수
     const openModal = e => {
         e.preventDefault();
+        // 로그인 여부 확인해서, 로그인 안했으면 로그인 페이지로 이동
+        const accessToken = localStorage.getItem('accessToken');
+        if (accessToken === null) {
+            document.body.style.opacity = 0; // 페이지를 서서히 사라지게 만듭니다.
+            setTimeout(() => {
+                window.location.href = "/login";
+            }, 200); // 0.5초 후에 로그인 페이지로 이동합니다.
+        }
         // 모달 열기
         $modal.style.display = 'flex';
         document.body.style.overflow = 'hidden'; // 배경 바디 스크롤 방지
     };
+
     //모달 닫기
     const closeModal = e => {
         e.preventDefault();

@@ -2,9 +2,9 @@
 import * as yup from 'https://cdn.jsdelivr.net/npm/yup@0.32.11/+esm'
 
 class Validator {
-    constructor() {
+    constructor(schemaType) {
         this.initializeCustomizedYup();
-        this.schema = this.createSchema();
+        this.setSchema(schemaType);
     }
 
     initializeCustomizedYup() {
@@ -39,7 +39,7 @@ class Validator {
         const customPasswordIncludeAlphaBetRegex = ".*[a-zA-Z].*";
         yup.addMethod(yup.string, 'customPasswordIncludeAlphaBet', function (errorMessage) {
             return this.matches(customPasswordIncludeAlphaBetRegex, {
-                message: errorMessage || '영문자 포함', // 검증 실패 시 출력할 오류 메시지
+                message: errorMessage || '비밀번호는 영문자를 포함해야 합니다.', // 검증 실패 시 출력할 오류 메시지
                 name: 'customPasswordIncludeAlphaBet', // 검증 메소드의 이름
             })
         });
@@ -48,7 +48,7 @@ class Validator {
         const customPasswordIncludeNumberRegex = ".*\\d.*";
         yup.addMethod(yup.string, 'customPasswordIncludeNumber', function (errorMessage) {
             return this.matches(customPasswordIncludeNumberRegex, {
-                message: errorMessage || '숫자 포함', // 검증 실패 시 출력할 오류 메시지
+                message: errorMessage || '비밀번호는 숫자를 포함해야 합니다.', // 검증 실패 시 출력할 오류 메시지
                 name: 'customPasswordIncludeNumber', // 검증 메소드의 이름
             })
         });
@@ -57,15 +57,26 @@ class Validator {
         const customPasswordExcludeSpecialLetterRegex = "^[a-zA-Z0-9!@#]*$";
         yup.addMethod(yup.string, 'customPasswordExcludeSpecialLetter', function (errorMessage) {
             return this.matches(customPasswordExcludeSpecialLetterRegex, {
-                message: errorMessage || '영문, 숫자, !, @, # 만 허용(공백 및 이외 특수문자 불가)', // 검증 실패 시 출력할 오류 메시지
+                message: errorMessage || '영문, 숫자, !, @, # 만 사용 가능합니다.(공백 및 이외 특수문자 불가)', // 검증 실패 시 출력할 오류 메시지
                 name: 'customPasswordExcludeSpecialLetter', // 검증 메소드의 이름
             })
         });
 
     } // end of initializeCustomizedYup
 
+    setSchema(schemaType) {
+        if (schemaType === 'signup') {
+            this.schema = this.createSignUpSchema();
+        } else if (schemaType === 'login') {
+            this.schema = this.createLoginSchema();
+        } else {
+            throw new Error("Invalid schema type. Please provide 'signup' or 'login' as schema type.");
+        }
+    }
 
-    createSchema() {
+
+    // 회원가입용 스키마
+    createSignUpSchema() {
         /*
             yup library 사용 방법 4) 검증 조건 정의
               - yup.object() : 객체 정의
@@ -97,9 +108,12 @@ class Validator {
                         }
                 ),
             password: yup.string()
-                .required("8글자 이상").min(8, "8글자 이상")
-                .customPasswordIncludeAlphaBet().customPasswordIncludeNumber().customPasswordExcludeSpecialLetter()
                 .test( 'no-spaces', '영문, 숫자, !, @, # 만 허용(공백 및 이외 특수문자 불가)', value => !/\s/.test(value) )
+                .customPasswordIncludeAlphaBet()
+                .customPasswordIncludeNumber()
+                .customPasswordExcludeSpecialLetter()
+                .required("비밀번호는 8글자 이상이여야 합니다.").min(8, "비밀번호는 8글자 이상이여야 합니다.")
+
         })
     } // end of createSchema()
 
@@ -114,6 +128,17 @@ class Validator {
                 console.log("실패입니다:", err.errors);
             });
    */
+
+    createLoginSchema() {
+        return yup.object().shape({
+            // 이메일 검증 조건 : 앞뒤 공백 금지, 공란 금지, 정규식 유효성 검사
+            email: yup.string().required("이메일을 입력해주세요").customEmail()
+                .test( 'no-spaces', '공백 포함 불가', value => !/\s/.test(value) ),
+
+            password: yup.string().required("비밀번호를 입력해주세요")
+        });
+    }
+
     async validateUserData(event, formData) {
         // event.target으로 어떤 input 태그에 대한 이벤트 발생인지 가져오기 (그 input 태그에 대해서만 유효성 검사 실행할 것임)
         const $selectedInput = event.target;
@@ -147,18 +172,35 @@ class Validator {
         }
     }
 
-    async validateAllUserData(event, formData) {
+    async validateAllUserData(event, formData, page) {
 
         const $emailInput = document.querySelector('input[type="text"][name="email"]');
         const $nicknameInput = document.querySelector('input[type="text"][name="nickname"]');
         const $passwordInput= document.querySelector('input[name="password"]');
 
-        // 검솨 결과를 담을 객체
-        const validationResult = {
+        // 검사 결과를 담을 객체(회원가입은 닉네임도 포함, 로그인은 닉네임 미포함)
+        let validationResult = {
             email: { valid: false, errors: [] }
             , nickname: { valid: false, errors: [] }
             , password: { valid: false, errors: [] }
         };
+
+        if (page === 'login') {
+            // 객체 deconstructuring을 통한 nickname 키 객체에서 제거하기
+            const { nickname: removed, ...rest } = validationResult;
+            validationResult = rest;
+        }
+
+        // 회원가입 페이지 일때만 검사하는 항목 : 닉네임
+        if (page === 'signup') {
+            try {
+                await this.schema.validateAt('nickname', {nickname: $nicknameInput.value}, {abortEarly: true});
+                validationResult.nickname.valid = true;
+            } catch (error) {
+                validationResult.nickname.errors = [error.errors];
+            }
+        }
+
 
         // 필드별로 검사 실행
         try {
@@ -168,25 +210,21 @@ class Validator {
             validationResult.email.errors = [error.errors];
         }
 
-        try {
-            await this.schema.validateAt('nickname', { nickname: $nicknameInput.value }, { abortEarly: true });
-            validationResult.nickname.valid = true;
-        } catch (error) {
-            validationResult.nickname.errors = [error.errors];
-        }
 
         try {
-            await this.schema.validateAt('password', { password: $passwordInput.value }, { abortEarly: false });
+            await this.schema.validateAt('password', { password: $passwordInput.value }, { abortEarly: true });
             validationResult.password.valid = true;
         } catch (error) {
             validationResult.password.errors = [error.errors];
         }
         return validationResult;
     }
+
+
 }
 
 
-export default new Validator();
+export default Validator;
 
 
 

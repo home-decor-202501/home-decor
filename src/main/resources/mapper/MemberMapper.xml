@@ -26,7 +26,6 @@
         ;
     </select>
 
-
     <select id="checkEmailExists" resultType="boolean">
         SELECT
             COUNT(*) > 0
@@ -35,6 +34,16 @@
         WHERE email = #{email}
         ;
     </select>
+
+    <select id="findUserByEmail" resultType="Member">
+        SELECT
+            *
+        FROM `user`
+        WHERE email = #{email}
+    </select>
+
+
+
 
 </mapper>
 

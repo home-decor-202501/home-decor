@@ -26,45 +26,30 @@
     <div class="container">
     <%-- 회원가입 폼 컨테이너--%>
         <div class="form-container">
-            <form id="form" class="form" method="post">
-                <h2>로그인</h2>
+            <form id="form" class="form" method="POST">
                 <%--  form: 이메일 --%>
                 <div class="form-control">
                     <label for='email'>이메일</label>
-                    <input type="text" id="email" placeholder="이메일" name="email">
-                    <small>Error message</small><a href="/login" class="link-to-login-page">로그인</a>
+                    <div class="nickname input-and-tooltip-wrapper">
+                        <input type="text" id="email" placeholder="이메일" name="email">
+                    </div>
+                    <small>없는 아이디입니다.</small><a href="/sign-up" class="link-to-signup-page" style="display: none;">간편 회원가입</a>
                 </div>
                 <%-- form: 비밀번호 --%>
                 <div class="form-control">
                     <label for="password">비밀번호</label>
-                    <p class="text-info">8글자 이상(영문 및 숫자 포함 필수, 특수문자는 !, @, #만 사용 가능)</p>
                     <div class="password-wrapper">
-                        <input type="password" id="password" placeholder="비밀번호" name="password">
-                        <i class="fa-solid fa-lock toggle-password"></i>
+                        <div class="nickname input-and-tooltip-wrapper">
+                            <input type="password" id="password" placeholder="비밀번호" name="password">
+                        </div>
+                        <i class="fa-regular fa-eye toggle-password"></i>
                     </div>
-
-                    <ul class="password-field-desc">
-                        <li>
-                            <i class="fa-regular fa-circle-check password-length"></i>
-                            <span class="password-length">8글자 이상</span>
-                        </li>
-                        <li>
-                            <i class="fa-regular fa-circle-check password-include-number"></i>
-                            <span class="password-include-number">숫자 포함</span>
-                        </li>
-                        <li>
-                            <i class="fa-regular fa-circle-check password-include-alphabet"></i>
-                            <span class="password-include-alphabet">영문자 포함</span>
-                        </li>
-                        <li>
-                            <i class="fa-regular fa-circle-check password-not-include"></i>
-                            <span class="password-not-include">영문, 숫자, !, @, # 만 허용(공백 및 이외 특수문자 불가)</span>
-                        </li>
-                    </ul>
-                    </small>
+                    <small>틀린 비밀번호입니다. (비밀번호 : 영문, 숫자를 포함한 8자리 글자) </small>
                 </div>
-                <button class='sign-up-btn'>회원가입</button>
-                <div class="link-to-login-page">
+
+                <button class='login-btn'>로그인</button>
+
+                <div class="link-to-signup-page">
                     <span>회원이 아니신가요?</span><a href="/sign-up">간편 회원가입</a>
                 </div>
             </form>

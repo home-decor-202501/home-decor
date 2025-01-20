@@ -14,14 +14,15 @@ import java.util.*;
 
 @ControllerAdvice
 @Slf4j
-public class SignUpExceptionHandler extends RuntimeException{
+public class AuthExceptionHandler extends RuntimeException{
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     // HttpServletRequest 인자로 받는 이유 request.getReqeusturl() 사용 목적
     public ResponseEntity<ErrorResponse> notValidDataException(MethodArgumentNotValidException exception, HttpServletRequest request) {
 
-        // 회원 가입 누를 시 에러 뜨는 input 태그 찾는 용으로, errorField 받아옴
+        // 에러 뜨는 input 태그 찾는 용으로, errorField 받아옴
         Map<String, String> errors = new HashMap<>();
+
         //  BindingResult에서 맵으로 정리
         List<String> errorField = new ArrayList<>();
         exception.getBindingResult().getFieldErrors().forEach(error -> {
@@ -52,10 +53,10 @@ public class SignUpExceptionHandler extends RuntimeException{
 
     // 닉네임이나 이메일이 이미 존재할 때
     // HttpServletRequest 인자로 받는 이유 request.getReqeusturl() 사용 목적
-    @ExceptionHandler(SignUpException.class)
-    public ResponseEntity<ErrorResponse> SignUpExceptionHandler(SignUpException exception, HttpServletRequest request) {
+    @ExceptionHandler(AuthException.class)
+    public ResponseEntity<ErrorResponse> AuthExceptionHandler(AuthException exception, HttpServletRequest request) {
 
-        log.error("Sign up Exception Occurred: {}", exception.getMessage());
+        log.error("Signup/Login Exception Occurred: {}", exception.getMessage());
 
         ErrorResponse errorResponse = ErrorResponse.builder()
                 .timestamp(LocalDateTime.now())
@@ -68,6 +69,26 @@ public class SignUpExceptionHandler extends RuntimeException{
 
         return ResponseEntity
                 .badRequest()
+                .body(errorResponse);
+
+    }
+
+    // 나머지 익셉션 처리
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> GlobalExceptionHandler(Exception exception, HttpServletRequest request) {
+
+        log.error("Exception Occurred: {}", exception.getMessage(), exception);
+
+        ErrorResponse errorResponse = ErrorResponse.builder()
+                .timestamp(LocalDateTime.now())
+                .error(AuthErrorCode.INTERNAL_SERVER_ERROR.name())
+                .status(AuthErrorCode.INTERNAL_SERVER_ERROR.getStatus().value())
+                .message(exception.getMessage())
+                .path(request.getRequestURI())
+                .build();
+
+        return ResponseEntity
+                .status(AuthErrorCode.INTERNAL_SERVER_ERROR.getStatus())
                 .body(errorResponse);
 
     }

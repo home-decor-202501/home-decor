@@ -20,6 +20,8 @@
 
   <!-- Detail-page JS -->
   <script src="/js/components/detail-page.js" defer></script>
+  <script type="module" src="/js/components/login-redirect.js" defer></script>
+  <script type="module" src="/js/components/check-login-or-not.js" defer></script>
 </head>
 <body>
 <!-- Header -->
@@ -29,7 +31,7 @@
     <img src="/images/logo.png" alt="오늘의집 로고">
   </div>
   <nav class="nav">
-    <a href="/login">로그인</a>
+    <a href="/login" class="login">로그인</a>
     <a href="#">홈</a>
     <a href="#">커뮤니티</a>
     <a href="#">집들이</a>

@@ -1,8 +1,11 @@
 package com.decormasters.homedecor.controller.rest;
 
 import com.decormasters.homedecor.domain.member.dto.request.SignUpRequest;
+import com.decormasters.homedecor.domain.member.entitiy.Member;
 import com.decormasters.homedecor.repository.MemberRepository;
 import com.decormasters.homedecor.service.MemberService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +23,6 @@ import java.util.Map;
 public class AuthController {
 
     private final MemberService memberService;
-
 
     @PostMapping("/sign-up")
     public ResponseEntity<?> SignUp(
@@ -94,4 +96,53 @@ public class AuthController {
             ));
         }
     }
+
+    // # 로그인 검증 함수
+    @PostMapping("/login")
+    public ResponseEntity<?> login(
+            @RequestBody @Valid LoginRequest loginRequest
+            , HttpServletResponse httpServletResponse
+       ) {
+
+        log.info("request for authentication user : {}", loginRequest.getEmail());
+
+        // 프론트에 token 포함한 결과 전달
+        Map<String, String> responseMap = memberService.authenticate(loginRequest);
+
+        // memberService 계층에서 resultMap에 token 정보를 담아서 주긴 했지만,
+        // token은 localStorage에 저장하는 방법과 쿠키에 저장하는 두 가지 방법이 있으므로,
+        // 이 단계에서 cookie도 구워서 httpResponseServlet에 추가해주기
+        Cookie cookie = new Cookie("accessToken", responseMap.get("accessToken"));
+        cookie.setHttpOnly(true); // javascript를 통한 cookie 탈취 방지
+        cookie.setPath("/"); // main 페이지에 cookie로 저장
+        cookie.setMaxAge(60 * 60); // 60 * 60초 동안 cookie 저장
+        httpServletResponse.addCookie(cookie);
+
+        return ResponseEntity.ok().body(responseMap);
+    }
+
+
+    // # 로그아웃 처리 함수(쿠키 삭제)
+    // 로그아웃 처리 API
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(HttpServletResponse response) {
+
+        // 쿠키 무효화
+        Cookie cookie = new Cookie("accessToken", null);
+        // 쿠키의 수명, 사용경로, 보안 등을 설정
+        cookie.setMaxAge(0); // 단위: 초
+        cookie.setPath("/");
+        cookie.setHttpOnly(true); // 보안설정 - 자바스크립트로는 쿠키에 접근 불가
+
+        // 쿠키를 클라이언트에 전송
+        response.addCookie(cookie);
+
+        return ResponseEntity.ok().body(Map.of(
+                "message", "로그아웃이 처리되었습니다."
+        ));
+    }
+
+
+
+
 }
