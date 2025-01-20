@@ -22,5 +22,4 @@ public class RouteController {
         return "components/detail-page";
     }
 }
-}
 
