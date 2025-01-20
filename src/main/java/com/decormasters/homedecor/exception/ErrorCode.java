@@ -1,10 +1,12 @@
 package com.decormasters.homedecor.exception;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 
 @RequiredArgsConstructor @Getter
+
 public enum ErrorCode {
 
     //  File 관련 오류

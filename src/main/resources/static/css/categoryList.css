@@ -1,0 +1,42 @@
+
+/* src/main/resources/static/css/categoryList.css */
+
+/* 카테고리, 카테고리 오른쪽 정렬 옵션  */
+.filter-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 80px; /* 상하 20px, 좌우 80px */
+    background-color: #f1f1f1;
+    border-bottom: 1px solid #ddd;
+}
+.filter-container .title-container {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* 항목 간격 */
+}
+.filter-container .title-container span {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+.filter-container .title-container span:hover {
+    color: #35C5F0; /* 마우스 오버 시 색상 */
+}
+.filter-container .sort-options {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.filter-container label {
+    font-size: 16px;
+    color: #555;
+}
+.filter-container select {
+    padding: 5px 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
