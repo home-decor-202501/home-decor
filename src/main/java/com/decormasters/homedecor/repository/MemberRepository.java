@@ -13,9 +13,9 @@ public interface MemberRepository {
 
     List<Member> displayAllUsers();
 
-   boolean checkNicknameExists(String nickname);
+    boolean checkNicknameExists(String nickname);
 
-   boolean checkEmailExists(String email);
+    boolean checkEmailExists(String email);
 
-   Optional<Member> findUserByEmail(String userEmail);
+    Optional<Member> findUserByEmail(String userEmail);
 }

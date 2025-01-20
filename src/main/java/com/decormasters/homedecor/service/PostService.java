@@ -42,7 +42,6 @@ public class PostService {
     // 게시물 생성 DB에 가기 전 후 중간처리
     @Transactional
     public Long createPost(PostCreate postCreate, String email) {
-    // public Long createPost(PostCreate postCreate, String username) {
         // 유저의 이름을 통해 해당 유저의 ID를 구함
         Member foundMember = memberRepository.findUserByEmail(email)
                 .orElseThrow(
@@ -51,7 +50,6 @@ public class PostService {
         // entity 변환
         Post post = postCreate.toEntity();
 
-        // 사용자의 ID를 세팅해줘야 함 <- 이걸 어케구함?
         post.setMemberId(foundMember.getId());
 
         // 피드게시물을 posts테이블에 insert
@@ -59,7 +57,6 @@ public class PostService {
 
         // 이미지 관련 처리를 모두 수행
         Long postId = post.getId();
-
         processImages(postCreate.getImages(), postId);
 
         // 해시태그 관련 처리를 수행

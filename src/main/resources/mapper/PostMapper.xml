@@ -6,9 +6,9 @@
     <!-- 게시물 저장 -->
     <insert id="savePost" keyProperty="id" useGeneratedKeys="true">
         INSERT INTO post
-            (content, user_id, created_at, updated_at)
+            (content, user_id)
         VALUES
-            (#{content}, #{userId}, #{createdAt}, #{updatedAt});
+            (#{content}, #{memberId});
     </insert>
 
     <!-- 게시물 이미지 저장 -->
@@ -43,7 +43,7 @@
     <resultMap id="PostResultMap" type="Post">
         <id property="id" column="post_id"/>
         <result property="content" column="content"/>
-        <result property="userId" column="user_id"/>
+        <result property="memberId" column="user_id"/>
         <result property="viewCount" column="view_count"/>
         <result property="createdAt" column="created_at"/>
         <result property="updatedAt" column="updated_at"/>

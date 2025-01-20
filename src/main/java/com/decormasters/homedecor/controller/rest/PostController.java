@@ -38,7 +38,7 @@ public class PostController {
             @RequestPart("post") @Valid PostCreate postCreate
             // 이미지 파일 목록 multipart-file
             , @RequestPart("images") List<MultipartFile> images
-            , @AuthenticationPrincipal String email // 인증된 사용자 이름
+            , @AuthenticationPrincipal String email // 인증된 사용자 이메일
     ) {
         images.forEach(image -> {
             log.info("uploaded image file name - {}", image.getOriginalFilename());
@@ -65,10 +65,10 @@ public class PostController {
     @GetMapping("/{postId}")
     public ResponseEntity<?> getDetail(
             @PathVariable Long postId
-            , @AuthenticationPrincipal String nickname
+            , @AuthenticationPrincipal String email
     ) {
 
-        PostDetailResponse postDetails = postService.getPostDetails(postId, nickname);
+        PostDetailResponse postDetails = postService.getPostDetails(postId, email);
 
         return ResponseEntity.ok().body(postDetails);
     }
