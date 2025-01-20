@@ -107,7 +107,7 @@ function setUpFileUploadEvents() {
         const validFiles = validateFiles(files);
 
         // 이미 생성되어 있다면, 그냥 init()만 다시 호출해서 '슬라이드 모록'만 업데이트
-        if(step2Carousel && step3Carousel) {
+        if (step2Carousel && step3Carousel) {
             step2Carousel.init(validFiles);
             step3Carousel.init(validFiles);
         }
@@ -183,7 +183,7 @@ function setUpModalEvents() {
         e.preventDefault();
 
         //step2부터는 모달을 닫으면 안됨. 대신 새로운 모달을 띄워야 함
-        if (currentStep >= 2 ) {
+        if (currentStep >= 2) {
             // 중첩모달을 띄우기
             $nestedModal.style.display = 'flex';
             return;
@@ -216,18 +216,18 @@ function setUpModalEvents() {
 }
 
 // 피드 모달 닫을 때 나가기 취소 관련
-function setupNestedModalEvents(){
-  const {$nestedModal, $deleteBtn, $cancelBtn} = elements;
+function setupNestedModalEvents() {
+    const {$nestedModal, $deleteBtn, $cancelBtn} = elements;
 
-  //취소처리 - 중첩모달만 닫기
+    //취소처리 - 중첩모달만 닫기
     $cancelBtn.addEventListener('click', () => {
         $nestedModal.style.display = 'none';
     });
 
     //삭제처리 - 모든 모달을 닫고 초기상태로 귀환
-    $deleteBtn.addEventListener('click',()=>{
-       //새로고침시 모든것이 초기로 돌아감
-       window.location.reload();
+    $deleteBtn.addEventListener('click', () => {
+        //새로고침시 모든것이 초기로 돌아감
+        window.location.reload();
     });
 }
 
@@ -241,7 +241,7 @@ function bindEvents() {
 
 // 피드 내용 입력 이벤트
 function setupTextareaEvents() {
-    const { $contentTextarea, $charCounter } = elements;
+    const {$contentTextarea, $charCounter} = elements;
 
     $contentTextarea.addEventListener('keydown', () => {
         const length = $contentTextarea.value.length;
