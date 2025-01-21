@@ -6,6 +6,7 @@ import com.decormasters.homedecor.domain.like.dto.LikeStatusResponse;
 import com.decormasters.homedecor.domain.member.entitiy.Member;
 import com.decormasters.homedecor.domain.post.dto.request.PostCreate;
 import com.decormasters.homedecor.domain.post.dto.response.PostDetailResponse;
+import com.decormasters.homedecor.domain.post.dto.response.PostResponse;
 import com.decormasters.homedecor.domain.post.entity.Post;
 import com.decormasters.homedecor.domain.post.entity.PostImage;
 import com.decormasters.homedecor.exception.ErrorCode;
@@ -20,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,8 +36,35 @@ public class PostService {
     private final FileUploadUtil fileUploadUtil; // 로컬서버에 이미지 저장
 
     // 전체 유저의 게시물 조회
-    public List<Post> getAllPosts() {
-        return postRepository.findAllPosts();
+    public List<PostResponse> getAllPosts(String email) {
+        // 로그인된 사용자 찾기
+        Optional<Member> foundMemberOptional = memberRepository.findUserByEmail(email);
+
+        // 로그인한 사용자가 있을 경우
+        if (foundMemberOptional.isPresent()) {
+            Member foundMember = foundMemberOptional.get(); // 로그인한 사용자 가져오기
+
+            return postRepository.findAllPosts()
+                    .stream()
+                    .map(post -> {
+                        // 로그인한 사용자에 대한 좋아요 상태 계산
+                        LikeStatusResponse likeStatus = LikeStatusResponse.of(
+                                postLikeRepository.findByPostIdAndMemberId(post.getId(), foundMember.getId()).isPresent(),
+                                postLikeRepository.countByPostId(post.getId())
+                        );
+                        return PostResponse.of(post, likeStatus);
+                    })
+                    .collect(Collectors.toList());
+        } else {
+            // 로그인 안한 경우 likeStatus는 null로 설정
+            return postRepository.findAllPosts()
+                    .stream()
+                    .map(post -> {
+                        // 로그인하지 않은 경우, likeStatus를 null로 설정
+                        return PostResponse.of(post, null);
+                    })
+                    .collect(Collectors.toList());
+        }
     }
 
     // 게시물 생성 DB에 가기 전 후 중간처리
@@ -105,25 +134,4 @@ public class PostService {
                 , postLikeRepository.countByPostId(postId)
         ));
     }
-
-    // 유저 게시물 목록조회 중간처리
-//    @Transactional(readOnly = true)
-//    public List<PostResponse> findPostsByMember(String email) {
-//
-//        // TODO : Runtime에러 -> 예외처리
-//        Member foundMember = memberRepository.findUserByEmail(email)
-//                .orElseThrow(() -> new RuntimeException("Member not found"));
-//
-//        // 전체 피드 조회
-//        return postRepository.findPostsByMember()
-//                .stream()
-//                .map(post -> {
-//                    LikeStatusResponse likeStatus = LikeStatusResponse.of(
-//                            postLikeRepository.findByPostIdAndMemberId(post.getId(), foundMember.getId()).isPresent()
-//                            , postLikeRepository.countByPostId(post.getId())
-//                    );
-//                    return PostResponse.of(post, likeStatus);
-//                })
-//                .collect(Collectors.toList());
-//    }
 }

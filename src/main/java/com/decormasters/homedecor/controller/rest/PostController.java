@@ -26,9 +26,9 @@ public class PostController {
 
     // 모든 게시물 조회 API
     @GetMapping
-    public ResponseEntity<List<Post>> getAllPosts() {
-        List<Post> posts = postService.getAllPosts();
-        return ResponseEntity.ok(posts);
+    public ResponseEntity<?> getAllPosts(@AuthenticationPrincipal String email) {
+        List<PostResponse> posts = postService.getAllPosts(email);
+        return ResponseEntity.ok().body(posts);
     }
 
     // 게시물 생성 요청

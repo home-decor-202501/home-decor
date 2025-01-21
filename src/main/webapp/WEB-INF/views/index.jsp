@@ -13,6 +13,7 @@
 
   <!-- Modular CSS -->
   <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/post.css">
   <link rel="stylesheet" href="/css/modal.css">
 
 
@@ -28,7 +29,11 @@
 
   <main class="feed">
     <!-- Posts Section -->
-    <%@ include file="components/feed.jsp" %> <!-- 게시물 피드 섹션 -->
+    <%@ include file="components/post.jsp" %> <!-- 게시물 피드 섹션 -->
+
+    <div id="loading-indicator" style="text-align: center; padding: 20px; display: none;">
+      <span>Loading...</span>
+    </div>
 
   </main>
 

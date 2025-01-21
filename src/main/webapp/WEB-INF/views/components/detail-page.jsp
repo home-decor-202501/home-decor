@@ -64,7 +64,7 @@
     <div class="post-contents">내 방이야</div>
     <!-- 날짜, 좋아요, 조회수 -->
     <div class="post-info">
-      <span class="post-date">${postDetail.createdAt}</span>
+      <span class="post-time">날짜</span>
       <span class="like-count">좋아요 1</span>
       <span class="view-count">조회 13</span>
     </div>
