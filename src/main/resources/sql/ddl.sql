@@ -17,7 +17,7 @@ CREATE TABLE post (
                       content	VARCHAR(500)	NOT NULL,
                       created_at	DATETIME DEFAULT CURRENT_TIMESTAMP	NOT NULL,
                       updated_at	DATETIME	NULL,
-                      view_count	INT	NOT NULL,
+                      view_count	INT	NOT NULL DEFAULT 0,
                       FOREIGN KEY (user_id) REFERENCES `user`(id)
 );
 
@@ -26,7 +26,7 @@ CREATE TABLE `like` (
                         user_id	BIGINT	NOT NULL,
                         post_id	BIGINT	NOT NULL,
                         FOREIGN KEY (user_id) REFERENCES `user`(id),
-                        FOREIGN KEY (post_id) REFERENCES post(post_id)
+                        FOREIGN KEY (post_id) REFERENCES post(post_ddlid)
 );
 
 CREATE TABLE Comment (
@@ -72,4 +72,5 @@ DESCRIBE post_image;
 
 select * from post;
 DESCRIBE post;
+
 
