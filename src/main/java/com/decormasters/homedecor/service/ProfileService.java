@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -37,7 +38,15 @@ public class ProfileService {
     public MeResponse getLoggedInUser(String username) {
         Member foundMember = getMember(username);
         return MeResponse.from(foundMember);
+    }
 
+    // (POST용) USER 테이블의 ID 값으로 해당 회원의 모든 정보를 불러오는 함수
+    public MeResponse findUserById(Long id) {
+        log.info("finding user info of 'User Id : {}'", id);
+        MeResponse userData = memberRepository.findUserById(id)
+                .map(MeResponse::from)
+                .orElseThrow(() -> new AuthException(AuthErrorCode.USER_DOES_NOT_EXIST, Arrays.asList("userEmail")));
+        return userData;
     }
 
 

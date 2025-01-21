@@ -30,4 +30,14 @@ public class ProfileController {
         MeResponse meResponse = profileService.getLoggedInUser(currentLoginUsername);
         return ResponseEntity.ok().body(meResponse);
     }
+
+    // 로그인한 유저의 프로필 정보를 갖다주는 API
+    @GetMapping("/{userId}")
+    public ResponseEntity<MeResponse> getSelectedUser(
+            @PathVariable("userId") String userId
+    ) {
+        Long id = Long.parseLong(userId);
+        MeResponse userData = profileService.findUserById(id);
+        return ResponseEntity.ok().body(userData);
+    }
 }

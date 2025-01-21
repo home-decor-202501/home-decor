@@ -3,6 +3,7 @@ package com.decormasters.homedecor.service;
 import com.decormasters.homedecor.Util.FileUploadUtil;
 import com.decormasters.homedecor.controller.rest.LoginRequest;
 import com.decormasters.homedecor.domain.member.dto.request.SignUpRequest;
+import com.decormasters.homedecor.domain.member.dto.response.MeResponse;
 import com.decormasters.homedecor.domain.member.entitiy.Member;
 import com.decormasters.homedecor.exception.authorization.AuthErrorCode;
 import com.decormasters.homedecor.exception.authorization.AuthException;
