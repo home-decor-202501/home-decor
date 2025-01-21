@@ -8,7 +8,7 @@ CREATE TABLE `user` (
                         password VARCHAR(255)	NOT NULL,
                         nickname	VARCHAR(255)	NOT NULL,
                         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-                        img_url	VARCHAR(255) NULL
+                        img_url	VARCHAR(255) NULLpostController
 );
 
 CREATE TABLE post (
@@ -44,7 +44,7 @@ CREATE TABLE Comment (
 
 CREATE TABLE post_image (
                             id	BIGINT	AUTO_INCREMENT NOT NULL PRIMARY KEY,
-                            post_id	BIGINT	NOT NULL,
+                            post_id	BIGINT	NOT NULL,ddl
                             image_url	VARCHAR(255) NOT NULL,
                             image_order INT	NOT NULL,
                             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP	NULL,

@@ -70,7 +70,7 @@ class PostRepositoryTest {
             피드 생성 후 해당 피드에 이미지를
             2개 첨부했을 때 이미지 생성과 함께 해당 이미지 목록이 조회된다.
             """)
-    void saveImagesAndFindEmages() {
+    void saveImagesAndFindImages() {
         //given
         //피드를 한개 생성
         Post feed = Post.builder()
