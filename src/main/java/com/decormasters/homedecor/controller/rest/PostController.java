@@ -2,6 +2,7 @@ package com.decormasters.homedecor.controller.rest;
 
 import com.decormasters.homedecor.domain.post.dto.request.PostCreate;
 import com.decormasters.homedecor.domain.post.entity.Post;
+import com.decormasters.homedecor.service.PostService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +17,7 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 public class PostController {
+    private final PostService postService;
 
 
     // 피드 생성 요청
@@ -36,6 +38,7 @@ public class PostController {
     postCreate.setImages(images);
     log.info("feed create request: POST - {}", postCreate);
 
+    postService.createFeed(postCreate);
     return ResponseEntity
             .ok()
             .body(null);
