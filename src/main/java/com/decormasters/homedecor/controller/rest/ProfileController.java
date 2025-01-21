@@ -1,7 +1,6 @@
 package com.decormasters.homedecor.controller.rest;
 
 import com.decormasters.homedecor.domain.member.dto.response.MeResponse;
-import com.decormasters.homedecor.domain.member.entitiy.Member;
 import com.decormasters.homedecor.jwt.JwtProvider;
 import com.decormasters.homedecor.service.ProfileService;
 import lombok.RequiredArgsConstructor;

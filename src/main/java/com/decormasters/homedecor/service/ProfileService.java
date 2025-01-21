@@ -1,7 +1,7 @@
 package com.decormasters.homedecor.service;
 
 import com.decormasters.homedecor.domain.member.dto.response.MeResponse;
-import com.decormasters.homedecor.domain.member.entitiy.Member;
+import com.decormasters.homedecor.domain.member.entity.Member;
 import com.decormasters.homedecor.exception.authorization.AuthErrorCode;
 import com.decormasters.homedecor.exception.authorization.AuthException;
 import com.decormasters.homedecor.repository.MemberRepository;
