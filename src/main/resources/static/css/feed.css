@@ -7,7 +7,7 @@
     flex-wrap: wrap;
     gap: 20px; /* 카드 간격 */
     padding: 20px 80px; /* 상하 20px, 좌우 80px */
-    justify-content: space-between;
+    justify-content: flex-start;
 }
 .feed-item {
     width: calc(25% - 20px);  /* 한 줄에 4개씩, 간격띄움*/
@@ -16,7 +16,6 @@
     background-color: #fff;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-/*rteertert'*/
 }
 
 

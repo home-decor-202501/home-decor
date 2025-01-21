@@ -4,7 +4,7 @@
 <!-- Feed Container -->
 <div class="feed-container" id="feed-container">
 
-  <c:forEach begin="1" end="7">
+  <c:forEach begin="1" end="18">
   <div class="feed-item">
 
     <div class="feed-profile">
