@@ -41,20 +41,24 @@ export function formatDate(dateString) {
 }
 
 // 한개의 게시물을 렌더링하는 함수
-function createPostItem({ post_id: postId, nickname, profileImageUrl, content, image, createdAt, likeStatus }) {
+function createPostItem({ postId, nickname, profileImageUrl, content, image, createdAt, likeStatus }) {
     // likeStatus가 null인 경우, likeCount를 표시하지 않음
     const { liked = false, likeCount = 0 } = likeStatus || {}; // likeStatus가 null이면 liked와 likeCount는 기본값을 사용
 
     return `
         <div class="post-item">
             <div class="post-profile">
-                <img src="${profileImageUrl || 'https://via.placeholder.com/40'}" alt="프로필 이미지">
+                <img src="${profileImageUrl || 'https://image.ohou.se/i/bucketplace-v2-development/uploads/default_images/avatar.png?w=72&h=72&c=c"\n' +
+    '           srcset="https://image.ohou.se/i/bucketplace-v2-development/uploads/default_images/avatar.png?w=72&h=72&c=c 1x,\n' +
+    '          https://image.ohou.se/i/bucketplace-v2-development/uploads/default_images/avatar.png?w=144&h=144&c=c 2x,\n' +
+    '          https://image.ohou.se/i/bucketplace-v2-development/uploads/default_images/avatar.png?w=216&h=216&c=c 3x'}" alt="프로필 이미지">
                 <div class="profile-info">
                     <a href="#" class="profile-name">${nickname}</a>
                 </div>
             </div>
 
-            <img src="${image || 'https://via.placeholder.com/300x200'}" alt="게시물 이미지">
+            <!-- 랜덤 이미지 링크 https://picsum.photos/300/200-->
+            <img src="${image || 'https://picsum.photos/300/200'}" alt="게시물 이미지">
 
             <div class="post-content">
                 <span>${content}</span>

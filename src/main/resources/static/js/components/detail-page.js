@@ -4,10 +4,10 @@ function renderPost({ postId, content, createdAt, user, images, likeStatus }) {
     const $postProfile = document.querySelector('.post-profile');
     const $postInfo = document.querySelector('.post-info');
 
-    const { username } = user;
+    const { nickname, profileImageUrl } = user;
     const { liked, likeCount } = likeStatus;
 
-    $postProfile.querySelector('.profile-name').textContent = username;
+    $postProfile.querySelector('.profile-name').textContent = nickname;
     $postInfo.querySelector('.post-time').textContent = formatDate(createdAt);
 }
 

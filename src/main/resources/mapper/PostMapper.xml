@@ -49,9 +49,22 @@
 
     <!-- 모든 회원의 게시물 조회 -->
     <select id="findAllPosts" resultMap="PostResultMap">
-        SELECT *
-        FROM post
-        ORDER BY created_at DESC;
+        SELECT
+            p.post_id
+             , p.content
+             , p.created_at
+             , u.nickname
+             , u.img_url
+             , pi.id
+             , pi.image_url
+             , pi.image_order
+        FROM post p
+                 INNER JOIN user u
+                            ON u.id = p.user_id
+                 INNER JOIN post_image pi
+                            ON p.post_id = pi.post_id
+        ORDER BY
+            p.created_at DESC, p.post_id DESC
     </select>
 
     <resultMap id="PostResultMap" type="Post">

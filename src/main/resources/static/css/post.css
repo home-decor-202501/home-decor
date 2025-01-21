@@ -4,7 +4,7 @@
     flex-wrap: wrap;
     gap: 20px; /* 카드 간격 */
     padding: 20px 80px; /* 상하 20px, 좌우 80px */
-    justify-content: space-between;
+    justify-content: flex-start;
 }
 .post-item {
     width: calc(25% - 20px);  /* 한 줄에 4개씩, 간격띄움*/
@@ -42,6 +42,7 @@
     flex-grow: 1;
 }
 .post-item .post-profile .profile-info .profile-name {
+    text-decoration: none; /* 밑줄 제거 */
     font-size: 16px;
     font-weight: bold;
     color: #333;
@@ -62,8 +63,13 @@
     font-size: 14px;
     color: #333;
 }
+
 .post-item .post-content .like-section .like-icon {
-    color: #ff4d4f; /* 빨간색 하트 */
+    color: #d3d3d3; /* 기본 상태: 연한 회색 */
     cursor: pointer;
 }
 
+/* liked가 true일 때 빨간색으로 변경 */
+.post-item .post-content .like-section .like-icon.liked {
+    color: #ff4d4d; /* 빨간색 */
+}

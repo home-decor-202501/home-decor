@@ -93,7 +93,7 @@ body {
     flex-wrap: wrap;
     gap: 20px; /* 카드 간격 */
     padding: 20px 80px; /* 상하 20px, 좌우 80px */
-    justify-content: space-between;
+    justify-content: flex-start;
 }
 .feed-item {
     width: calc(25% - 20px);  /* 한 줄에 4개씩, 간격띄움*/

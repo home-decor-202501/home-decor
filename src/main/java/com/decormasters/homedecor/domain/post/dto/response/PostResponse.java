@@ -18,10 +18,9 @@ import java.util.stream.Collectors;
 @Builder
 public class PostResponse {
 
-    @JsonProperty("feed_id")
-    private Long id;
+    private Long postId;
     private String content;
-    private String username;
+    private String nickname;
     private String profileImageUrl;
     private List<PostImageResponse> images;
     private LocalDateTime createdAt;
@@ -29,21 +28,21 @@ public class PostResponse {
     // 좋아요 상태데이터
     private LikeStatusResponse likeStatus;
 
-    public static PostResponse of(Post feed, LikeStatusResponse likeStatus) {
+    public static PostResponse of(Post post, LikeStatusResponse likeStatus) {
         return PostResponse.builder()
-                .id(feed.getId())
-                .content(feed.getContent())
-                .username(feed.getMember().getNickname())
-                .profileImageUrl(feed.getMember().getImageUrl())
+                .postId(post.getId())
+                .content(post.getContent())
+                .nickname(post.getMember().getNickname())
+                .profileImageUrl(post.getMember().getImageUrl())
                 .likeStatus(likeStatus)
                 .images(
-                        feed.getImages()
+                        post.getImages()
                                 .stream()
                                 .map(PostImageResponse::from)
                                 .collect(Collectors.toList())
                 )
-                .createdAt(feed.getCreatedAt())
-                .updatedAt(feed.getUpdatedAt())
+                .createdAt(post.getCreatedAt())
+                .updatedAt(post.getUpdatedAt())
                 .build();
     }
 }
