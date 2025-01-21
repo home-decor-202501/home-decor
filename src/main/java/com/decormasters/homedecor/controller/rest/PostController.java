@@ -34,11 +34,14 @@ public class PostController {
             log.info("uploaded image file name - {}", image.getOriginalFilename());
 
         });
-
     postCreate.setImages(images);
     log.info("feed create request: POST - {}", postCreate);
 
+
+
+    //이미지,JSON을 서비스클ㅋ래스로 전송
     postService.createFeed(postCreate);
+
     return ResponseEntity
             .ok()
             .body(null);

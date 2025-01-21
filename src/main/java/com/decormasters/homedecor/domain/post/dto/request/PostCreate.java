@@ -15,6 +15,8 @@ import java.util.List;
 @AllArgsConstructor
 public class PostCreate {
 
+    // 이미지 목록
+
     @NotNull(message = "userId는 필수 입력값입니다.")
     private Long userId; //JSON에서 필드 매핑
     private List<MultipartFile> images; // 파일리스트 (JSON에서 필드 매핑시)
