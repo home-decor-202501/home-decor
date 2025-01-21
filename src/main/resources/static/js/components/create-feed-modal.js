@@ -165,13 +165,13 @@ function setUpFileUploadEvents() {
 
 
 // 피드 생성 모달 관련 이벤트 함수
-function setUpModalEvents() {
+async function setUpModalEvents() {
     const {$closeBtn, $backdrop, $backStepBtn, $nextStepBtn, $nestedModal} = elements;
     // DOM  요소 가져오기
     const $writeButton = document.getElementById('write-button'); // 글쓰기
 
     //모달 열기 함수
-    const openModal = e => {
+    const openModal = async e => {
         e.preventDefault();
         // 로그인 여부 확인해서, 로그인 안했으면 로그인 페이지로 이동
         const accessToken = localStorage.getItem('accessToken');
@@ -184,6 +184,20 @@ function setUpModalEvents() {
         // 모달 열기
         $modal.style.display = 'flex';
         document.body.style.overflow = 'hidden'; // 배경 바디 스크롤 방지
+
+        // # 사용자 정보 불러와서 렌더링
+        // 1. 서버에 현재 로그인한 사람 정보 요청
+        const accessToken2 = localStorage.getItem("accessToken");
+        const response = await fetch(`/api/profiles/tk/${accessToken2}`);
+        const me = await response.json();
+
+        // 2. 유저 정보를 화면에 렌더링
+        const $writeArea = $modal.querySelector('.write-area');
+        let $profileImage = $writeArea.querySelector('.profile-image img');
+        let $userName = $writeArea.querySelector('span.username');
+
+        $userName.textContent = me.nickname;
+        $profileImage.src = me.profileImageUrl;
     };
 
     //모달 닫기

@@ -62,15 +62,17 @@ if (accessToken === null) {
         $logoutLink.classList.add('logged-out');
         $logoutLink.classList.remove('logged-in');
         $logoutLink.innerHTML = '로그인';
+
+        // 로그인 버튼 event 생성
+        const $loginLink = document.querySelector('nav a.login.logged-out');
+
+        $loginLink.addEventListener('click', async (e) => {
+            e.preventDefault();
+            window.location.href = $loginLink.href;
+        });
+
     }, { once: true });
 
-    // 로그인 버튼 event 생성
-    const $loginLink = document.querySelector('nav a.login.logged-out');
-
-    $loginLink.addEventListener('click', async (e) => {
-        e.preventDefault();
-        window.location.href = $loginLink.href;
-    });
 }
 
 
