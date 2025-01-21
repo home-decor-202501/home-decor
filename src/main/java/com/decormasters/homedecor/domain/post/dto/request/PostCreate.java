@@ -5,7 +5,6 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.util.List;
 
 // 피드 생성시 클라이언트가 보낸 JSON데이터를 파싱하고 검증
@@ -17,7 +16,7 @@ public class PostCreate {
 
     // 이미지 목록
 
-    @NotNull(message = "userId는 필수 입력값입니다.")
+    @NotNull(message = "memberId는 필수 입력값입니다.")
     private Long userId; //JSON에서 필드 매핑
     private List<MultipartFile> images; // 파일리스트 (JSON에서 필드 매핑시)
 

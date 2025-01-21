@@ -1,8 +1,10 @@
 package com.decormasters.homedecor.domain.post.entity;
 
+import com.decormasters.homedecor.domain.member.entitiy.Member;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter @Setter @ToString
 @EqualsAndHashCode(of = "id")
@@ -17,5 +19,8 @@ public class Post {
     private int viewCount;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    private List<PostImage> images;
+    private Member member;
 
 }

@@ -4,11 +4,11 @@ USE home_decor;
 
 CREATE TABLE `user` (
                         id	BIGINT AUTO_INCREMENT PRIMARY KEY,
-                        email	VARCHAR(255) UNIQUE	NOT NULL,
+                        email	VARCHAR(255) UNIQUE	NOT NULL,postExceptionpostcreate
                         password VARCHAR(255)	NOT NULL,
                         nickname	VARCHAR(255)	NOT NULL,
                         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-                        img_url	VARCHAR(255) NULLpostController
+                        img_url	VARCHAR(255) NULL
 );
 
 CREATE TABLE post (
