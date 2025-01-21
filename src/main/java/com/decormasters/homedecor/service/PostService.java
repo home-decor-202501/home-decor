@@ -6,7 +6,6 @@ import com.decormasters.homedecor.domain.like.dto.LikeStatusResponse;
 import com.decormasters.homedecor.domain.member.entitiy.Member;
 import com.decormasters.homedecor.domain.post.dto.request.PostCreate;
 import com.decormasters.homedecor.domain.post.dto.response.PostDetailResponse;
-import com.decormasters.homedecor.domain.post.dto.response.PostResponse;
 import com.decormasters.homedecor.domain.post.entity.Post;
 import com.decormasters.homedecor.domain.post.entity.PostImage;
 import com.decormasters.homedecor.exception.ErrorCode;

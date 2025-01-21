@@ -28,9 +28,23 @@
 
     <!-- 단일 게시물 상세조회 -->
     <select id="findPostDetailById"  resultMap="PostResultMap">
-        SELECT *
-        FROM post
-        WHERE post_id = #{postId};
+
+        SELECT
+            p.post_id
+            , p.content
+            , p.created_at
+            , u.nickname
+            , pi.id
+            , pi.image_url
+            , pi.image_order
+        FROM post p
+                 INNER JOIN user u
+                            ON p.user_id = u.id
+                 INNER JOIN post_image pi
+                            ON p.post_id = pi.post_id
+        WHERE p.post_id = #{postId}
+        ORDER BY pi.image_order
+
     </select>
 
     <!-- 모든 회원의 게시물 조회 -->
@@ -49,9 +63,9 @@
         <result property="updatedAt" column="updated_at"/>
         <!--    내부 단일 객체 매핑 설정    -->
         <association property="member" javaType="Member">
-            <id property="id" column="id"/>
+            <id property="id" column="user_id"/>
             <result property="nickname" column="nickname"/>
-            <result property="imageUrl" column="image_url"/>
+            <result property="imageUrl" column="img_url"/>
         </association>
 
         <!--   내부 리스트 객체 매핑 설정   -->

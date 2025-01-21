@@ -11,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class MeResponse {
 
-    private String nickName;
+    private String nickname;
     private String profileImageUrl;
 
     public static MeResponse from(Member member) {
@@ -19,10 +19,9 @@ public class MeResponse {
             log.error("Member is null in MeResponse.from() method");
             throw new IllegalArgumentException("Member cannot be null");
         }
-        log.info("Converting Member to MeResponse: " + member.getNickname());
 
         return MeResponse.builder()
-                .nickName(member.getNickname())
+                .nickname(member.getNickname())
                 .profileImageUrl(member.getImageUrl())
                 .build();
     }

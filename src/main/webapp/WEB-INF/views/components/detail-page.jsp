@@ -49,9 +49,9 @@
     <span>반려동물</span>
     <span>육아</span>
     <span>홈스토랑</span>
-    <span>플랜테니어어</span>
+    <span>플랜테니어</span>
     <span>콜렉터블</span>
-    <span>캠핑핑</span>
+    <span>캠핑</span>
     <span>이벤트</span>
   </div>
 </div>
@@ -64,7 +64,7 @@
     <div class="post-contents">내 방이야</div>
     <!-- 날짜, 좋아요, 조회수 -->
     <div class="post-info">
-      <span class="post-date">2024.06.26</span>
+      <span class="post-date">${postDetail.createdAt}</span>
       <span class="like-count">좋아요 1</span>
       <span class="view-count">조회 13</span>
     </div>

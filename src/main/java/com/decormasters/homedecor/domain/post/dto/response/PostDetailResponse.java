@@ -3,12 +3,20 @@ package com.decormasters.homedecor.domain.post.dto.response;
 import com.decormasters.homedecor.domain.like.dto.LikeStatusResponse;
 import com.decormasters.homedecor.domain.member.dto.response.MeResponse;
 import com.decormasters.homedecor.domain.post.entity.Post;
+
+import com.decormasters.homedecor.domain.member.entitiy.Member;
+import com.decormasters.homedecor.exception.ErrorCode;
+import com.decormasters.homedecor.repository.MemberRepository;
+
+
 import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Getter @Setter @ToString
 @EqualsAndHashCode
 @NoArgsConstructor
