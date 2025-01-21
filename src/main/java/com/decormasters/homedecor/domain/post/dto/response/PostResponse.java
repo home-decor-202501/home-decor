@@ -22,7 +22,7 @@ public class PostResponse {
     private String content;
     private String nickname;
     private String profileImageUrl;
-    private List<PostImageResponse> images;
+    private PostImageResponse image;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     // 좋아요 상태데이터
@@ -35,12 +35,7 @@ public class PostResponse {
                 .nickname(post.getMember().getNickname())
                 .profileImageUrl(post.getMember().getImageUrl())
                 .likeStatus(likeStatus)
-                .images(
-                        post.getImages()
-                                .stream()
-                                .map(PostImageResponse::from)
-                                .collect(Collectors.toList())
-                )
+                .image(PostImageResponse.from(post.getImages().get(0)))
                 .createdAt(post.getCreatedAt())
                 .updatedAt(post.getUpdatedAt())
                 .build();

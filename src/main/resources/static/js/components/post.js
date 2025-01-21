@@ -44,6 +44,7 @@ export function formatDate(dateString) {
 function createPostItem({ postId, nickname, profileImageUrl, content, image, createdAt, likeStatus }) {
     // likeStatus가 null인 경우, likeCount를 표시하지 않음
     const { liked = false, likeCount = 0 } = likeStatus || {}; // likeStatus가 null이면 liked와 likeCount는 기본값을 사용
+    const { imageUrl } = image;
 
     return `
         <div class="post-item">
@@ -58,7 +59,7 @@ function createPostItem({ postId, nickname, profileImageUrl, content, image, cre
             </div>
 
             <!-- 랜덤 이미지 링크 https://picsum.photos/300/200-->
-            <img src="${image || 'https://picsum.photos/300/200'}" alt="게시물 이미지">
+            <img src="${imageUrl || 'https://picsum.photos/300/200'}" alt="게시물 이미지">
 
             <div class="post-content">
                 <span>${content}</span>
