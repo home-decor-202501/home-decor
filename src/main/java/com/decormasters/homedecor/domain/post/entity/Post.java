@@ -1,6 +1,6 @@
 package com.decormasters.homedecor.domain.post.entity;
 
-import com.decormasters.homedecor.domain.member.entitiy.Member;
+import com.decormasters.homedecor.domain.member.entity.Member;
 import lombok.*;
 
 import java.time.LocalDateTime;

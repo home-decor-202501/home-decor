@@ -1,6 +1,6 @@
 package com.decormasters.homedecor.service;
 
-import com.decormasters.homedecor.Util.FileUploadUtil;
+import com.decormasters.homedecor.util.FileUploadUtil;
 import com.decormasters.homedecor.domain.post.dto.request.PostCreate;
 import com.decormasters.homedecor.domain.post.entity.Post;
 import com.decormasters.homedecor.domain.post.entity.PostImage;
