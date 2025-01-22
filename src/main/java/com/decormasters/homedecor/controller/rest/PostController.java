@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -27,12 +28,13 @@ public class PostController {
     @PostMapping
     public ResponseEntity<?> createFeed(
             @RequestPart("feed") @Valid PostCreate postCreate,
-            @RequestPart("images") List<MultipartFile> images
+            @RequestPart("images") List<MultipartFile> images,
+            @AuthenticationPrincipal String username // 인증된 사용자 이름
 
     ){
         // 파일 업로드 개수 검증
-        if (images.size() > 7) {
-            throw new PostException(ErrorCode.TOO_MANY_FILES, "파일의 개수는 7개를 초과할 수 없습니다.");
+        if (images.size() > 5) {
+            throw new PostException(ErrorCode.TOO_MANY_FILES, "파일의 개수는 5개를 초과할 수 없습니다.");
         }
 
         images.forEach(image -> {

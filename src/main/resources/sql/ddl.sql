@@ -73,5 +73,3 @@ DESCRIBE post_image;
 select * from post;
 DESCRIBE post;
 
-
-

@@ -1,5 +1,6 @@
 package com.decormasters.homedecor.domain.member.entitiy;
 
+import jakarta.validation.Valid;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -12,7 +13,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 public class Member {
-
+    
     private Long id;
     private String email;
     private String password;
