@@ -90,7 +90,7 @@ async function renderPost() {
             const postId = postItem.dataset.postId;
 
             // 해당 postId 상세 페이지로 이동
-            window.location.href = `/${postId}`;
+            window.location.href = `/post/${postId}`;
         });
     });
 }

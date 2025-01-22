@@ -4,9 +4,7 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
-@Getter
-@Setter
-@ToString
+@Getter @Setter @ToString
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,3 +16,4 @@ public class PostImage {
     private int imageOrder;
     private LocalDateTime createdAt;
 }
+

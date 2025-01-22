@@ -2,7 +2,7 @@ package com.decormasters.homedecor.domain.post.dto.response;
 
 import com.decormasters.homedecor.domain.like.dto.LikeStatusResponse;
 import com.decormasters.homedecor.domain.member.dto.response.ProfileResponseDto;
-import com.decormasters.homedecor.domain.member.entitiy.Member;
+import com.decormasters.homedecor.domain.member.entity.Member;
 import com.decormasters.homedecor.domain.post.entity.Post;
 
 
@@ -42,7 +42,7 @@ public class PostDetailResponse {
     public static PostDetailResponse of(Post post, Member loggedInUser, LikeStatusResponse likeStatus) {
 
         return PostDetailResponse.builder()
-                .postId(post.getId())
+                .postId(post.getPostId())
                 .content(post.getContent())
                 .createdAt(post.getCreatedAt())
                 .viewCount(post.getViewCount())

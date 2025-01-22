@@ -3,8 +3,13 @@ CREATE DATABASE home_decor;
 USE home_decor;
 
 CREATE TABLE `user` (
+<<<<<<< HEAD
                         id	BIGINT AUTO_INCREMENT NOT NULL PRIMARY KEY,
                         email	VARCHAR(255) UNIQUE	NOT NULL,
+=======
+                        id	BIGINT AUTO_INCREMENT PRIMARY KEY,
+                        email	VARCHAR(255) UNIQUE	NOT NULL,postExceptionpostcreate
+>>>>>>> main
                         password VARCHAR(255)	NOT NULL,
                         nickname	VARCHAR(255)	NOT NULL,
                         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -43,7 +48,7 @@ CREATE TABLE Comment (
 
 CREATE TABLE post_image (
                             id	BIGINT	AUTO_INCREMENT NOT NULL PRIMARY KEY,
-                            post_id	BIGINT	NOT NULL,
+                            post_id	BIGINT	NOT NULL,ddl
                             image_url	VARCHAR(255) NOT NULL,
                             image_order INT	DEFAULT 0 NOT NULL,
                             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP	NULL,

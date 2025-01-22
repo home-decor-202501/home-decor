@@ -30,10 +30,10 @@ public class PostResponse {
 
     public static PostResponse of(Post post, LikeStatusResponse likeStatus) {
         return PostResponse.builder()
-                .postId(post.getId())
+                .postId(post.getPostId())
                 .content(post.getContent())
                 .nickname(post.getMember().getNickname())
-                .profileImageUrl(post.getMember().getImageUrl())
+                .profileImageUrl(post.getMember().getImgUrl())
                 .likeStatus(likeStatus)
                 .image(PostImageResponse.from(post.getImages().get(0)))
                 .createdAt(post.getCreatedAt())

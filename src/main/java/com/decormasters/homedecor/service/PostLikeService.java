@@ -3,7 +3,7 @@ package com.decormasters.homedecor.service;
 import com.decormasters.homedecor.domain.like.dto.LikeStatusResponse;
 import com.decormasters.homedecor.domain.like.entity.PostLike;
 import com.decormasters.homedecor.repository.MemberRepository;
-import com.decormasters.homedecor.domain.member.entitiy.Member;
+import com.decormasters.homedecor.domain.member.entity.Member;
 import com.decormasters.homedecor.repository.PostLikeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

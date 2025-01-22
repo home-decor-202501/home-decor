@@ -1,13 +1,12 @@
-/* src/main/resources/static/js/index.js */
-import initMain from './components/main.js';
-import initNavigation from './components/navigation.js';
+/* src/main/resources/static/js/feed.js */
+import initMain from './components/feed.js';
 import initCreateFeedModal from './components/create-feed-modal.js';
 import initPost from './components/post.js';
 
 // 모든 태그가 렌더링되면 실행됨
 document.addEventListener('DOMContentLoaded',()=>{
-   initMain();
+   initMain(); // 메인피드
    // initNavigation(); - 로그인 유저 불러오는거 잠시 대기
-   initCreateFeedModal(); // 피드 생성관련
+   initCreateFeedModal(); // 모달창
    initPost(); // 피드목록 렌더링 관련 js
 });

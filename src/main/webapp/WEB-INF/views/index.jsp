@@ -8,19 +8,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Homedecor Clone</title>
 
-  <!-- 파비콘 추가 -->
-  <link rel="icon" href="/favicon.ico">
+  <title>Homedecor</title>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 
   <!-- Modular CSS -->
-  <link rel="stylesheet" href="/css/main.css">
   <link rel="stylesheet" href="/css/navigation.css">
+  <link rel="stylesheet" href="/css/categoryList.css">
+  <link rel="stylesheet" href="/css/feed.css">
   <link rel="stylesheet" href="/css/post.css">
   <link rel="stylesheet" href="/css/modal.css">
-
-
 
   <!-- Modular JS -->
   <script src="/js/index.js" type="module" defer></script>

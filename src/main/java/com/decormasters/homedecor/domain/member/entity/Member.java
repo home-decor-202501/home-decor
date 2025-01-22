@@ -1,5 +1,4 @@
-package com.decormasters.homedecor.domain.member.entitiy;
-
+package com.decormasters.homedecor.domain.member.entity;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -12,11 +11,11 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 public class Member {
-
+    
     private Long id;
     private String email;
     private String password;
     private String nickname;
     private LocalDateTime createdAt;
-    private String imageUrl;
+    private String imgUrl;
 }

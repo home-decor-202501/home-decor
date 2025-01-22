@@ -1,6 +1,6 @@
 package com.decormasters.homedecor.domain.member.dto.response;
 
-import com.decormasters.homedecor.domain.member.entitiy.Member;
+import com.decormasters.homedecor.domain.member.entity.Member;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +21,7 @@ public class ProfileResponseDto {
 
         return ProfileResponseDto.builder()
                 .nickname(member.getNickname())
-                .profileImageUrl(member.getImageUrl())
+                .profileImageUrl(member.getImgUrl())
                 .build();
     }
 }

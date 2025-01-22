@@ -1,0 +1,77 @@
+/* src/main/resources/static/css/feed.css */
+
+
+/* 게시물 스타일 */
+.feed-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* 카드 간격 */
+    padding: 20px 80px; /* 상하 20px, 좌우 80px */
+    justify-content: flex-start;
+}
+.feed-item {
+    width: calc(25% - 20px);  /* 한 줄에 4개씩, 간격띄움*/
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #fff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+
+.feed-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+.feed-item img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+.feed-item .feed-profile {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    border-bottom: 1px solid #eee;
+}
+.feed-item .feed-profile img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+}
+.feed-item .feed-profile .profile-info {
+    flex-grow: 1;
+}
+.feed-item .feed-profile .profile-info .profile-name {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+.feed-item .feed-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+.feed-item .feed-title .like-section {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+    color: #333;
+}
+.feed-item .feed-title .like-section .like-icon {
+    color: #ff4d4f; /* 빨간색 하트 */
+    cursor: pointer;
+}
+.feed-item .feed-details {
+    padding: 0 15px 15px;
+    color: #555;
+    font-size: 14px;
+}
+

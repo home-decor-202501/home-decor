@@ -1,4 +1,4 @@
-/* src/main/resources/static/js/components/main.js */
+/* src/main/resources/static/js/components/feed.js */
 
 export default function initMain() {
 
@@ -7,10 +7,11 @@ export default function initMain() {
     const loadingIndicator = document.getElementById('loading-indicator');
 
     const observer = new IntersectionObserver(entries => {
-        const entry = entries[0];
-        if (entry.isIntersecting) {
-            loadMorePosts();
-        }
+       entries.forEach(entry => {
+           if (entry.isIntersecting){
+               loadMorePosts();
+           }
+       });
     });
 
     observer.observe(loadingIndicator);

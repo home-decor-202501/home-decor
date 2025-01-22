@@ -4,11 +4,11 @@
 <!-- Feed Container -->
 <div class="feed-container" id="feed-container">
 
-  <c:forEach begin="1" end="5">
+  <c:forEach begin="1" end="18">
   <div class="feed-item">
 
     <div class="feed-profile">
-      <img src="https://via.placeholder.com/40" alt="프로필 이미지">
+      <img src="#" alt="프로필 이미지">
       <div class="profile-info">
         <a href="#" class="profile-name">bebeyul</a>
       </div>
@@ -27,9 +27,34 @@
     </div>
     <div class="feed-details">심플하고 깔끔한 분위기의 거실</div>
   </div>
+
+
+<%--    <!-- Post Images -->--%>
+<%--    <div class="post-images">--%>
+<%--      <div class="carousel-container">--%>
+<%--        <div class="carousel-track">--%>
+<%--          <img src="https://png.pngtree.com/background/20230527/original/pngtree-white-modern-living-room-with-a-chandelier-picture-image_2767824.jpg" alt="게시물 이미지">--%>
+<%--        </div>--%>
+<%--        <button class="carousel-prev">--%>
+<%--          <i class="fa-solid fa-chevron-left"></i>--%>
+<%--        </button>--%>
+<%--        <button class="carousel-next">--%>
+<%--          <i class="fa-solid fa-chevron-right"></i>--%>
+<%--        </button>--%>
+<%--        <div class="carousel-indicators">--%>
+<%--          <span class="indicator active"></span>--%>
+<%--          <span class="indicator"></span>--%>
+<%--          <span class="indicator"></span>--%>
+<%--        </div>--%>
+<%--      </div>--%>
+<%--    </div>--%>
+
   </c:forEach>
+
 
   <div id="loading-indicator" style="text-align: center; padding: 20px; display: none;">
     <span>Loading...</span>
+
+
   </div>
 
