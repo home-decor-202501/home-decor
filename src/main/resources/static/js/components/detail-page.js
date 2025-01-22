@@ -119,7 +119,8 @@ function createAuthHeader() {
 
 
 async function openPostDetail() {
-    const postId = window.location.pathname.split('/')[1];
+    const pathSplits = window.location.pathname.split('/');
+    const postId = pathSplits[pathSplits.length - 1];
 
     if (!postId) {
         alert("잘못된 게시물 ID입니다.");
