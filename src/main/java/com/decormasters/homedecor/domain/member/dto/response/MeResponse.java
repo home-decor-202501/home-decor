@@ -1,11 +1,13 @@
 package com.decormasters.homedecor.domain.member.dto.response;
 
-import com.decormasters.homedecor.domain.member.entitiy.Member;
+import com.decormasters.homedecor.domain.member.entity.Member;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
 @Builder
+@ToString
 public class MeResponse {
 
         private String nickname;

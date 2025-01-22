@@ -1,4 +1,4 @@
-package com.decormasters.homedecor.domain.member.entitiy;
+package com.decormasters.homedecor.domain.member.entity;
 
 import jakarta.validation.Valid;
 import lombok.*;

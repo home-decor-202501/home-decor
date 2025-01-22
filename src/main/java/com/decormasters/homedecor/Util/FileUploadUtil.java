@@ -1,4 +1,4 @@
-package com.decormasters.homedecor.Util;
+package com.decormasters.homedecor.util;
 
 import com.decormasters.homedecor.config.FileUploadConfig;
 import com.decormasters.homedecor.exception.ErrorCode;

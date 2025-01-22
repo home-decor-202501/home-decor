@@ -1,6 +1,6 @@
 package com.decormasters.homedecor.repository;
 
-import com.decormasters.homedecor.domain.member.entitiy.Member;
+import com.decormasters.homedecor.domain.member.entity.Member;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -18,4 +18,6 @@ public interface MemberRepository {
    boolean checkEmailExists(String email);
 
    Optional<Member> findUserByEmail(String userEmail);
+
+    Optional<Member> findUserById(Long userId);
 }

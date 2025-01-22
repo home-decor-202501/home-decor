@@ -1,8 +1,6 @@
 package com.decormasters.homedecor.controller.rest;
 
 import com.decormasters.homedecor.domain.member.dto.request.SignUpRequest;
-import com.decormasters.homedecor.domain.member.entitiy.Member;
-import com.decormasters.homedecor.repository.MemberRepository;
 import com.decormasters.homedecor.service.MemberService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
