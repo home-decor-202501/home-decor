@@ -67,23 +67,7 @@ public class PostController {
             @PathVariable Long postId
             , @AuthenticationPrincipal String email
     ) {
-
         PostDetailResponse postDetails = postService.getPostDetails(postId, email);
-
         return ResponseEntity.ok().body(postDetails);
     }
-
-    // 특정 유저 게시물 목록 조회 요청
-//    @GetMapping
-//    public ResponseEntity<?> getPostsByMember(
-//            @AuthenticationPrincipal String email
-//    ) {
-//        log.info("게시물에서 인증된 이메일: {}", email);
-//
-//        List<PostResponse> allFeeds = postService.findPostsByMember(email);
-//
-//        return ResponseEntity
-//                .ok()
-//                .body(allFeeds);
-//    }
 }

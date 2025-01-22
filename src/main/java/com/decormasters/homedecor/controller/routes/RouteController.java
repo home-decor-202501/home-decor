@@ -17,8 +17,8 @@ public class RouteController {
         return "auth/login";
     }
 
-    @GetMapping("/{id}")
-    public String postDetailPage() {
+    @GetMapping("/post/{postId}")
+    public String postDetailPage(@PathVariable Long postId) {
         return "components/detail-page";
     }
 }

@@ -1,0 +1,9 @@
+ /*현재 유저 프사 */
+ .current-user {
+     width: 40px;
+ }
+.current-user img {
+         width: 30px; /* 프로필 이미지 크기 */
+        height: 30px;
+        border-radius: 50%; /* 원형으로 만들기 */
+}

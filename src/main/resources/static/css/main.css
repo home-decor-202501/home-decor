@@ -19,15 +19,17 @@ body {
 .navigation .logo img {
     height: 40px; /* 로고 높이 */
 }
-.header .nav {
+.navigation .nav {
+    align-items: center; /* 세로 중앙 정렬 */
     display: flex;
-    gap: 15px;
+    gap: 5px;
 }
 .navigation .nav a {
     text-decoration: none;
     color: #555;
     font-size: 16px;
     transition: color 0.3s ease;
+    justify-content: center;
 }
 .navigation .nav a:hover {
     color: #35C5F0; /* 마우스 오버 시 색상 */

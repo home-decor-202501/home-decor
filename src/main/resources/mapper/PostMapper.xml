@@ -33,7 +33,8 @@
             p.post_id
             , p.content
             , p.created_at
-            , u.nickname
+            , u.nickname AS author_nickname
+            , u.img_url AS author_img_url
             , pi.id
             , pi.image_url
             , pi.image_order
@@ -53,8 +54,8 @@
             p.post_id
              , p.content
              , p.created_at
-             , u.nickname
-             , u.img_url
+             , u.nickname AS author_nickname
+             , u.img_url AS author_img_url
              , pi.id
              , pi.image_url
              , pi.image_order
@@ -74,18 +75,19 @@
         <result property="viewCount" column="view_count"/>
         <result property="createdAt" column="created_at"/>
         <result property="updatedAt" column="updated_at"/>
-        <!--    내부 단일 객체 매핑 설정    -->
+
+        <!-- 게시물 작성자 (ProfileResponseDto로 변환) -->
         <association property="member" javaType="Member">
             <id property="id" column="user_id"/>
-            <result property="nickname" column="nickname"/>
-            <result property="imageUrl" column="img_url"/>
+            <result property="nickname" column="author_nickname"/>
+            <result property="imageUrl" column="author_img_url"/>
         </association>
 
-        <!--   내부 리스트 객체 매핑 설정   -->
+        <!-- 게시물 이미지 리스트 -->
         <collection property="images" ofType="PostImage">
-            <id property="id" column="id" />
-            <result property="imageUrl" column="image_url" />
-            <result property="imageOrder" column="image_order" />
+            <id property="id" column="image_id"/>
+            <result property="imageUrl" column="image_url"/>
+            <result property="imageOrder" column="image_order"/>
         </collection>
 
     </resultMap>

@@ -122,16 +122,33 @@ public class PostService {
     // 게시물 단일 조회 처리
     @Transactional(readOnly = true)
     public PostDetailResponse getPostDetails(Long postId, String email) {
+
         Post post = postRepository.findPostDetailById(postId)
                 .orElseThrow(
                         () -> new PostException(ErrorCode.POST_NOT_FOUND)
                 );
 
-        Member foundMember = memberRepository.findUserByEmail(email).orElseThrow();
+        // 로그인한 사용자 확인
+        Optional<Member> foundMemberOptional = memberRepository.findUserByEmail(email);
 
-        return PostDetailResponse.of(post, LikeStatusResponse.of(
-                postLikeRepository.findByPostIdAndMemberId(postId, foundMember.getId()).isPresent()
-                , postLikeRepository.countByPostId(postId)
-        ));
+        // 로그인한 사용자일 경우
+        if (foundMemberOptional.isPresent()) {
+            Member loggedInMember = foundMemberOptional.get(); // 로그인한 사용자
+
+            log.info("logged in member: {}", loggedInMember.getId());
+            log.info("logged in member: {}", loggedInMember.getNickname());
+            log.info("logged in member: {}", loggedInMember.getImageUrl());
+
+            // 좋아요 상태 계산
+            LikeStatusResponse likeStatus = LikeStatusResponse.of(
+                    postLikeRepository.findByPostIdAndMemberId(postId, loggedInMember.getId()).isPresent(),
+                    postLikeRepository.countByPostId(postId)
+            );
+
+            return PostDetailResponse.of(post, loggedInMember, likeStatus);
+        } else {
+            // 비회원일 경우 likeStatus를 null로 설정
+            return PostDetailResponse.of(post, null, null);
+        }
     }
 }

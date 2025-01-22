@@ -1,45 +1,64 @@
 // import PostLikeManager from '../ui/PostLikeManager.js';
 
-function renderPost({ postId, content, createdAt, user, images, likeStatus }) {
-    const $postProfile = document.querySelector('.post-profile');
+function renderPost({ postId, content, createdAt, viewCount, author, loggedInUser, images, likeStatus }) {
+    // 게시물 정보
     const $postInfo = document.querySelector('.post-info');
+    const $postContent = document.querySelector('.post-contents');
+    const $postImageContainer = document.querySelector('.post-img-container');
+    const $viewCount = $postInfo.querySelector('.view-count');
+    const $likeCount = $postInfo.querySelector('.like-count');
 
-    const { nickname, profileImageUrl } = user;
-    const { liked, likeCount } = likeStatus;
+    // 작성자 정보
+    const $authorProfile = document.querySelector('.author-profile');
+    const $authorProfileImg = $authorProfile.querySelector('.author-profile-img');
 
-    $postProfile.querySelector('.profile-name').textContent = nickname;
+    // 댓글 영역
+    const $commentProfile = document.querySelector('.comment-profile');
+    const $commentMyProfileImg = $commentProfile.querySelector('.my-profile');
+
+    // 우측 고정바
+    const $likeButton = document.querySelector('.like-button');
+
+    // 게시물 이미지 렌더링
+    $postImageContainer.innerHTML = ''; // 기존 내용을 초기화
+    images.forEach(({ imageUrl }) => {
+        if (imageUrl) { // imageUrl이 존재할 경우만 렌더링
+            const imgElement = document.createElement('img');
+            imgElement.src = imageUrl;
+            imgElement.alt = '게시물 이미지';
+            $postImageContainer.appendChild(imgElement); // 이미지 추가
+        }
+    });
+
+    // 게시물 내용 렌더링
+    $postContent.textContent = content;
+
+
+    console.log("likeStatus " + likeStatus);
+
+    // 게시물 정보 렌더링 (날짜, 좋아요 수, 조회수)
     $postInfo.querySelector('.post-time').textContent = formatDate(createdAt);
+    $likeCount.textContent = `좋아요 ${likeStatus?.likeCount || 0}`;
+    $viewCount.textContent = `조회 ${viewCount || 0}`;
+
+    // 게시자 정보
+    const {nickname, profileImageUrl} = author;
+    $authorProfileImg.innerHTML = profileImageUrl ?
+        `<img src="${profileImageUrl}" alt="프로필 이미지">` :
+        `<img src="https://image.ohou.se/i/bucketplace-v2-development/uploads/default_images/avatar.png" alt="프로필 이미지">`
+    $authorProfile.querySelector('.author-nickname').textContent = nickname;
+
+    // 댓글란 로그인 유저 정보
+    // $commentMyProfileImg.innerHTML = profileImageUrl ?
+    //     `<img src="${profileImageUrl}" alt="프로필 이미지">` :
+    //     `<img src="https://image.ohou.se/i/bucketplace-v2-development/uploads/default_images/avatar.png" alt="프로필 이미지">`
+
+    // likeStatus가 없으면 기본 값 설정
+    const {liked = false, likeCount = 0} = likeStatus || {};
+
+    $likeButton.classList.toggle('liked', liked);
+    $likeCount.textContent = likeStatus ? likeCount : '';  // likeStatus가 있으면 likeCount 표시
 }
-
-    // // 좋아요 렌더링 및 토글 처리
-    // const $likeButton = $modal.querySelector('.like-button');
-    // const $heartIcon = $modal.querySelector('.like-button i');
-    // const $likeCount = $modal.querySelector('.likes-count');
-    //
-    // $likeButton.classList.toggle('liked', liked);
-    // $heartIcon.className = liked ? 'fa-solid fa-heart' : 'fa-regular fa-heart';
-    // $likeCount.textContent = likeCount;
-    //
-    // // 좋아요 버튼 클릭 이벤트
-    // document.querySelector('.like-button').addEventListener('click', function () {
-    //
-    //     console.log("좋아요클릭");
-    //
-    //     const likeButton = this;
-    //     const likeIcon = likeButton.querySelector('.like-icon');
-    //     const likeCount = likeButton.querySelector('.like-count');
-    //
-    //     // 좋아요 상태 확인
-    //     if (likeButton.classList.contains('liked')) {
-    //         likeButton.classList.remove('liked');
-    //         likeCount.textContent = parseInt(likeCount.textContent) - 1;
-    //     } else {
-    //         likeButton.classList.add('liked');
-    //         likeCount.textContent = parseInt(likeCount.textContent) + 1;
-    //     }
-    // });
-
-
 
 // 날짜 조작
 function formatDate(dateString) {
@@ -91,12 +110,21 @@ async function fetchWithAuth(url, options = {}) {
     return response;
 }
 
+function createAuthHeader() {
+    // 액세스 토큰을 브라우저에서 가져오기
+    const token = localStorage.getItem('accessToken');
 
-// 전체 게시물 페이지에서 상세페이지 이동하기
-async function openPostDetail(postId) {
+    return token ? {Authorization: `Bearer ${token}`} : {};
+}
 
-    // 상세 페이지로 이동
-    window.location.href = `/posts/${postId}`;
+
+async function openPostDetail() {
+    const postId = window.location.pathname.split('/')[1];
+
+    if (!postId) {
+        alert("잘못된 게시물 ID입니다.");
+        return;
+    }
 
     // 서버에 데이터 요청
     const response = await fetchWithAuth(`/api/posts/${postId}`);
@@ -107,10 +135,10 @@ async function openPostDetail(postId) {
     }
 
     const postData = await response.json();
+    console.log("게시물 상세 정보 : " + JSON.stringify(postData, null, 2));
 
     // 화면에 렌더링
     renderPost(postData);
 }
 
-
-export default openPostDetail;
+openPostDetail();

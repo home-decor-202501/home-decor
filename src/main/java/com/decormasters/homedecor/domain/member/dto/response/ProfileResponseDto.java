@@ -9,18 +9,17 @@ import lombok.extern.slf4j.Slf4j;
 @Getter
 @Builder
 @Slf4j
-public class MeResponse {
+public class ProfileResponseDto {
 
     private String nickname;
     private String profileImageUrl;
 
-    public static MeResponse from(Member member) {
+    public static ProfileResponseDto from(Member member) {
         if (member == null) {
-            log.error("Member is null in MeResponse.from() method");
-            throw new IllegalArgumentException("Member cannot be null");
+            return null;  // member가 null이면 ProfileResponseDto도 null 반환
         }
 
-        return MeResponse.builder()
+        return ProfileResponseDto.builder()
                 .nickname(member.getNickname())
                 .profileImageUrl(member.getImageUrl())
                 .build();

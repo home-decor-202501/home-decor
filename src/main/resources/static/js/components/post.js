@@ -47,12 +47,9 @@ function createPostItem({ postId, nickname, profileImageUrl, content, image, cre
     const { imageUrl } = image;
 
     return `
-        <div class="post-item">
+        <div class="post-item" data-post-id="${postId}">
             <div class="post-profile">
-                <img src="${profileImageUrl || 'https://image.ohou.se/i/bucketplace-v2-development/uploads/default_images/avatar.png?w=72&h=72&c=c"\n' +
-    '           srcset="https://image.ohou.se/i/bucketplace-v2-development/uploads/default_images/avatar.png?w=72&h=72&c=c 1x,\n' +
-    '          https://image.ohou.se/i/bucketplace-v2-development/uploads/default_images/avatar.png?w=144&h=144&c=c 2x,\n' +
-    '          https://image.ohou.se/i/bucketplace-v2-development/uploads/default_images/avatar.png?w=216&h=216&c=c 3x'}" alt="프로필 이미지">
+                <img src="${profileImageUrl || 'https://image.ohou.se/i/bucketplace-v2-development/uploads/default_images/avatar.png'}" alt="프로필 이미지">
                 <div class="profile-info">
                     <a href="#" class="profile-name">${nickname}</a>
                 </div>
@@ -81,10 +78,21 @@ async function renderPost() {
     // post html 생성
     $postContainer.innerHTML = postList.map((post) => createPostItem(post)).join('');
 
-    // 모든 게시물에 좋아요 매니저를 세팅
+    // 각 게시물에 좋아요 매니저를 세팅
     // $postContainer.querySelectorAll('.post').forEach($post => {
     //     new PostLikeManager($post);
     // });
+
+    // 각 게시물에 클릭 이벤트 추가
+    document.querySelectorAll('.post-item').forEach(postItem => {
+        postItem.addEventListener('click', function() {
+            // 클릭된 post-item의 data-post-id 값을 가져옵니다.
+            const postId = postItem.dataset.postId;
+
+            // 해당 postId 상세 페이지로 이동
+            window.location.href = `/${postId}`;
+        });
+    });
 }
 
 // --------------Utils로 옮기면 좋을듯

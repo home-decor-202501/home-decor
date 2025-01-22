@@ -12,6 +12,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>00님의 게시물</title>
 
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+
   <!-- Font Awesome 아이콘 라이브러리 -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
@@ -60,38 +62,37 @@
 <div class="post-container" id="post-container">
   <div class="post-item">
     <!-- 게시물 이미지 및 내용 -->
-    <img src="/images/roominside.jpg" alt="집 내부 이미지">
+    <div class="post-img-container">
+    </div>
     <div class="post-contents">내 방이야</div>
     <!-- 날짜, 좋아요, 조회수 -->
     <div class="post-info">
-      <span class="post-time">날짜</span>
-      <span class="like-count">좋아요 1</span>
-      <span class="view-count">조회 13</span>
+      <span class="post-time"></span>
+      <span class="like-count"></span>
+      <span class="view-count"></span>
     </div>
     <!-- 프로필 영역 -->
-    <div class="post-profile">
-      <img src="https://image.ohou.se/i/bucketplace-v2-development/uploads/default_images/avatar.png?w=72&h=72&c=c"
-           srcset="https://image.ohou.se/i/bucketplace-v2-development/uploads/default_images/avatar.png?w=72&h=72&c=c 1x,
-          https://image.ohou.se/i/bucketplace-v2-development/uploads/default_images/avatar.png?w=144&h=144&c=c 2x,
-          https://image.ohou.se/i/bucketplace-v2-development/uploads/default_images/avatar.png?w=216&h=216&c=c 3x" alt="프로필 이미지">
-      <div class="profile-info">
-        <div class="profile-name">테스터</div>
+    <div class="author-profile">
+      <div class="author-profile-img">
+      </div>
+      <div class="author-info">
+        <div class="author-nickname"></div>
       </div>
     </div>
 
-    <!-- 댓글 입력 영역 -->
+    <!-- 댓글 영역 -->
     <div class="comment-section">
       <!-- 댓글 수 -->
       <div class="comment-counter">
         댓글
-        <span class="comment-count">1</span>
+        <span class="comment-count">0</span>
       </div>
 
-      <!-- 프로필 이미지 -->
+      <!-- 댓글 입력 영역 -->
       <div class="comment-box">
         <div class="comment-profile">
-          <img src="https://image.ohou.se/i/bucketplace-v2-development/uploads/default_images/avatar.png?w=40&h=40&c=c"
-               alt="프로필 이미지">
+          <div class="my-profile">
+          </div>
         </div>
         <!-- 댓글 입력창 -->
         <div class="comment-input-container">
