@@ -14,36 +14,57 @@ import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 
-@Getter @Setter @Slf4j @RequiredArgsConstructor @Component
+@Getter
+@Setter
+@Slf4j
+@RequiredArgsConstructor
+@Component
 public class FileUploadUtil {
 
+
+    // 파일 업로드 서비스 코드
     private final FileUploadConfig fileUploadConfig;
 
-    // 파일 하나를 로컬 폴더에 저장하고, DB에 저장하기 위해 그 경로를 리턴
     public String saveFile(MultipartFile file) {
-
-        // 1. 파일 저장
-        // - 1) 파일을 저장할 때 보안을 위해 파일 이름을 바꿔서 저장할 것이므로, 랜덤 파일명 생성
-        String fileName = file.getOriginalFilename();
-        String uploadFileName = UUID.randomUUID() + "_" + fileName;
-
-        try {
-             // - 2)파일 경로 생성
-            String uploadPath = fileUploadConfig.getLocation() + uploadFileName;
-
-             // - 3) 파일 저장 진행
-            log.debug("Attempting to save file to : {}", uploadPath);
-            file.transferTo(new File(uploadPath));
-
-            // - 4) 파일 저장 경로 반환(db 저장용)
-            return "/uploads/" + uploadFileName;
-
-        } catch (IOException e) {
-            log.error("Failed to save file: {}", uploadFileName, e);
-            throw new PostException(ErrorCode.FILE_UPLOAD_ERROR);
+        // 파일이 깡통인 경우
+        if (file.isEmpty()) {
+            throw new PostException(ErrorCode.INVALID_FILE_TYPE, "빈 파일입니다.");
         }
 
+        // 파일이 이미지가 아닌 경우
+        String contentType = file.getContentType();
+        if (contentType == null || !contentType.startsWith("image")) {
+            throw new PostException(ErrorCode.INVALID_FILE_TYPE, "이미지만 업로드 가능합니다.");
+        }
 
+        // 개별 파일 용량 검증
+        if (file.getSize() > 10 * 1024 * 1024) { // 10MB 제한
+            throw new PostException(ErrorCode.FILE_SIZE_EXCEEDED, "이미지 크기는 10MB를 초과할 수 없습니다.");
+        }
+
+        // 원본 파일명 불러오기
+        String originalFilename = file.getOriginalFilename();
+        // 파일명 랜덤으로 바꾸기
+        String newFilename = UUID.randomUUID() + "_" + originalFilename;
+
+        try {
+            // 저장할 절대경로
+            String uploadPath = fileUploadConfig.getLocation() + newFilename;
+
+            log.debug("Attempting to save file to : {}", uploadPath);
+
+            // 실제 파일 전송
+            file.transferTo(new File(uploadPath));
+
+            // 반환값: "/upload/파일명"
+            return "/upload/" + newFilename;
+
+        } catch (IOException e) {
+            // 파일 저장 중 예외 처리
+            log.error("Failed to save file: {}", newFilename, e);
+            throw new PostException(ErrorCode.FILE_UPLOAD_ERROR, "파일 저장에 실패했습니다.");
+        }
     }
-
 }
+
+
