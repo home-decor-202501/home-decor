@@ -37,9 +37,16 @@ async function fetchFeed() {
     if (currentStep !== 3) return;
     const {$contentTextarea} = elements;
 
+    // 작성자의 user id를 먼저 찾아야 함'
+    const localstorageAccessToken = localStorage.getItem("accessToken");
+    const meResponse = await fetch(`api/profiles/tk/${localstorageAccessToken}`);
+    const responseData = await meResponse.json();
+    const userId = responseData.userId;
+
+
     // 작성자 이름과 피드 내용 전송
     const feedData = {
-        userId: '임시사용자', // 차후 인증이 만들어진 후 변경
+        userId: userId,
         content: $contentTextarea.value.trim()
     };
 

@@ -5,6 +5,7 @@ import com.decormasters.homedecor.domain.post.entity.Post;
 import com.decormasters.homedecor.exception.ErrorCode;
 import com.decormasters.homedecor.exception.PostException;
 import com.decormasters.homedecor.service.PostService;
+import com.decormasters.homedecor.service.ProfileService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +23,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class PostController {
     private final PostService postService;
+    private final ProfileService profileService;
 
 
     // 피드 생성 요청
@@ -37,12 +39,6 @@ public class PostController {
             throw new PostException(ErrorCode.TOO_MANY_FILES, "파일의 개수는 5개를 초과할 수 없습니다.");
         }
 
-        System.out.println("*********");
-        System.out.println("*********");
-        System.out.println("*********");
-        System.out.println(username);
-        System.out.println("*********");
-        System.out.println("*********");
 
 
         images.forEach(image -> {
@@ -50,6 +46,8 @@ public class PostController {
 
         });
     postCreate.setImages(images);
+
+
     log.info("feed create request: POST - {}", postCreate);
 
 
