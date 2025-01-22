@@ -47,6 +47,7 @@ async function fetchFeed() {
     // 작성자 이름과 피드 내용 전송
     const feedData = {
         userId: userId,
+        username:username,
         content: $contentTextarea.value.trim()
     };
 
