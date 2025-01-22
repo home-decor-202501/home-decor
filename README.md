@@ -64,7 +64,7 @@
 ####  1) 📝 회원가입 페이지(김미정)
 - 사용자 경험(ux) 에 초점을 둔 회원가입 페이지<br>
   (페이지 로드 시 첫번째 입력필드로
-  자동 이동, 실시간 입력정보 유효성 검사, Caps Lock 감지, 회원가입에 실패할 시,
+  자동 이동, 실시간 입력정보 유효성 검사, Caps Lock 감지, 회원가입에 실패할 시
   입력값 오류 발생 필드로 자동 이동)<br>
   ![](https://velog.velcdn.com/images/kimmy25312/post/ddb0c4bb-f6c0-4aa1-a26d-70b138f8145b/image.gif)
   <br>
@@ -72,7 +72,7 @@
 #### 2) 🔑️‍ 로그인 페이지(김미정)
 - 사용자 경험(ux) 에 초점을 둔 로그인<br>
   (이전 로그인 아이디 자동 저장, 로그인 실패 시
-  비밀번호 설정 조건 알림, Caps Lock 감지, 로그인에 실패할 시,
+  비밀번호 설정 조건 알림, Caps Lock 감지, 로그인에 실패할 시
   입력값 오류 발생 필드로 자동 이동)<br>
   ![](https://velog.velcdn.com/images/kimmy25312/post/f21a640b-0967-43ad-b6de-fbad17274fc4/image.gif)
   <br>
@@ -91,9 +91,7 @@
 
 ## 6. ✅ 트러블 슈팅
 **[회원가입(김미정)]**<br>
-🔍 문제점 : 회원 가입 시 유효성 검증 결과에 각 입력필드(이메일, 닉네임, 비밀번호 필드)의 UI를 업데이트 하고자 하였는데, <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;프론트와 백엔드 각각 나누어서 순서대로 검증이 이루어지다보니,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;프론트 검증 실패 후 백엔드 검증 성공 시 검증 성공 시의 UI가 반영되는 문제
+🔍 문제점 : 회원 가입 시 유효성 검증 결과에 각 입력필드(이메일, 닉네임, 비밀번호 필드)의 UI를 업데이트 하고자 하였는데, 프론트와 백엔드 각각 나누어서 순서대로 검증이 이루어지다보니 프론트 검증 실패 후 백엔드 검증 성공 시 검증 성공 시의 UI가 반영되는 문제
 <br>
 ![img_1.png](img_1.png) <br>
 💡 해결방안 : 프론트엔드와 백엔드 각각에서 유효성 검사 실패 시 input 태그에 error 클래스 붙임<br>
