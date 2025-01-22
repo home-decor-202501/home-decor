@@ -37,6 +37,14 @@ public class PostController {
             throw new PostException(ErrorCode.TOO_MANY_FILES, "파일의 개수는 5개를 초과할 수 없습니다.");
         }
 
+        System.out.println("*********");
+        System.out.println("*********");
+        System.out.println("*********");
+        System.out.println(username);
+        System.out.println("*********");
+        System.out.println("*********");
+
+
         images.forEach(image -> {
             log.info("uploaded image file name - {}", image.getOriginalFilename());
 

@@ -39,12 +39,11 @@ async function fetchFeed() {
 
     // 작성자 이름과 피드 내용 전송
     const feedData = {
-        writer: '임시사용자', // 차후 인증이 만들어진 후 변경
+        userId: '임시사용자', // 차후 인증이 만들어진 후 변경
         content: $contentTextarea.value.trim()
     };
 
     // 이미지 정보
-    selectedFiles
 
     // JSON과 이미지를 같이 전송하려면 form-data가 필요함
     const formData = new FormData();
