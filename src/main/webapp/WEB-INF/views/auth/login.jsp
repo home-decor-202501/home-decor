@@ -44,7 +44,7 @@
                         </div>
                         <i class="fa-regular fa-eye toggle-password"></i>
                     </div>
-                    <small>틀린 비밀번호입니다. (비밀번호 : 영문, 숫자를 포함한 8자리 글자) </small>
+                    <small>틀린 비밀번호입니다. (비밀번호 : 영문, 숫자를 포함 최소 8자리) </small>
                 </div>
 
                 <button class='login-btn'>로그인</button>
