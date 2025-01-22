@@ -48,7 +48,7 @@ CREATE TABLE Comment (
 
 CREATE TABLE post_image (
                             id	BIGINT	AUTO_INCREMENT NOT NULL PRIMARY KEY,
-                            post_id	BIGINT	NOT NULL,ddl
+                            post_id	BIGINT	NOT NULL,
                             image_url	VARCHAR(255) NOT NULL,
                             image_order INT	DEFAULT 0 NOT NULL,
                             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP	NULL,
