@@ -24,7 +24,7 @@
   <br><br>
 
 
-## 4. ⚙️ Tech Stack with Too
+## 4. ⚙️ Tech Stack with Tools
 <div style="display: flex; flex-wrap: wrap; gap: 10px;">
 
 #### Frontend Technologies
