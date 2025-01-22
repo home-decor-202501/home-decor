@@ -7,20 +7,19 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter @Setter @ToString
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class Post {
-
-    private Long id;
+    private Long postId;
     private String content;
-    private Long userId;  // 이 피드를 쓴 사용자의 ID
+    private Long userId;
     private int viewCount;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
     private List<PostImage> images;
-    private Member member;
 
+    private Member member;
 }

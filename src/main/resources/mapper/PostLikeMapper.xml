@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.decormasters.homedecor.repository.PostLikeRepository">
+
+    <!-- 좋아요 추가 -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO post_like (post_id, user_id)
+        VALUES (#{postId}, #{memberId})
+    </insert>
+
+    <!-- 좋아요 삭제 -->
+    <delete id="delete">
+        DELETE
+        FROM post_like
+        WHERE post_id = #{postId}
+          AND user_id = #{memberId}
+    </delete>
+
+    <!-- 좋아요 여부 확인 -->
+    <select id="findByPostIdAndMemberId" resultType="PostLike">
+        SELECT *
+        FROM post_like
+        WHERE post_id = #{postId}
+          AND user_id = #{memberId}
+    </select>
+
+    <!-- 좋아요 수-->
+    <select id="countByPostId" resultType="long">
+        SELECT COUNT(*)
+        FROM post_like
+        WHERE post_id = #{postId}
+    </select>
+
+</mapper>

@@ -3,6 +3,7 @@
 
 <script type="module" src="/js/components/login-redirect.js" defer></script>
 <script type="module" src="/js/components/check-login-or-not.js" defer></script>
+<script type="module" src="/js/components/navigation.js" defer></script>
 <nav class="navigation">
   <div class="logo">
     <!-- 로고 이미지 -->
@@ -10,6 +11,7 @@
   </div>
 
   <nav class="nav">
+    <img src="https://image.ohou.se/i/bucketplace-v2-development/uploads/default_images/avatar.png" class="current-user" alt="기본 프로필 사진">
     <a href="/login" class="login">로그인</a>
     <a href="#">홈</a>
     <a href="#">커뮤니티</a>

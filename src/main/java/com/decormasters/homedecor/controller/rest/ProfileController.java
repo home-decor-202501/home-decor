@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProfileController {
 
     private final ProfileService profileService;
+
     private final JwtProvider jwtProvider;
 
     // 로그인한 유저의 프로필 정보를 갖다주는 API

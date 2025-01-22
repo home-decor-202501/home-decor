@@ -1,5 +1,11 @@
 package com.decormasters.homedecor.service;
 
+
+//import com.decormasters.homedecor.Util.FileUploadUtil;
+//import com.decormasters.homedecor.domain.member.dto.response.ProfileResponseDto;
+//import com.decormasters.homedecor.repository.MemberRepository;
+//import com.decormasters.homedecor.repository.PostRepository;
+
 import com.decormasters.homedecor.domain.member.dto.response.MeResponse;
 import com.decormasters.homedecor.domain.member.entity.Member;
 import com.decormasters.homedecor.exception.authorization.AuthErrorCode;
@@ -48,6 +54,5 @@ public class ProfileService {
                 .orElseThrow(() -> new AuthException(AuthErrorCode.USER_DOES_NOT_EXIST, Arrays.asList("userEmail")));
         return userData;
     }
-
-
 }
+

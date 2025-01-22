@@ -14,8 +14,6 @@ import java.util.List;
 @AllArgsConstructor
 public class PostCreate {
 
-    // 이미지 목록
-
     private Long userId; //JSON에서 필드 매핑
     private List<MultipartFile> images; // 파일리스트 (JSON에서 필드 매핑시)
 
@@ -29,3 +27,4 @@ public class PostCreate {
                 .build();
     }
 }
+

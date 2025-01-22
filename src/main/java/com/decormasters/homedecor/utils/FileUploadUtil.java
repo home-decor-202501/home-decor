@@ -1,4 +1,4 @@
-package com.decormasters.homedecor.util;
+package com.decormasters.homedecor.utils;
 
 import com.decormasters.homedecor.config.FileUploadConfig;
 import com.decormasters.homedecor.exception.ErrorCode;
@@ -56,8 +56,8 @@ public class FileUploadUtil {
             // 실제 파일 전송
             file.transferTo(new File(uploadPath));
 
-            // 반환값: "/upload/파일명"
-            return "/upload/" + newFilename;
+            // 반환값: "/uploads/파일명"
+            return "/uploads/" + newFilename;
 
         } catch (IOException e) {
             // 파일 저장 중 예외 처리

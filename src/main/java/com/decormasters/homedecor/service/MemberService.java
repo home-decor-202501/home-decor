@@ -1,6 +1,5 @@
 package com.decormasters.homedecor.service;
 
-import com.decormasters.homedecor.util.FileUploadUtil;
 import com.decormasters.homedecor.controller.rest.LoginRequest;
 import com.decormasters.homedecor.domain.member.dto.request.SignUpRequest;
 import com.decormasters.homedecor.domain.member.entity.Member;
@@ -8,6 +7,7 @@ import com.decormasters.homedecor.exception.authorization.AuthErrorCode;
 import com.decormasters.homedecor.exception.authorization.AuthException;
 import com.decormasters.homedecor.jwt.JwtProvider;
 import com.decormasters.homedecor.repository.MemberRepository;
+import com.decormasters.homedecor.utils.FileUploadUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.*;
+
 
 @Slf4j
 @Transactional

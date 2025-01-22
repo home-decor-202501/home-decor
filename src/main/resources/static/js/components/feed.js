@@ -1,6 +1,5 @@
 /* src/main/resources/static/js/components/feed.js */
 
-
 export default function initMain() {
 
 // 무한 스크롤 로직
@@ -51,4 +50,6 @@ export default function initMain() {
         alert(`정렬 옵션: ${sortOption}이(가) 적용되었습니다.`);
     }
 
+
 }
+

@@ -1,6 +1,4 @@
 package com.decormasters.homedecor.domain.member.entity;
-
-import jakarta.validation.Valid;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -20,5 +18,4 @@ public class Member {
     private String nickname;
     private LocalDateTime createdAt;
     private String imgUrl;
-
 }

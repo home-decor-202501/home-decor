@@ -1,5 +1,15 @@
-/* src/main/resources/static/css/nevigation.css */
+/* src/main/resources/static/css/navigation.css */
 
+/*현재 유저 프사 */
+.current-user {
+    width: 40px;
+}
+
+.current-user img {
+    width: 30px; /* 프로필 이미지 크기 */
+    height: 30px;
+    border-radius: 50%; /* 원형으로 만들기 */
+}
 
 /* 오른쪽 네이게이션 스타일 */
 .navigation {
@@ -11,22 +21,27 @@
     border-bottom: 1px solid #ddd;
     height: 60px; /* 일정한 높이로 설정 */
 }
+
 .navigation .logo img {
     height: 40px; /* 로고 높이 */
 }
+
 .header .nav {
     display: flex;
     gap: 15px;
 }
+
 .navigation .nav a {
     text-decoration: none;
     color: #555;
     font-size: 16px;
     transition: color 0.3s ease;
 }
+
 .navigation .nav a:hover {
     color: #35C5F0; /* 마우스 오버 시 색상 */
 }
+
 .navigation .nav #write-button {
     background-color: #35C5F0; /* 파란색 배경 */
     color: #fff; /* 흰색 글씨 */
@@ -38,6 +53,7 @@
     transition: background-color 0.3s ease;
     text-align: center;
 }
+
 .navigation .nav #write-button:hover {
     background-color: #1d9cc0; /* 호버 시 색상 */
 }

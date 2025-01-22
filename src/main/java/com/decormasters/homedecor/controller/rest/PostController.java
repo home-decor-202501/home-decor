@@ -1,7 +1,8 @@
 package com.decormasters.homedecor.controller.rest;
 
 import com.decormasters.homedecor.domain.post.dto.request.PostCreate;
-import com.decormasters.homedecor.domain.post.entity.Post;
+import com.decormasters.homedecor.domain.post.dto.response.PostDetailResponse;
+import com.decormasters.homedecor.domain.post.dto.response.PostResponse;
 import com.decormasters.homedecor.exception.ErrorCode;
 import com.decormasters.homedecor.exception.PostException;
 import com.decormasters.homedecor.service.PostService;
@@ -23,16 +24,12 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class PostController {
     private final PostService postService;
-    private final ProfileService profileService;
-
 
     // 피드 생성 요청
     @PostMapping
     public ResponseEntity<?> createFeed(
             @RequestPart("feed") @Valid PostCreate postCreate,
-            @RequestPart("images") List<MultipartFile> images,
-            @AuthenticationPrincipal String username // 인증된 사용자 이름
-
+            @RequestPart("images") List<MultipartFile> images
     ){
         // 파일 업로드 개수 검증
         if (images.size() > 5) {
@@ -45,14 +42,14 @@ public class PostController {
             log.info("uploaded image file name - {}", image.getOriginalFilename());
 
         });
-    postCreate.setImages(images);
+        postCreate.setImages(images);
 
 
-    log.info("feed create request: POST - {}", postCreate);
+        log.info("feed create request: POST - {}", postCreate);
 
 
 
-    //이미지,JSON을 서비스클래스로 전송
+        //이미지,JSON을 서비스클래스로 전송
         Long postId = postService.createFeed(postCreate);
 
         //응답 메세지 JSON 생성
@@ -62,8 +59,25 @@ public class PostController {
         );
 
         return ResponseEntity
-            .ok()
-            .body(response);
+                .ok()
+                .body(response);
 
+    }
+
+    // 모든 게시물 조회 API
+    @GetMapping
+    public ResponseEntity<?> getAllPosts(@AuthenticationPrincipal String email) {
+        List<PostResponse> posts = postService.getAllPosts(email);
+        return ResponseEntity.ok().body(posts);
+    }
+
+    // 게시물 상세보기 단일 조회 API -> 좋아요 상태 등 확인 필요하므로 @AuthenticationPrincipal 넣음
+    @GetMapping("/{postId}")
+    public ResponseEntity<?> getDetail(
+            @PathVariable Long postId
+            , @AuthenticationPrincipal String email
+    ) {
+        PostDetailResponse postDetails = postService.getPostDetails(postId, email);
+        return ResponseEntity.ok().body(postDetails);
     }
 }

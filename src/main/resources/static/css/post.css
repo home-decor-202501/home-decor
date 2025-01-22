@@ -1,0 +1,75 @@
+/* 게시물 스타일 */
+.post-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* 카드 간격 */
+    padding: 20px 80px; /* 상하 20px, 좌우 80px */
+    justify-content: flex-start;
+}
+.post-item {
+    width: calc(25% - 20px);  /* 한 줄에 4개씩, 간격띄움*/
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #fff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+
+.post-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+.post-item img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+.post-item .post-profile {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    border-bottom: 1px solid #eee;
+}
+.post-item .post-profile img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+}
+.post-item .post-profile .profile-info {
+    flex-grow: 1;
+}
+.post-item .post-profile .profile-info .profile-name {
+    text-decoration: none; /* 밑줄 제거 */
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+.post-item .post-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    font-size: 13px;
+    font-weight: bold;
+    color: #333;
+}
+.post-item .post-content .like-section {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+    color: #333;
+}
+
+.post-item .post-content .like-section .like-icon {
+    color: #d3d3d3; /* 기본 상태: 연한 회색 */
+    cursor: pointer;
+}
+
+/* liked가 true일 때 빨간색으로 변경 */
+.post-item .post-content .like-section .like-icon.liked {
+    color: #ff4d4d; /* 빨간색 */
+}
