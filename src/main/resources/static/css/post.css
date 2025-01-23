@@ -1,3 +1,5 @@
+@import url('reset.css');
+
 /* 게시물 스타일 */
 .post-container {
     display: flex;

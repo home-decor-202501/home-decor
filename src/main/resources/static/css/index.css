@@ -1,5 +1,6 @@
 /* src/main/resources/static/css/index.css */
 /* 기본 리셋 */
+@import url('reset.css');
 
 
 * {
@@ -9,6 +10,6 @@
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    /*font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;*/
 
 }
