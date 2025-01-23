@@ -4,6 +4,7 @@ body {
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
 /* Header 스타일 */
@@ -88,6 +89,8 @@ body {
     padding: 20px 80px; /* 상하 20px, 좌우 80px */
     justify-content: center;
     border: 2px solid red;
+    font-size: 19px;
+
 }
 .post-item {
     width: 60%;
@@ -98,9 +101,16 @@ body {
     height: auto;
     justify-content: center;
 }
+
+.post-contents{
+    padding: 1%;
+
+}
+
+
 /*날짜, 좋아요, 조회수*/
 .post-container .post-item .post-info{
-    margin: 0;
+    padding: 0.1% 1%;
     font-weight: 500;
     font-size: 13px;
     line-height: 18px;
@@ -112,17 +122,19 @@ body {
 .post-item .author-profile {
     display: flex;
     align-items: center;
-    padding: 10px 15px;
-    border-bottom: 1px solid #eee;
+    padding: 5px 10px;
     border: 2px solid green;
+
 }
 .post-item .author-profile img {
-    width: 65px; /* 프로필 이미지 크기 */
-    height: 65px;
+    width: 50px; /* 프로필 이미지 크기 */
+    height: 50px;
     border-radius: 50%; /* 원형으로 만들기 */
-    margin-right: 10px; /* 이름과의 간격 최소화 */
+    margin-right: 8px; /* 이름과의 간격 최소화 */
 }
 .post-item .author-profile .profile-info {
+    font-size: 14px;
+    line-height: 1.2;
     flex-grow: 1;
     border: 2px solid greenyellow;
 }
@@ -200,7 +212,7 @@ body {
 .comment-section {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     width: 100%;
     margin-top: 20px;
     padding: 10px 0;
@@ -210,7 +222,7 @@ body {
     font-size: 20px;
     line-height: 28px;
     color: #2F3438;
-    margin-bottom: 8px;
+    margin: 1%;
     font-weight: 700;
     border: 2px solid lightgreen;
 }
@@ -218,10 +230,12 @@ body {
 .comment-box {
     display: flex;
     border: 2px solid lightgreen;
+    width: 100%;
+
 }
 
-.comment-profile {
-    margin-right: 10px;
+.post-img-container{
+    padding: 10%;
 }
 
 .comment-profile img {
@@ -233,15 +247,17 @@ body {
 .comment-input-container {
     display: flex;
     flex-grow: 1;
-    align-items: center;
     position: relative;
+    margin: 1%;
+    height: 50px;
+
 }
 
 .comment-input {
     width: 100%;
     padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 20px;
+    border: 1px solid #35C5F0;
+    border-radius: 10px;
     font-size: 14px;
     margin-right: 10px;
 }

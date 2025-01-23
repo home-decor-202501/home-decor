@@ -96,7 +96,7 @@
         </div>
         <!-- 댓글 입력창 -->
         <div class="comment-input-container">
-          <input type="text" class="comment-input" placeholder="댓글을 입력하세요">
+          <input type="text" class="comment-input" placeholder="칭찬과 격려의 댓글은 작성자에게 큰 힘이 됩니다:">
           <button class="comment-submit-button">입력</button>
         </div>
       </div>

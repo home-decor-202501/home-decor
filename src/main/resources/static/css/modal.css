@@ -1,4 +1,5 @@
 /* src/main/resources/static/css/modal.css */
+@import url('reset.css');
 
 /* 모달 기본 스타일 */
 * {

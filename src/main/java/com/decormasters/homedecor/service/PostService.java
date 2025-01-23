@@ -32,7 +32,6 @@ public class PostService {
     private final PostRepository postRepository; // db에 피드내용 저장, 이미지저장
     private final MemberRepository memberRepository; // 사용자 정보 가져오기
     private final PostLikeRepository postLikeRepository; // 좋아요 정보 가져오기
-
     private final FileUploadUtil fileUploadUtil; // 로컬서버에 이미지 저장
 
     // 전체 유저의 게시물 조회
@@ -69,7 +68,7 @@ public class PostService {
 
     // 피드 생성 DB에 가기 전 후 중간처리
     @Transactional
-    // 피드 생성 DB에 가기 전 후 중간처리
+
 
     public Long createFeed(PostCreate postCreate) {
 

@@ -22,7 +22,7 @@ public class PostResponse {
     private String content;
     private String nickname;
     private String profileImageUrl;
-    private PostImageResponse image;
+    private PostImageResponse image; // 단일 이미지 객체
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     // 좋아요 상태데이터
@@ -32,6 +32,7 @@ public class PostResponse {
         return PostResponse.builder()
                 .postId(post.getPostId())
                 .content(post.getContent())
+
                 .nickname(post.getMember().getNickname())
                 .profileImageUrl(post.getMember().getImgUrl())
                 .likeStatus(likeStatus)
