@@ -124,8 +124,9 @@ public class MemberService {
         }
     }
 
-
-
+    public Optional<Member> getMemberByEmail(String email) {
+        return memberRepository.findUserByEmail(email);
+    }
 }
 
 

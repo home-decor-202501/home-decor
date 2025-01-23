@@ -21,6 +21,14 @@ public class PostLikeService {
     private final PostLikeRepository postLikeRepository;
     private final MemberRepository memberRepository;
 
+    @Transactional(readOnly = true)
+    public LikeStatusResponse getLikeStatus(Long postId, Long memberId) {
+        boolean isLiked = postLikeRepository.findByPostIdAndMemberId(postId, memberId).isPresent();
+        long likeCount = postLikeRepository.countByPostId(postId);
+
+        return LikeStatusResponse.of(isLiked, likeCount);
+    }
+
     // 좋아요 토글 기능 - 이미 좋아요를 누른 상태면 취소, 아니면 생성
     public LikeStatusResponse toggleLike(Long postId, String email) {
 
@@ -49,9 +57,6 @@ public class PostLikeService {
     // 좋아요 상태 확인
     @Transactional(readOnly = true)
     public boolean isLiked(Long postId, Long memberId) {
-        Optional<PostLike> result
-                = postLikeRepository.findByPostIdAndMemberId(postId, memberId);
-
-        return result.isPresent();
+        return postLikeRepository.findByPostIdAndMemberId(postId, memberId).isPresent();
     }
 }
