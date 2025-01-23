@@ -8,11 +8,13 @@ async function renderMe() {
 
     const { profileImageUrl } = currentUser;
 
-    if (currentUser && (currentUser.profileImageUrl !== null)) {
+    if (currentUser) {
         const $user = document.querySelector('.current-user');
-        // 프로필 이미지 생성
-        $user.src = profileImageUrl;
         $user.alt = `${currentUser.nickname}의 프로필 이미지`;
+        if (currentUser.profileImageUrl !== null) {
+             // 프로필 이미지 생성
+            $user.src = profileImageUrl;
+        }
     } else {
         $user.src = "https://image.ohou.se/i/bucketplace-v2-development/uploads/default_images/avatar.png";
         $user.alt = `${currentUser.nickname}의 프로필 이미지`;
