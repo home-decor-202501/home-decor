@@ -14,14 +14,12 @@
 
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
 
+  <link rel="stylesheet" href="/css/detail-page.css">
   <!-- Font Awesome 아이콘 라이브러리 -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-  <!-- External CSS 파일 링크 -->
-  <link rel="stylesheet" href="/css/detailPage.css">
-
   <!-- Detail-page JS -->
-  <script src="/js/components/detail-page.js" defer></script>
+  <script type="module" src="/js/components/detail-page.js" defer></script>
   <script type="module" src="/js/components/login-redirect.js" defer></script>
   <script type="module" src="/js/components/check-login-or-not.js" defer></script>
 </head>
@@ -67,9 +65,10 @@
     <div class="post-contents">내 방이야</div>
     <!-- 날짜, 좋아요, 조회수 -->
     <div class="post-info">
-      <span class="post-time"></span>
-      <span class="like-count"></span>
-      <span class="view-count"></span>
+      <div class="post-time"></div>
+      <div class="like-count">좋아요 <span class="like-count"></span></div>
+      <div class="view-count">조회 <span class="view-count"></span></div>
+
     </div>
     <!-- 프로필 영역 -->
     <div class="author-profile">
@@ -84,8 +83,8 @@
     <div class="comment-section">
       <!-- 댓글 수 -->
       <div class="comment-counter">
-        댓글
-        <span class="comment-count">0</span>
+        댓글 0
+        <span class="comment-count"></span>
       </div>
 
       <!-- 댓글 입력 영역 -->
@@ -109,11 +108,11 @@
   <div class="sticky-section">
     <button class="action-button like-button">
       <i class="fa-regular fa-heart like-icon"></i>
-      <span class="like-count">26</span>
+      <span class="like-count"></span>
     </button>
     <button class="action-button comment-button">
       <i class="fa-regular fa-comment"></i>
-      <span class="comment-count">2</span>
+      <span class="comment-count">0</span>
     </button>
   </div>
 
