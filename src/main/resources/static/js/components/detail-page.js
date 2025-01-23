@@ -8,7 +8,11 @@ function renderPost({ postId, content, createdAt, viewCount, author, loggedInUse
     const $postImageContainer = document.querySelector('.post-img-container');
     const $likeCounts = document.querySelectorAll('.like-count');
     const $viewCount = $postInfo.querySelector('.view-count');
+    const {nickname, profileImageUrl} = author;
 
+    // 페이지 제목 설정
+    const pageTitle = `${nickname}님의 라이프스타일`;
+    document.title = pageTitle;
 
     // 작성자 정보
     const $authorProfile = document.querySelector('.author-profile');
@@ -45,7 +49,6 @@ function renderPost({ postId, content, createdAt, viewCount, author, loggedInUse
     $viewCount.textContent += `${viewCount || 0}`;
 
     // 게시자 정보
-    const {nickname, profileImageUrl} = author;
     $authorProfileImg.innerHTML = profileImageUrl ?
         `<img src="${profileImageUrl}" alt="프로필 이미지">` :
         `<img src="https://image.ohou.se/i/bucketplace-v2-development/uploads/default_images/avatar.png" alt="프로필 이미지">`
