@@ -11,14 +11,13 @@
 
 ## 3. 👥 프로젝트 멤버 및 역할
 #### 1) 김미정 (팀장)  [![GitHub Badge](https://img.shields.io/badge/mjkim41-FF69B4?logo=github&logoColor=white&labelColor=FF69B4)](https://github.com/mjkim41)
-- 역할: 회원가입/로그인 페이지 개발, Github 세팅, GitHub ReadMe 작성
+- 역할: 회원가입/로그인 페이지/인가, Github 세팅, Github Readme 작성
 
 #### 2) 오인혁 [![GitHub Badge](https://img.shields.io/badge/inhyeokoh-FF69B4?logo=github&logoColor=white&labelColor=FF69B4)](https://github.com/inhyeokoh)
-- 역할: 게시글 상세보기 페이지 개발, ERD 작성, 프로젝트 발표
+- 역할: 게시글 상세보기 페이지, 메인페이지 게시글 렌더링, ERD 작성, 프로젝트 발표
 
 #### 3) 윤희원 [![GitHub Badge](https://img.shields.io/badge/hee123hee-FF69B4?logo=github&logoColor=white&labelColor=FF69B4)](https://github.com/hee123hee)
-- 역할: 메인페이지 개발, 게시글 쓰기 페이지 개발
-
+- 역할: 메인페이지,게시글 쓰기
 #### 4) 박찬의  [![GitHub Badge](https://img.shields.io/badge/parkchenui-FF69B4?logo=github&logoColor=white&labelColor=FF69B4)](https://github.com/parkchenui)
 - 역할: 내 글 보기 페이지
   <br><br>
@@ -83,7 +82,7 @@
 <br>
 
 #### 4) ✍️ 게시글 쓰기 페이지(윤희원)
-
+![](https://velog.velcdn.com/images/kimmy25312/post/983a85a8-5a98-424d-8083-ab0dceefbda6/image.gif)
 <br>
 
 #### 5) 📋 게시글 상세보기 페이지(오인혁)

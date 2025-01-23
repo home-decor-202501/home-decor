@@ -6,7 +6,7 @@
 /* 전역 변수 */
 :root {
     --success-color: #2ecc71;
-    --small-font-size: 15px;
+    --small-font-size: 14px;
     --error-color: #e74c3c;
     --checkmark-color: #43b324;
 
@@ -15,7 +15,7 @@
     --form-title-font-color: #333;
     --form-title-font-weight: 700;
 
-    --form-description-font-size: 14px;
+    --form-description-font-size: 13px;
     --form-description-line-height: 18px;
     --form-description-font-color: rgb(117, 117, 117);
     --form-description-font-weight: 400;
