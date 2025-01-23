@@ -1,5 +1,5 @@
 /* src/main/resources/static/css/navigation.css */
-
+@import url('reset.css');
 /*현재 유저 프사 */
 .current-user {
     width: 40px;
