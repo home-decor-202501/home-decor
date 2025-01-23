@@ -4,20 +4,28 @@ import { getCurrentUser } from "../util/auth.js";
 async function renderMe() {
     // 서버에서 로그인한 사용자 정보 요청하기
     const currentUser = await getCurrentUser();
-    console.log("current user : " + currentUser);
+    console.log(currentUser);
 
     const { profileImageUrl } = currentUser;
 
     if (currentUser) {
         const $user = document.querySelector('.current-user');
-        // 프로필 이미지 생성
-        $user.innerHTML = `
-            <img src="${profileImageUrl || 'https://image.ohou.se/i/bucketplace-v2-development/uploads/default_images/avatar.png'}" alt="${currentUser.username}의 프로필 이미지">`
+        $user.alt = `${currentUser.nickname}의 프로필 이미지`;
+        if (currentUser.profileImageUrl !== null) {
+             // 프로필 이미지 생성
+            $user.src = profileImageUrl;
+        }
+    } else {
+        $user.src = "https://image.ohou.se/i/bucketplace-v2-development/uploads/default_images/avatar.png";
+        $user.alt = `${currentUser.nickname}의 프로필 이미지`;
     }
+
+
+
 }
 
-function initNavigation() {
-    // renderMe();
+async function initNavigation() {
+    await renderMe();
 }
 
-export default initNavigation;
+export { renderMe, initNavigation };
