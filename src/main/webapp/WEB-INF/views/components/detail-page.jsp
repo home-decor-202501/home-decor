@@ -49,7 +49,7 @@
     <span>반려동물</span>
     <span>육아</span>
     <span>홈스토랑</span>
-    <span>플랜테니어</span>
+    <span>플랜테리어</span>
     <span>콜렉터블</span>
     <span>캠핑</span>
     <span>이벤트</span>
