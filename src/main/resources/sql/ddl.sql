@@ -52,7 +52,7 @@ CREATE TABLE post_image (
                             image_url	VARCHAR(255) NOT NULL,
                             image_order INT	DEFAULT 0 NOT NULL,
                             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP	NULL,
-                            FOREIGN KEY (post_id) REFERENCES post(post_id)
+                            FOREIGN KEY (post_id) REFERENCES post(post_id) ON DELETE CASCADE
 );
 
 --------- 잘 만들어졌는지 확인용 : 만들어진 테이블 상세 보고 싶으신 분만 실행해보세요. -------------
