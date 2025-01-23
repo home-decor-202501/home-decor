@@ -7,7 +7,7 @@
 <nav class="navigation">
   <div class="logo">
     <!-- 로고 이미지 -->
-    <img src="/images/logo.png" alt="오늘의집 로고">
+    <a href="/"><img src="/images/logo.png" alt="오늘의집 로고"></a>
   </div>
 
   <nav class="nav">
