@@ -1,12 +1,14 @@
 // import PostLikeManager from '../ui/PostLikeManager.js';
 
 function renderPost({ postId, content, createdAt, viewCount, author, loggedInUser, images, likeStatus }) {
+
     // 게시물 정보
     const $postInfo = document.querySelector('.post-info');
     const $postContent = document.querySelector('.post-contents');
     const $postImageContainer = document.querySelector('.post-img-container');
+    const $likeCounts = document.querySelectorAll('.like-count');
     const $viewCount = $postInfo.querySelector('.view-count');
-    const $likeCount = $postInfo.querySelector('.like-count');
+
 
     // 작성자 정보
     const $authorProfile = document.querySelector('.author-profile');
@@ -33,13 +35,14 @@ function renderPost({ postId, content, createdAt, viewCount, author, loggedInUse
     // 게시물 내용 렌더링
     $postContent.textContent = content;
 
-
     console.log("likeStatus " + likeStatus);
 
     // 게시물 정보 렌더링 (날짜, 좋아요 수, 조회수)
     $postInfo.querySelector('.post-time').textContent = formatDate(createdAt);
-    $likeCount.textContent = `좋아요 ${likeStatus?.likeCount || 0}`;
-    $viewCount.textContent = `조회 ${viewCount || 0}`;
+    $likeCounts.forEach(($likeCount) => {
+        $likeCount.textContent += `${likeStatus?.likeCount || 0}`;
+    });
+    $viewCount.textContent += `${viewCount || 0}`;
 
     // 게시자 정보
     const {nickname, profileImageUrl} = author;
@@ -57,7 +60,6 @@ function renderPost({ postId, content, createdAt, viewCount, author, loggedInUse
     const {liked = false, likeCount = 0} = likeStatus || {};
 
     $likeButton.classList.toggle('liked', liked);
-    $likeCount.textContent = likeStatus ? likeCount : '';  // likeStatus가 있으면 likeCount 표시
 }
 
 // 날짜 조작
@@ -119,6 +121,7 @@ function createAuthHeader() {
 
 
 async function openPostDetail() {
+    console.log("openPostDetail");
     const pathSplits = window.location.pathname.split('/');
     const postId = pathSplits[pathSplits.length - 1];
 
@@ -142,4 +145,7 @@ async function openPostDetail() {
     renderPost(postData);
 }
 
-openPostDetail();
+document.addEventListener('DOMContentLoaded', async () => {
+
+    await openPostDetail();
+});
