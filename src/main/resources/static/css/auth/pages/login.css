@@ -25,7 +25,6 @@
 /* 클론 글씨체 */
 @font-face {
     font-family: 'PretendardVariable';
-    src: url('/fonts/23b386a66fd50.woff2') format('woff2'),
     url('/fonts/PretendardVariable.subset.91.woff2') format('woff2'),
     url('/fonts/PretendardVariable.subset.88.woff2') format('woff2'),
     url('/fonts/PretendardVariable.subset.90.woff2') format('woff2'),
