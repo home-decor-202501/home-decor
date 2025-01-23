@@ -6,7 +6,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 80px; /* 상하 20px, 좌우 80px */
+    /* padding 상하 : 프로필 이미지 사진이 추가되어서, 상하 20px 으로 하는 것보다 10px으로 하는 것이 디자인 적으로 나음 */
+    padding: 10px 60px; /* 상하 20px, 좌우 80px */
     background-color: #f1f1f1;
     border-bottom: 1px solid #ddd;
 }

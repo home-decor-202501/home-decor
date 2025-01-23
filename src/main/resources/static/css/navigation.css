@@ -10,6 +10,7 @@
     width: 40px;
     height: 40px;
     border-radius: 50%;
+    object-fit: cover;
 }
 
 /* 이 부분 위의 .current-user의 css랑 겹쳐서 적용 안 되는 거 같음 */
