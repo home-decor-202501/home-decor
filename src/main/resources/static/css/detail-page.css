@@ -1,4 +1,4 @@
-/* src/main/resources/static/css/detailPage.css */
+/* src/main/resources/static/css/detail-page.css */
 /* 기본 폰트 설정 */
 body {
     font-family: 'Arial', sans-serif;
@@ -98,15 +98,25 @@ body {
     height: auto;
     justify-content: center;
 }
-/*날짜, 좋아요, 조회수*/
-.post-container .post-item .post-info{
-    margin: 0;
+.post-container .post-item .post-contents {
+    margin: 30px 0px;
     font-weight: 500;
+    font-size: 16px;
+    line-height: 18px;
+    color: #050505;
+}
+/*날짜, 좋아요, 조회수*/
+.post-container .post-item .post-info {
+    display: flex;
+    margin: 10px 0px;
+    font-weight: 400;
     font-size: 13px;
     line-height: 18px;
-    color: #828C94;
+    color: #576168;
 }
-
+.post-container .post-item .post-info div {
+    margin-right: 10px;
+}
 
 /* 프로필 영역 */
 .post-item .author-profile {

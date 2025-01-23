@@ -98,21 +98,18 @@ async function renderPost() {
 
 // --------------Utils로 옮기면 좋을듯
 async function fetchWithAuth(url, options = {}) {
-    console.log("ssss");
+
     // 기본 헤더에 인증 헤더 추가
     const headers = {
         ...options.headers,
         ...createAuthHeader(),
     };
 
-    console.log("222");
-
     const response = await fetch(url, {
         ...options,
         headers,
     });
 
-    console.log("333");
     // 401 에러시 로그인 페이지로 리다이렉트
     if (response.status === 401) {
         localStorage.removeItem('accessToken');

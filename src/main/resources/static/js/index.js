@@ -1,4 +1,5 @@
-/* src/main/resources/static/js/feed.js */
+/* src/main/resources/static/js/index.js */
+
 import initMain from './components/feed.js';
 import initCreateFeedModal from './components/create-feed-modal.js';
 import initPost from './components/post.js';
