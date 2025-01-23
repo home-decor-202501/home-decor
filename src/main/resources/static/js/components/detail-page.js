@@ -1,5 +1,7 @@
 // import PostLikeManager from '../ui/PostLikeManager.js';
 
+import {initNavigation} from "./navigation.js";
+
 function renderPost({ postId, content, createdAt, viewCount, author, loggedInUser, images, likeStatus }) {
 
     // 게시물 정보
@@ -149,6 +151,6 @@ async function openPostDetail() {
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
-
     await openPostDetail();
+    await initNavigation();
 });
