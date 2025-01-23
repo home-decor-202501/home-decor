@@ -3,58 +3,28 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<%-- TODO : 공통 헤더영역 분리--%>
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>00님의 게시물</title>
+  <title></title>
 
-  <link rel="icon" href="/favicon.ico" type="image/x-icon">
-
+  <%--  CSS--%>
+  <link rel="stylesheet" href="/css/reset.css">
+  <link rel="stylesheet" href="/css/navigation.css">
+  <link rel="stylesheet" href="/css/categoryList.css">
   <link rel="stylesheet" href="/css/detail-page.css">
-  <!-- Font Awesome 아이콘 라이브러리 -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-  <!-- Detail-page JS -->
+  <!-- JS -->
+  <script type="module" src="/js/components/navigation.js" defer></script>
   <script type="module" src="/js/components/detail-page.js" defer></script>
-  <script type="module" src="/js/components/login-redirect.js" defer></script>
-  <script type="module" src="/js/components/check-login-or-not.js" defer></script>
+
 </head>
 <body>
-<!-- Header -->
-<header class="header">
-  <div class="logo">
-    <!-- 로고 이미지 -->
-    <img src="/images/logo.png" alt="오늘의집 로고">
-  </div>
-  <nav class="nav">
-    <a href="/login" class="login">로그인</a>
-    <a href="#">홈</a>
-    <a href="#">커뮤니티</a>
-    <a href="#">집들이</a>
-    <a href="#" id="write-button">글쓰기</a>
-  </nav>
-</header>
 
-<!-- Filter Container -->
-<div class="filter-container">
-  <div class="title-container">
-    <span>집사진</span>
-    <span>추천</span>
-    <span>#채널</span>
-    <span>3D인테리어</span>
-    <span>반려동물</span>
-    <span>육아</span>
-    <span>홈스토랑</span>
-    <span>플랜테리어</span>
-    <span>콜렉터블</span>
-    <span>캠핑</span>
-    <span>이벤트</span>
-  </div>
-</div>
+  <%@ include file="navigation.jsp" %> <!-- 네비게이션 섹션 (로그인,글쓰기) -->
+  <%@ include file="categoryList.jsp" %> <!-- 카테고리 섹션 (집사진) -->
 
 <!-- Post detail -->
 <div class="post-container" id="post-container">
@@ -101,8 +71,6 @@
       </div>
     </div>
   </div>
-
-
 
   <%--  고정바 (좋아요 클릭, 댓글 바로가기)--%>
   <div class="sticky-section">
