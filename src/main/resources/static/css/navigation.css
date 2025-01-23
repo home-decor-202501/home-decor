@@ -1,14 +1,22 @@
 /* src/main/resources/static/css/navigation.css */
 @import url('reset.css');
+
+.nav {
+    display: flex;
+    align-items: center;
+}
 /*현재 유저 프사 */
 .current-user {
     width: 40px;
+    height: 40px;
+    border-radius: 50%;
 }
 
+/* 이 부분 위의 .current-user의 css랑 겹쳐서 적용 안 되는 거 같음 */
 .current-user img {
-    width: 30px; /* 프로필 이미지 크기 */
-    height: 30px;
-    border-radius: 50px; /* 원형으로 만들기 */
+    /*width: 30px; !* 프로필 이미지 크기 *!*/
+    /*height: 30px;*/
+    /*border-radius: 50px; !* 원형으로 만들기 *!*/
 }
 
 /* 오른쪽 네이게이션 스타일 */
@@ -35,6 +43,7 @@
     text-decoration: none;
     color: #555;
     font-size: 16px;
+    margin-left: 15px;
     transition: color 0.3s ease;
 }
 
