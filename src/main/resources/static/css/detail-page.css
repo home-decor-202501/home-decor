@@ -1,7 +1,8 @@
 /* src/main/resources/static/css/detail-page.css */
+@import url('reset.css');
+
 /* 기본 폰트 설정 */
 body {
-    font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
 }
@@ -22,6 +23,7 @@ body {
 .header .nav {
     display: flex;
     gap: 15px;
+    align-items: center;
 }
 .header .nav a {
     text-decoration: none;
