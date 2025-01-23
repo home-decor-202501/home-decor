@@ -6,6 +6,7 @@ import com.decormasters.homedecor.service.ProfileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProfileController {
 
     private final ProfileService profileService;
-
     private final JwtProvider jwtProvider;
 
     // 로그인한 유저의 프로필 정보를 갖다주는 API
@@ -40,4 +40,13 @@ public class ProfileController {
         MeResponse userData = profileService.findUserById(id);
         return ResponseEntity.ok().body(userData);
     }
+
+    // 로그인한 유저의 프로필 정보를 갖다주는 API
+    @GetMapping("/me/me")
+    public ResponseEntity<MeResponse> getCurrentByAuthentication(@AuthenticationPrincipal String userEmail) {
+        MeResponse meResponse = profileService.getLoggedInUser(userEmail);
+        return ResponseEntity.ok().body(meResponse);
+    }
+
+
 }
