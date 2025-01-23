@@ -8,7 +8,7 @@
 .current-user img {
     width: 30px; /* 프로필 이미지 크기 */
     height: 30px;
-    border-radius: 50px; /* 원형으로 만들기 */
+    border-radius: 50%x; /* 원형으로 만들기 */
 }
 
 /* 오른쪽 네이게이션 스타일 */
