@@ -3,8 +3,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<%-- TODO : 공통 헤더영역 분리--%>
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -13,12 +11,10 @@
   <title></title>
 
   <%--  CSS--%>
+  <link rel="stylesheet" href="/css/reset.css">
   <link rel="stylesheet" href="/css/navigation.css">
   <link rel="stylesheet" href="/css/categoryList.css">
   <link rel="stylesheet" href="/css/detail-page.css">
-
-  <!-- Font Awesome 아이콘 라이브러리 -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
   <!-- JS -->
   <script type="module" src="/js/components/navigation.js" defer></script>
