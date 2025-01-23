@@ -12,10 +12,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title></title>
 
-  <link rel="icon" href="/favicon.ico" type="image/x-icon">
-
   <%--  CSS--%>
-  <link rel="stylesheet" href="/css/index.css">
   <link rel="stylesheet" href="/css/navigation.css">
   <link rel="stylesheet" href="/css/categoryList.css">
   <link rel="stylesheet" href="/css/detail-page.css">
