@@ -106,13 +106,14 @@ public class PostService {
     // 게시물 단일 조회 처리
     @Transactional(readOnly = true)
     public PostDetailResponse getPostDetails(Long postId, String email) {
+
+        // 조회수 증가
+        incrementViewCount(postId);
+
         // MyBatis 결과 로그 추가
         Post post = postRepository.findPostDetailById(postId)
                 .orElseThrow(() -> new PostException(ErrorCode.POST_NOT_FOUND));
         log.info("Fetched post details: {}", post);
-
-        // 조회수 증가
-        incrementViewCount(postId);  // 이 부분에서 조회수 증가 메서드 호출
 
         // 로그인 여부 확인
         return memberService.getMemberByEmail(email)
