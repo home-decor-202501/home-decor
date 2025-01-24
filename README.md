@@ -20,7 +20,6 @@
 #### 3) 윤희원 [![GitHub Badge](https://img.shields.io/badge/hee123hee-FF69B4?logo=github&logoColor=white&labelColor=FF69B4)](https://github.com/hee123hee)
 - 역할: 메인페이지 UI, 게시글 쓰기, 프로젝트 발표
 
-#### 4) 박찬의  [![GitHub Badge](https://img.shields.io/badge/parkchenui-FF69B4?logo=github&logoColor=white&labelColor=FF69B4)](https://github.com/parkchenui)
   <br>
 
 
