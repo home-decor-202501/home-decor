@@ -34,7 +34,7 @@
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    object-fit: scale-down;
+    object-fit: cover;
     margin-right: 10px;
 }
 .post-item .post-profile .profile-info {
