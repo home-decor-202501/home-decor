@@ -38,25 +38,21 @@ public class PostService {
     // 전체 유저의 게시물 조회
     @Transactional(readOnly = true)
     public List<PostResponse> getAllPosts(String email) {
-        Optional<Member> foundMemberOptional = memberService.getMemberByEmail(email);
+        // MyBatis 결과 로그 추가
+        List<Post> posts = postRepository.findAllPosts();
+        log.info("Fetched all posts from database: {}", posts);
 
-        if (foundMemberOptional.isPresent()) {
-            Member foundMember = foundMemberOptional.get();
-
-            return postRepository.findAllPosts()
-                    .stream()
-                    .map(post -> {
-                        // PostLikeService로 좋아요 상태를 계산
-                        LikeStatusResponse likeStatus = postLikeService.getLikeStatus(post.getPostId(), foundMember.getId());
-                        return PostResponse.of(post, likeStatus);
-                    })
-                    .collect(Collectors.toList());
-        } else {
-            return postRepository.findAllPosts()
-                    .stream()
-                    .map(post -> PostResponse.of(post, null))
-                    .collect(Collectors.toList());
-        }
+        // 로그인 여부에 따라 좋아요 상태 처리
+        return memberService.getMemberByEmail(email)
+                .map(member -> posts.stream()
+                        .map(post -> {
+                            LikeStatusResponse likeStatus = postLikeService.getLikeStatus(post.getPostId(), member.getId());
+                            return PostResponse.of(post, likeStatus);
+                        })
+                        .collect(Collectors.toList()))
+                .orElseGet(() -> posts.stream()
+                        .map(post -> PostResponse.of(post, null))
+                        .collect(Collectors.toList()));
     }
 
     // 피드 생성 DB에 가기 전 후 중간처리
@@ -102,38 +98,36 @@ public class PostService {
                         .build();
 
                 postRepository.saveFeedImage(postImage);
-
             }
         }
     }
 
+
     // 게시물 단일 조회 처리
     @Transactional(readOnly = true)
     public PostDetailResponse getPostDetails(Long postId, String email) {
-
+        // MyBatis 결과 로그 추가
         Post post = postRepository.findPostDetailById(postId)
-                .orElseThrow(
-                        () -> new PostException(ErrorCode.POST_NOT_FOUND)
-                );
+                .orElseThrow(() -> new PostException(ErrorCode.POST_NOT_FOUND));
+        log.info("Fetched post details: {}", post);
 
-        // 로그인한 사용자 확인
-        Optional<Member> foundMemberOptional = memberService.getMemberByEmail(email);
+        // 조회수 증가
+        incrementViewCount(postId);  // 이 부분에서 조회수 증가 메서드 호출
 
-        // 로그인한 사용자일 경우
-        if (foundMemberOptional.isPresent()) {
-            Member loggedInMember = foundMemberOptional.get(); // 로그인한 사용자
+        // 로그인 여부 확인
+        return memberService.getMemberByEmail(email)
+                .map(member -> {
+                    log.info("Logged in member: {}", member);
 
-            log.info("logged in member: {}", loggedInMember.getId());
-            log.info("logged in member: {}", loggedInMember.getNickname());
-            log.info("logged in member: {}", loggedInMember.getImgUrl());
+                    LikeStatusResponse likeStatus = postLikeService.getLikeStatus(postId, member.getId());
+                    return PostDetailResponse.of(post, member, likeStatus);
+                })
+                .orElseGet(() -> PostDetailResponse.of(post, null, null));
+    }
 
-            // PostLikeService를 통해 좋아요 상태 계산
-            LikeStatusResponse likeStatus = postLikeService.getLikeStatus(postId, loggedInMember.getId());
-
-            return PostDetailResponse.of(post, loggedInMember, likeStatus);
-        } else {
-            // 비회원일 경우 likeStatus를 null로 설정
-            return PostDetailResponse.of(post, null, null);
-        }
+    // 게시물 조회수 처리
+    @Transactional
+    public void incrementViewCount(Long postId) {
+        postRepository.incrementViewCount(postId);
     }
 }
