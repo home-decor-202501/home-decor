@@ -286,7 +286,7 @@ async function setUpModalEvents() {
             goToStep(currentStep + 1);
 
         } else {
-            alert('서버로 게시물을 공유합니다.');
+            alert('게시물을 저장합니다.');
             fetchFeed(); //서버에 요청 전송
         }
     });
