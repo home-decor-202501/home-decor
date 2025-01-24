@@ -3,6 +3,7 @@ package com.decormasters.homedecor.repository;
 import com.decormasters.homedecor.domain.post.entity.Post;
 import com.decormasters.homedecor.domain.post.entity.PostImage;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,5 +25,8 @@ public interface PostRepository {
 
     // 단일 게시물 상세조회
     Optional<Post> findPostDetailById(Long postId);
+
+    // 조회수 증가
+    void incrementViewCount(Long postId);
 }
 

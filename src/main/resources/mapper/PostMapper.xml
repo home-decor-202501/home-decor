@@ -27,6 +27,13 @@
 
     </select>
 
+    <!-- 게시물 조회수 증가 -->
+    <update id="incrementViewCount">
+        UPDATE post
+        SET view_count = view_count + 1
+        WHERE post_id = #{postId}
+    </update>
+
     <!-- 모든 회원의 게시물 조회 -->
     <select id="findAllPosts" resultMap="PostResultMap">
     SELECT
@@ -53,6 +60,7 @@
     SELECT
         p.post_id
          , p.content
+         , p.view_count
          , p.created_at
          , u.nickname AS author_nickname
          , u.img_url AS author_img_url
