@@ -310,53 +310,6 @@ function updateValidationUI(eventTarget, valid, errors) {
             eventTarget.closest('.form-control').querySelector('small').textContent = errors[0];
         }
 
-        // 버그 발생
-        // // 해당 input 태그가 password일 경우, span과 i로  ui 조절
-        // if (eventTarget === $passwordInput) {
-        //     // 에러 메시지와 textContent가 같은 태그를 찾아, 1) 문구 및 아이콘 색상 빨간색으로 2) 아이콘 x 로 바꾸기
-        //
-        //     const $passwordValidationSpan = [...document.querySelectorAll('.password-field-desc span')];
-        //
-        //     errors.forEach(error => {
-        //         //  #####모든 span 및 i 태그를 초록색으로 설정
-        //         $passwordValidationSpan.forEach($span => {
-        //             const correspondingIcon = $span.previousElementSibling;
-        //             $span.classList.remove('error');
-        //             $span.classList.add('success');
-        //             if (correspondingIcon) {
-        //                 correspondingIcon.classList.remove('fa-circle-xmark', 'error');
-        //                 correspondingIcon.classList.add('fa-circle-check', 'success');
-        //             }
-        //         });
-        //     });
-        //
-        //     // 공란이라면, input 태그 빨간 테두리 적용 등
-        //     const inputValue = eventTarget.value;
-        //     if (inputValue === '') {
-        //         $passwordValidationSpan.forEach($span => {
-        //             const correspondingIcon = $span.previousElementSibling;
-        //             $span.classList.add('error');
-        //             $span.classList.remove('success');
-        //             if (correspondingIcon) {
-        //                 correspondingIcon.classList.add('fa-circle-xmark', 'error');
-        //                 correspondingIcon.classList.remove('fa-circle-check', 'success');
-        //             }
-        //         });
-        //     }
-        //
-        //     errors.forEach(error => {
-        //         $passwordValidationSpan.forEach($span => {
-        //             if ($span.textContent === error) {
-        //                 $span.classList.add('error');
-        //                 $span.classList.remove('success');
-        //                 console.log($span);
-        //                 $span.previousElementSibling.classList.remove('fa-circle-check', 'success'); // 인접 i 태그(아이콘)
-        //                 $span.previousElementSibling.classList.add('fa-circle-xmark', 'error');
-        //             }
-        //         });
-        //     });
-        // }
-
         // 어떤 input 이던 공통사항 : input 박스 테두리를 빨갛게
         eventTarget.closest('.form-control').querySelector('input').classList.add('error');
         eventTarget.closest('.form-control').querySelector('input').classList.remove('success');
